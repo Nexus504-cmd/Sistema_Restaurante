@@ -5,12 +5,12 @@
 package Logica;
 
 import ConexionPGadmin.Conexion;
+import java.sql.*;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -235,13 +235,57 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable 
     }
     
     @Override
-    public String observarPedido() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public DefaultTableModel observarPedido() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID_CLIENTE");
+        modelo.addColumn("NOMBRE_CLIENTE");
+        modelo.addColumn("ID_MESA");
+        modelo.addColumn("PAGO");
+        
+        String sql = "select * from vista_clientes_pedidos";
+        
+        try(Connection conn = Conexion.getConexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)){
+            while(rs.next()){
+                Object [] fila = {
+                    rs.getInt("id_cliente"),
+                    rs.getString("nombre"),
+                    rs.getInt("id_mesa"),
+                    rs.getDouble("pago")
+                
+                };
+                modelo.addRow(fila);
+            }
+            
+            
+        }catch(SQLException e){
+            System.out.println("ERROR: "+ e.getMessage());
+            
+        }
+        return modelo;
     }
     
     @Override
-    public String observarMesa() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public DefaultTableModel observarMesa() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Cliente");
+        modelo.addColumn("ID_MESA");
+        modelo.addColumn("Estado");
+        String sql = "select * from vista_cliente_mesa";
+        try(Connection conn = Conexion.getConexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)){
+            while(rs.next()){
+                String estado = rs.getBoolean("actividad") ? "Reservado" : "Libre";
+                Object [] fila ={
+                     rs.getString("nombre"),
+                     rs.getInt("id_mesa"),
+                     estado
+                };
+                modelo.addRow(fila);
+               
+            }
+        }catch(SQLException e){
+            System.out.println("ERROR: "+ e.getMessage());
+        }
+        return modelo;
     }
     
     @Override

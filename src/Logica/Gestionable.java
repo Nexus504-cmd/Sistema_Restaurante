@@ -4,11 +4,13 @@
  */
 package Logica;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Arana
  */
 public interface Gestionable {
-    String observarPedido();
-    String observarMesa();
+    DefaultTableModel observarPedido();
+    DefaultTableModel observarMesa();
 }
