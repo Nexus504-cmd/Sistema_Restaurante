@@ -80,6 +80,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
         jScrollPane8 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
         Boton_burscar_pago = new javax.swing.JButton();
+        Boton_Administrador = new javax.swing.JButton();
 
         jToggleButton1.setText("jToggleButton1");
 
@@ -542,16 +543,25 @@ public class Vista_Sistema extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("PAGO", jDesktopPane3);
 
+        Boton_Administrador.setText("Admin");
+        Boton_Administrador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_AdministradorActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(398, 398, 398)
+                .addGap(464, 464, 464)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(414, Short.MAX_VALUE)
+                .addGap(44, 44, 44)
+                .addComponent(Boton_Administrador, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 827, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28))
         );
@@ -560,8 +570,13 @@ public class Vista_Sistema extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jLabel1)
-                .addGap(27, 27, 27)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(Boton_Administrador)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -615,6 +630,10 @@ public class Vista_Sistema extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Campo_ID_producto_orden_modificaciones_id_cambioActionPerformed
 
+    private void Boton_AdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_AdministradorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Boton_AdministradorActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -655,6 +674,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
     private javax.swing.JTextArea Area_ResgistroPedidos;
     private javax.swing.JButton Boton_Actualizar_Cliente;
     private javax.swing.JButton Boton_Actualizar_Reservacion;
+    private javax.swing.JButton Boton_Administrador;
     private javax.swing.JButton Boton_Agregar_Cliente;
     private javax.swing.JButton Boton_Agregar_Reservacion;
     private javax.swing.JButton Boton_Generar_Cliente;
