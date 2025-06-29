@@ -1,0 +1,258 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Logica;
+
+import ConexionPGadmin.Conexion;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+
+/**
+ *
+ * @author Arana
+ */
+public class Administrador implements CRUDGestionable, Gestionable, Verificable {
+    
+    private String username;
+    private String password;
+    
+    public Administrador(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+    
+    public Administrador() {
+    }
+    
+    public String getUsername() {
+        return username;
+    }
+    
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
+    }
+//Implementacion de metodos
+
+    @Override
+    public void agregarSegundos(Object o) {
+        Segundos s = (Segundos) o;
+        String sql = "CALL agregarProductos(?, ?, ?, ?, ?)";
+        
+        try (Connection conn = Conexion.getConexion(); CallableStatement stmt = conn.prepareCall(sql)) {
+            
+            stmt.setInt(1, s.getId());
+            stmt.setString(2, s.getDecripcion());
+            stmt.setBigDecimal(3, new BigDecimal(s.getPrecio()));
+            stmt.setString(4, "Segundo");
+            stmt.setBoolean(5, true);
+            
+            stmt.execute();
+            System.out.println("Producto agregado");//Simula un raise notice en postgress
+
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+            System.out.println("SQLSTATE: " + e.getSQLState());
+            System.out.println("ErrorCode: " + e.getErrorCode());
+            
+        }
+    }
+    
+    @Override
+    public void agregarSopas(Object o) {
+        Sopas so = (Sopas) o;
+        String sql = "CALL agregarProductos(?,?,?,?,?)";
+        try (Connection conn = Conexion.getConexion(); CallableStatement ctmt = conn.prepareCall(sql)) {
+            ctmt.setInt(1, so.getId());
+            ctmt.setString(2, so.getDecripcion());
+            ctmt.setBigDecimal(3, new BigDecimal(so.getPrecio()));            
+            ctmt.setString(4, "Sopa");
+            ctmt.setBoolean(5, true);
+
+            //Ejecucion
+            ctmt.execute();
+            System.out.println("Producto Agregago: Tipo: Sopa");
+            
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+            System.out.println("SQLSTATE: " + e.getSQLState());
+            System.out.println("ErrorCode: " + e.getErrorCode());
+            
+        }
+    }
+    
+    @Override
+    public void agregarBebidas(Object o) {
+        Bebidas b = (Bebidas) o;
+        String sql = "CALL agregarProductos (?,?,?,?,?)";
+        try (Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)) {
+            //asignacion de parametros
+            cstmt.setInt(1, b.getId());
+            cstmt.setString(2, b.getDecripcion());
+            cstmt.setBigDecimal(3, new BigDecimal(b.getPrecio()));
+            cstmt.setString(4, "Bebidas");
+            cstmt.setBoolean(5, true);
+            //ejecucion
+            cstmt.execute();
+            System.out.println("Producto Agregado: Tipo: Bebida");
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+            System.out.println("SQLSTATE: " + e.getSQLState());
+            System.out.println("ErrorCode: " + e.getErrorCode());
+            
+        }
+    }
+    
+    @Override
+    public void actualizarSegundos(Object o, String tipo) {
+        Segundos s = (Segundos) o;
+        String sql = "CALL actualizarProductos (?,?,?,?,?)";
+        try (Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)) {
+//Preparamos el llamado del procedimietno de la sentencia CallableStatement            
+//asignacion de parametros para la consulta
+            cstmt.setInt(1, s.getId());
+            cstmt.setString(2, s.getDecripcion());
+            cstmt.setBigDecimal(3, new BigDecimal(s.getPrecio()));
+            cstmt.setString(4, tipo);
+            cstmt.setBoolean(5, true);
+            //ejecucion
+            cstmt.execute();
+            System.out.println("Producto Actualizado Exitosamente");
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("ErrorCode: " + e.getErrorCode());
+        }
+        
+    }
+    
+    @Override
+    public void actualizarSopas(Object o, String tipo) {
+        Sopas so = (Sopas) o;
+        String sql = "CALL actualizarProductos(?,?,?,?,?)";
+        try (Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)) {
+            cstmt.setInt(1, so.getId());
+            cstmt.setString(2, so.getDecripcion());
+            cstmt.setBigDecimal(3, new BigDecimal(so.getPrecio()));
+            cstmt.setString(4, tipo);
+            cstmt.setBoolean(5, true);
+            //ejecucion
+            cstmt.execute();
+            System.out.println("Producto Actualizado Exitosamente");
+            
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("ErrorCode: " + e.getErrorCode());
+        }
+    }
+    
+    @Override
+    public void actualizarBebidas(Object o, String tipo) {
+        Bebidas b = (Bebidas) o;
+        String sql = "CALL actualizarProductos (?,?,?,?,?)";
+        try (Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)) {
+            cstmt.setInt(1, b.getId());
+            cstmt.setString(2, b.getDecripcion());
+            cstmt.setBigDecimal(3, new BigDecimal(b.getPrecio()));
+            cstmt.setString(4, tipo);
+            cstmt.setBoolean(5, true);
+            //ejecucion
+            cstmt.execute();
+            System.out.println("Producto Actualizado Exitosamente");
+            
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("ErrorCode: " + e.getErrorCode());
+        }
+    }
+    
+    @Override
+    public void eliminarSegundos(Object o) {
+        String sql = "CALL eliminarProductos (?,?)";
+        try (Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)) {
+            cstmt.setInt(1, (Integer) o);
+            cstmt.setBoolean(2, false);
+            
+            cstmt.execute();
+            System.out.println("Eliminacion Procesada: Deshabilitación");
+            
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("ErrorCode: " + e.getErrorCode());
+            
+        }
+    }
+    
+    @Override
+    public void eliminarSopas(Object o) {
+        String sql = "CALL eliminarProductos (?,?)";
+        try (Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)) {
+            cstmt.setInt(1, (Integer) o);
+            cstmt.setBoolean(2, false);
+            
+            cstmt.execute();
+            System.out.println("Eliminacion Procesada: Deshabilitación");
+            
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("ErrorCode: " + e.getErrorCode());
+            
+        }
+    }
+    
+    @Override
+    public void eliminarBebidas(Object o) {
+        String sql = "CALL eliminarProductos (?,?)";
+        try (Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)) {
+            cstmt.setInt(1, (Integer) o);
+            cstmt.setBoolean(2, false);
+            
+            cstmt.execute();
+            System.out.println("Eliminacion Procesada: Deshabilitación");
+            
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("ErrorCode: " + e.getErrorCode());
+            
+        }
+    }
+    
+    @Override
+    public String observarPedido() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    @Override
+    public String observarMesa() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    @Override
+    public String listaMesadesocupada() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    @Override
+    public int numMesadesocupada() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    
+}
