@@ -73,13 +73,20 @@ public class Vista_Sistema extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         Area_Modificaciones = new javax.swing.JTextArea();
         jLabel11 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        Lista_Estado_modificacioens = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         Campo_ID_producto_orden_modificaciones_id_cambio = new javax.swing.JTextField();
         jScrollPane6 = new javax.swing.JScrollPane();
         Tabla_modificaciones_ordenes = new javax.swing.JTable();
         jScrollPane7 = new javax.swing.JScrollPane();
         Tabla_ordenes_registro = new javax.swing.JTable();
+        Boton_Actualizar_ordenes = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        Campo_ID_cliente_pedidos = new javax.swing.JTextField();
+        Boton_Buscar_ordenes = new javax.swing.JButton();
+        jLabel16 = new javax.swing.JLabel();
+        Campo_ID_cliente_modificaciones = new javax.swing.JTextField();
+        Boton_Actualizar_modificaciones = new javax.swing.JButton();
         jDesktopPane3 = new javax.swing.JDesktopPane();
         jPanel4 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
@@ -328,6 +335,11 @@ public class Vista_Sistema extends javax.swing.JFrame {
         jScrollPane4.setViewportView(Area_ResgistroPedidos);
 
         Boton_registrar_pedido.setText("Registrar");
+        Boton_registrar_pedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_registrar_pedidoActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("MODIFICACIONES");
 
@@ -339,10 +351,10 @@ public class Vista_Sistema extends javax.swing.JFrame {
 
         jLabel11.setText("ESTADO");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cambiado", "Eliminado", "Registrado" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        Lista_Estado_modificacioens.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cambiado", "Eliminado", "Registrado" }));
+        Lista_Estado_modificacioens.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                Lista_Estado_modificacioensActionPerformed(evt);
             }
         });
 
@@ -362,9 +374,24 @@ public class Vista_Sistema extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID_orden", "ID_producto", "Nombre", "Estado"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane6.setViewportView(Tabla_modificaciones_ordenes);
 
         Tabla_ordenes_registro.setModel(new javax.swing.table.DefaultTableModel(
@@ -375,10 +402,50 @@ public class Vista_Sistema extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID_orden", "ID_Producto", "Nombre", "Precio"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane7.setViewportView(Tabla_ordenes_registro);
+
+        Boton_Actualizar_ordenes.setText("Actualizar");
+        Boton_Actualizar_ordenes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_Actualizar_ordenesActionPerformed(evt);
+            }
+        });
+
+        jLabel15.setText("ID_Cliente");
+
+        Boton_Buscar_ordenes.setText("Buscar");
+        Boton_Buscar_ordenes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_Buscar_ordenesActionPerformed(evt);
+            }
+        });
+
+        jLabel16.setText("ID_Cliente");
+
+        Boton_Actualizar_modificaciones.setText("Actualizar");
+        Boton_Actualizar_modificaciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_Actualizar_modificacionesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -388,38 +455,50 @@ public class Vista_Sistema extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Campo_ID_producto_orden_modificaciones_id_cambio, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Campo_ID_producto_orden_modificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Campo_ID_cliente_modificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(27, 27, 27)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Lista_Estado_modificacioens, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Boton_Actualizar_modificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(Boton_Actualizar_ordenes, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(15, 15, 15)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Boton_registrar_pedido)
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(Campo_ID_producto_orden, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Campo_ID_producto_orden, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(Campo_ID_producto_orden_modificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(Campo_ID_producto_orden_modificaciones_id_cambio, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(27, 27, 27)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15))))
+                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(Campo_ID_cliente_pedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12)
+                                .addComponent(Boton_Buscar_ordenes, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                     .addContainerGap(347, Short.MAX_VALUE)
@@ -431,39 +510,55 @@ public class Vista_Sistema extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15)
+                            .addComponent(Boton_Buscar_ordenes))
+                        .addGap(1, 1, 1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(Campo_ID_cliente_pedidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(Campo_ID_producto_orden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(Boton_registrar_pedido)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(Boton_registrar_pedido)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(Boton_Actualizar_ordenes)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(Campo_ID_producto_orden_modificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(jLabel12))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Lista_Estado_modificacioens, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(Campo_ID_producto_orden_modificaciones_id_cambio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel16)
+                                    .addComponent(Campo_ID_cliente_modificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(9, 9, 9)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(Campo_ID_producto_orden_modificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel10))))
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Campo_ID_producto_orden_modificaciones_id_cambio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12)
+                            .addComponent(Boton_Actualizar_modificaciones))
+                        .addGap(31, 31, 31)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38))))
+                        .addGap(27, 27, 27))))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGap(34, 34, 34)
@@ -485,7 +580,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
         jDesktopPane2Layout.setVerticalGroup(
             jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane2Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 536, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -503,12 +598,32 @@ public class Vista_Sistema extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID_cliente", "Nombre", "ID_pedido", "Total"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane8.setViewportView(jTable3);
 
         Boton_burscar_pago.setText("BUSCAR");
+        Boton_burscar_pago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_burscar_pagoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -693,9 +808,9 @@ public class Vista_Sistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_Boton_Generar_ClienteActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void Lista_Estado_modificacioensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Lista_Estado_modificacioensActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_Lista_Estado_modificacioensActionPerformed
 
     private void Campo_ID_producto_orden_modificaciones_id_cambioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Campo_ID_producto_orden_modificaciones_id_cambioActionPerformed
         // TODO add your handling code here:
@@ -722,6 +837,56 @@ public class Vista_Sistema extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_Boton_Agregar_ClienteActionPerformed
+
+    private void Boton_Actualizar_ordenesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Actualizar_ordenesActionPerformed
+        // TODO add your handling code here:
+        Tabla_ordenes_registro.setModel(observarordenesregistro());
+
+    }//GEN-LAST:event_Boton_Actualizar_ordenesActionPerformed
+
+    private void Boton_registrar_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_registrar_pedidoActionPerformed
+        String sql = " insert into orden (id_producto,id_pedido,id_cliente,estado) values (?,?,?,?)";
+        c = llamadocliente(Integer.parseInt(Campo_ID_cliente_pedidos.getText()));
+        
+        try(Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql);){
+            pstmt.setInt(1, Integer.parseInt(Campo_ID_producto_orden.getText()));
+            pstmt.setInt(2, c.getP().getId());
+            pstmt.setInt(3, c.getId());
+            pstmt.setString(4, "Proceso");
+            
+            pstmt.execute();
+        }catch(SQLException e){
+            System.out.println("Mensaje: "+ e.getMessage());
+        }
+              
+    }//GEN-LAST:event_Boton_registrar_pedidoActionPerformed
+
+    private void Boton_Buscar_ordenesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Buscar_ordenesActionPerformed
+       Tabla_ordenes_registro.setModel(observarordenesregistro());
+    }//GEN-LAST:event_Boton_Buscar_ordenesActionPerformed
+
+    private void Boton_Actualizar_modificacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Actualizar_modificacionesActionPerformed
+        // TODO add your handling code here:
+        String sql = "update orden set id_producto = ?, estado = ? where id_orden = ? and id_cliente =?";
+        
+        try(Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+             pstmt.setInt(1, Integer.parseInt(Campo_ID_producto_orden_modificaciones.getText()));
+             pstmt.setString(2, (String) Lista_Estado_modificacioens.getSelectedItem());
+             pstmt.setInt(3, Integer.parseInt(Campo_ID_producto_orden_modificaciones_id_cambio.getText()));
+             pstmt.setInt(4, Integer.parseInt(Campo_ID_cliente_modificaciones.getText()));
+             pstmt.execute();
+            
+        }catch(SQLException e){
+            System.out.println("Error: "+e);
+            
+        }
+        
+        Tabla_modificaciones_ordenes.setModel(observarordenesmodificaciones());
+    }//GEN-LAST:event_Boton_Actualizar_modificacionesActionPerformed
+
+    private void Boton_burscar_pagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_burscar_pagoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Boton_burscar_pagoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -763,24 +928,29 @@ public class Vista_Sistema extends javax.swing.JFrame {
     private javax.swing.JTextArea Area_ResgistroPedidos;
     private javax.swing.JButton Boton_Actualizar_Cliente;
     private javax.swing.JButton Boton_Actualizar_Reservacion;
+    private javax.swing.JButton Boton_Actualizar_modificaciones;
+    private javax.swing.JButton Boton_Actualizar_ordenes;
     private javax.swing.JButton Boton_Administrador;
     private javax.swing.JButton Boton_Agregar_Cliente;
     private javax.swing.JButton Boton_Agregar_Reservacion;
+    private javax.swing.JButton Boton_Buscar_ordenes;
     private javax.swing.JButton Boton_Generar_Cliente;
     private javax.swing.JButton Boton_burscar_pago;
     private javax.swing.JButton Boton_registrar_pedido;
     private javax.swing.JTextField Campo_ID_cliente;
+    private javax.swing.JTextField Campo_ID_cliente_modificaciones;
+    private javax.swing.JTextField Campo_ID_cliente_pedidos;
     private javax.swing.JTextField Campo_ID_mesa_Reservacion;
     private javax.swing.JTextField Campo_ID_producto_orden;
     private javax.swing.JTextField Campo_ID_producto_orden_modificaciones;
     private javax.swing.JTextField Campo_ID_producto_orden_modificaciones_id_cambio;
     private javax.swing.JTextField Campo_Nombre_Cliente;
     private javax.swing.JTextField ID_cliente_pago;
+    private javax.swing.JComboBox<String> Lista_Estado_modificacioens;
     private javax.swing.JTable Tabla_Clientes_GenerarPedido;
     private javax.swing.JTable Tabla_Reservacion;
     private javax.swing.JTable Tabla_modificaciones_ordenes;
     private javax.swing.JTable Tabla_ordenes_registro;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JDesktopPane jDesktopPane3;
@@ -790,6 +960,8 @@ public class Vista_Sistema extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -849,20 +1021,18 @@ public class Vista_Sistema extends javax.swing.JFrame {
         modelo.addColumn("ID_CLIENTE");
         modelo.addColumn("NOMBRE");
         modelo.addColumn("PEDIDO");
-        
+
         String sql = "select * from vista_cliente_pedido_tabla";
         try (Connection conn = Conexion.getConexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-    
+
                 Integer id = rs.getObject("id_pedido", Integer.class);
                 id = (id == null) ? 0 : id;
-                
+
                 Object[] fila = {
                     rs.getInt("id_cliente"),
                     rs.getString("nombre"),
-                    id,
-                  
-                };
+                    id,};
                 modelo.addRow(fila);
 
             }
@@ -872,4 +1042,86 @@ public class Vista_Sistema extends javax.swing.JFrame {
         return modelo;
     }
 
+    private DefaultTableModel observarordenesregistro() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID_orden");
+        modelo.addColumn("ID_Producto");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Precio");
+
+        String sql = "select o.id_orden, o.id_producto, p.nombre, p.precio from orden as o inner join productos as p on o.id_producto = p.id_producto where o.id_cliente = ?;";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareCall(sql);) {
+            stmt.setInt(1, Integer.parseInt(Campo_ID_cliente_pedidos.getText()));
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Object fila[] = {
+                        rs.getInt("id_orden"),
+                        rs.getInt("id_producto"),
+                        rs.getString("nombre"),
+                        rs.getDouble("precio")
+                    };
+                    modelo.addRow(fila);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+        }
+
+        return modelo;
+    }
+    
+    private DefaultTableModel observarordenesmodificaciones(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID_orden");
+        modelo.addColumn("ID_Producto");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Estado");
+
+        String sql = "select o.id_orden, o.id_producto, p.nombre, o.estado from orden as o inner join productos as p on o.id_producto = p.id_producto where o.id_cliente = ?;";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareCall(sql);) {
+            stmt.setInt(1, Integer.parseInt(Campo_ID_cliente_modificaciones.getText()));
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Object fila[] = {
+                        rs.getInt("id_orden"),
+                        rs.getInt("id_producto"),
+                        rs.getString("nombre"),
+                        rs.getString("estado")
+                    };
+                    modelo.addRow(fila);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+        }
+
+        return modelo;
+    }
+//devuleve un cliente con nombre y id
+    private Cliente llamadocliente(int id) {
+
+        String sql = "select * from clientes where id_cliente =?";
+
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    c = new Cliente(
+                            rs.getString("nombre"),
+                            0,
+                            "null",
+                            0,
+                            rs.getInt("id_cliente")
+                    );
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+        }
+        return c;
+    }
 }
