@@ -267,6 +267,7 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable 
     @Override
     public DefaultTableModel observarMesa() {
         DefaultTableModel modelo = new DefaultTableModel();
+        
         modelo.addColumn("Cliente");
         modelo.addColumn("ID_MESA");
         modelo.addColumn("Estado");
