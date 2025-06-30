@@ -4,11 +4,19 @@
  */
 package vista;
 
+import ConexionPGadmin.Conexion;
+import Logica.Cliente;
+import java.math.BigDecimal;
+import java.sql.*;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Arana
  */
 public class Vista_Sistema extends javax.swing.JFrame {
+
+    Cliente c = null;
 
     /**
      * Creates new form Vista_Sistema
@@ -35,22 +43,22 @@ public class Vista_Sistema extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Tabla_Clientes_GenerarPedido = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         Campo_Nombre_Cliente = new javax.swing.JTextField();
         Campo_ID_cliente = new javax.swing.JTextField();
-        Boton_Agregar_Cliente = new javax.swing.JButton();
         Boton_Actualizar_Cliente = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        Tabla_Reservacion = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        Campo_ID_cliente_Reservacion = new javax.swing.JTextField();
+        Campo_ID_mesa_Reservacion = new javax.swing.JTextField();
         Boton_Agregar_Reservacion = new javax.swing.JButton();
         Boton_Actualizar_Reservacion = new javax.swing.JButton();
         Boton_Generar_Cliente = new javax.swing.JButton();
+        Boton_Agregar_Cliente = new javax.swing.JButton();
         jDesktopPane2 = new javax.swing.JDesktopPane();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -88,26 +96,26 @@ public class Vista_Sistema extends javax.swing.JFrame {
 
         jLabel1.setText("RESTAURANTE");
 
-        jLabel2.setText("ASIGNACION");
+        jLabel2.setText("CLIENTE-PEDIDO");
 
         jLabel3.setText("NOMBRE: ");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Tabla_Clientes_GenerarPedido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "ID_CLIENTE", "NOMBRE"
+                "ID_CLIENTE", "NOMBRE", "PEDIDO"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -118,20 +126,13 @@ public class Vista_Sistema extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(Tabla_Clientes_GenerarPedido);
 
         jLabel4.setText("ID: ");
 
         Campo_ID_cliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Campo_ID_clienteActionPerformed(evt);
-            }
-        });
-
-        Boton_Agregar_Cliente.setText("Agregar");
-        Boton_Agregar_Cliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Boton_Agregar_ClienteActionPerformed(evt);
             }
         });
 
@@ -142,7 +143,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        Tabla_Reservacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -150,22 +151,37 @@ public class Vista_Sistema extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID_Cliente", "Nombre", "Mesa", "Estado"
             }
-        ));
-        jScrollPane2.setViewportView(jTable2);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(Tabla_Reservacion);
 
         jLabel5.setText("RESERVACION");
 
-        jLabel6.setText("ID: ");
+        jLabel6.setText("ID_Mesa: ");
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane3.setViewportView(jTextArea1);
 
-        Campo_ID_cliente_Reservacion.addActionListener(new java.awt.event.ActionListener() {
+        Campo_ID_mesa_Reservacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Campo_ID_cliente_ReservacionActionPerformed(evt);
+                Campo_ID_mesa_ReservacionActionPerformed(evt);
             }
         });
 
@@ -190,49 +206,54 @@ public class Vista_Sistema extends javax.swing.JFrame {
             }
         });
 
+        Boton_Agregar_Cliente.setText("Agregar");
+        Boton_Agregar_Cliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_Agregar_ClienteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(Boton_Actualizar_Cliente, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(Campo_ID_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(26, 26, 26)
-                                        .addComponent(Campo_Nombre_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(27, 27, 27)
-                                    .addComponent(Campo_ID_cliente_Reservacion, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Campo_ID_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(Boton_Agregar_Reservacion)
-                                    .addGap(64, 64, 64)
-                                    .addComponent(Boton_Actualizar_Reservacion)))
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(26, 26, 26)
+                                    .addComponent(Campo_Nombre_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(Boton_Generar_Cliente)
-                                .addGap(213, 213, 213)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(Campo_ID_mesa_Reservacion, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(Boton_Agregar_Reservacion)
+                                .addGap(64, 64, 64)
+                                .addComponent(Boton_Actualizar_Reservacion)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addGap(28, 28, 28))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(99, 99, 99)
                         .addComponent(Boton_Agregar_Cliente)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                        .addComponent(Boton_Generar_Cliente)
+                        .addGap(36, 36, 36)
+                        .addComponent(Boton_Actualizar_Cliente)
+                        .addGap(484, 484, 484))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -245,18 +266,18 @@ public class Vista_Sistema extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(Campo_ID_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(24, 24, 24)
+                        .addGap(27, 27, 27)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(Campo_Nombre_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(Campo_Nombre_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Boton_Agregar_Cliente)
                     .addComponent(Boton_Actualizar_Cliente)
-                    .addComponent(Boton_Generar_Cliente))
+                    .addComponent(Boton_Generar_Cliente)
+                    .addComponent(Boton_Agregar_Cliente))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
@@ -268,7 +289,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
                         .addGap(21, 21, 21)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(Campo_ID_cliente_Reservacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Campo_ID_mesa_Reservacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -598,28 +619,78 @@ public class Vista_Sistema extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Campo_ID_clienteActionPerformed
 
-    private void Boton_Agregar_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Agregar_ClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Boton_Agregar_ClienteActionPerformed
-
     private void Boton_Actualizar_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Actualizar_ClienteActionPerformed
-        // TODO add your handling code here:
+        Tabla_Clientes_GenerarPedido.setModel(observarclientepedidos());
     }//GEN-LAST:event_Boton_Actualizar_ClienteActionPerformed
 
-    private void Campo_ID_cliente_ReservacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Campo_ID_cliente_ReservacionActionPerformed
+    private void Campo_ID_mesa_ReservacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Campo_ID_mesa_ReservacionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_Campo_ID_cliente_ReservacionActionPerformed
+    }//GEN-LAST:event_Campo_ID_mesa_ReservacionActionPerformed
 
     private void Boton_Agregar_ReservacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Agregar_ReservacionActionPerformed
         // TODO add your handling code here:
+        //query para actualizar el null de mesa
+        String sql3 = "insert into mesa(id_mesa,actividad) values (?,?)";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql3);) {
+            stmt.setInt(1, Integer.parseInt(Campo_ID_mesa_Reservacion.getText()));
+            stmt.setBoolean(2, true);
+            stmt.execute();
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+
+        }
     }//GEN-LAST:event_Boton_Agregar_ReservacionActionPerformed
 
     private void Boton_Actualizar_ReservacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Actualizar_ReservacionActionPerformed
-        // TODO add your handling code here:
+        Tabla_Reservacion.setModel(observarMesaReservacion());
+
     }//GEN-LAST:event_Boton_Actualizar_ReservacionActionPerformed
 
     private void Boton_Generar_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Generar_ClienteActionPerformed
-        // TODO add your handling code here:
+        //queary para llamar al cliente
+        String sql = "select * from clientes where id_cliente =?";
+
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, Integer.parseInt(Campo_ID_cliente.getText()));
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    c = new Cliente(
+                            rs.getString("nombre"),
+                            0,
+                            "null",
+                            0,
+                            rs.getInt("id_cliente")
+                    );
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+        }
+        //queary para insertar el pedido en la tabla pedidos
+        String sql2 = "insert into pedido(id_pedido,actividad,pago) values (?,?,?)";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql2);) {
+            stmt.setInt(1, c.getP().getId());
+            stmt.setBoolean(2, true);
+            stmt.setBigDecimal(3, new BigDecimal(1));
+            stmt.execute();
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        //queary para actualizar el null de pedidos
+        String sql1 = "update clientes set id_pedido = ? where id_cliente = ?";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql1);) {
+            stmt.setInt(1, c.getP().getId());
+            stmt.setInt(2, c.getId());
+
+            stmt.execute();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+
+        }
     }//GEN-LAST:event_Boton_Generar_ClienteActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
@@ -633,6 +704,24 @@ public class Vista_Sistema extends javax.swing.JFrame {
     private void Boton_AdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_AdministradorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Boton_AdministradorActionPerformed
+
+    private void Boton_Agregar_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Agregar_ClienteActionPerformed
+        c = new Cliente(Campo_Nombre_Cliente.getText(), 0, "null", 0, Integer.parseInt(Campo_ID_cliente.getText()));
+
+        //insercion del cliente
+        String sql1 = "insert into clientes(id_cliente,nombre,id_pedido,id_mesa) values (?,?,?,?)";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql1);) {
+            stmt.setInt(1, c.getId());
+            stmt.setString(2, c.getNombre());
+            stmt.setNull(3, java.sql.Types.INTEGER);
+            stmt.setNull(4, java.sql.Types.INTEGER);
+            stmt.execute();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+
+        }
+
+    }//GEN-LAST:event_Boton_Agregar_ClienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -681,12 +770,14 @@ public class Vista_Sistema extends javax.swing.JFrame {
     private javax.swing.JButton Boton_burscar_pago;
     private javax.swing.JButton Boton_registrar_pedido;
     private javax.swing.JTextField Campo_ID_cliente;
-    private javax.swing.JTextField Campo_ID_cliente_Reservacion;
+    private javax.swing.JTextField Campo_ID_mesa_Reservacion;
     private javax.swing.JTextField Campo_ID_producto_orden;
     private javax.swing.JTextField Campo_ID_producto_orden_modificaciones;
     private javax.swing.JTextField Campo_ID_producto_orden_modificaciones_id_cambio;
     private javax.swing.JTextField Campo_Nombre_Cliente;
     private javax.swing.JTextField ID_cliente_pago;
+    private javax.swing.JTable Tabla_Clientes_GenerarPedido;
+    private javax.swing.JTable Tabla_Reservacion;
     private javax.swing.JTable Tabla_modificaciones_ordenes;
     private javax.swing.JTable Tabla_ordenes_registro;
     private javax.swing.JComboBox<String> jComboBox2;
@@ -720,10 +811,65 @@ public class Vista_Sistema extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
+    private DefaultTableModel observarMesaReservacion() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID_Cliente");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Mesa");
+        modelo.addColumn("Estado");
+        String sql = "select * from vista_reservacion_tabla ";
+        try (Connection conn = Conexion.getConexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                Integer id = rs.getObject("id_cliente", Integer.class);
+                id = (id == null) ? 0 : id;
+                String estado = rs.getBoolean("actividad") ? "Reservado" : "Libre";
+                String nombre = rs.getString("nombre");
+                nombre = (nombre == null || nombre.trim().isEmpty()) ? "Sin asignar" : nombre;
+                Object[] fila = {
+                    id,
+                    nombre,
+                    rs.getInt("id_mesa"),
+                    estado
+                };
+                modelo.addRow(fila);
+
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+        }
+        return modelo;
+    }
+
+    private DefaultTableModel observarclientepedidos() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID_CLIENTE");
+        modelo.addColumn("NOMBRE");
+        modelo.addColumn("PEDIDO");
+        
+        String sql = "select * from vista_cliente_pedido_tabla";
+        try (Connection conn = Conexion.getConexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+    
+                Integer id = rs.getObject("id_pedido", Integer.class);
+                id = (id == null) ? 0 : id;
+                
+                Object[] fila = {
+                    rs.getInt("id_cliente"),
+                    rs.getString("nombre"),
+                    id,
+                  
+                };
+                modelo.addRow(fila);
+
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+        }
+        return modelo;
+    }
+
 }
