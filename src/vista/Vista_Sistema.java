@@ -93,8 +93,8 @@ public class Vista_Sistema extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         ID_cliente_pago = new javax.swing.JTextField();
         jScrollPane8 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        Boton_burscar_pago = new javax.swing.JButton();
+        Tabla_pago = new javax.swing.JTable();
+        Boton_buscar_pago = new javax.swing.JButton();
         Boton_Administrador = new javax.swing.JButton();
 
         jToggleButton1.setText("jToggleButton1");
@@ -590,7 +590,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
 
         jLabel14.setText("ID_CLIENTE");
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        Tabla_pago.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -616,12 +616,12 @@ public class Vista_Sistema extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane8.setViewportView(jTable3);
+        jScrollPane8.setViewportView(Tabla_pago);
 
-        Boton_burscar_pago.setText("BUSCAR");
-        Boton_burscar_pago.addActionListener(new java.awt.event.ActionListener() {
+        Boton_buscar_pago.setText("BUSCAR");
+        Boton_buscar_pago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Boton_burscar_pagoActionPerformed(evt);
+                Boton_buscar_pagoActionPerformed(evt);
             }
         });
 
@@ -637,7 +637,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ID_cliente_pago, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(Boton_burscar_pago))
+                    .addComponent(Boton_buscar_pago))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45))
@@ -655,7 +655,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ID_cliente_pago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Boton_burscar_pago)))
+                        .addComponent(Boton_buscar_pago)))
                 .addContainerGap(421, Short.MAX_VALUE))
         );
 
@@ -884,9 +884,10 @@ public class Vista_Sistema extends javax.swing.JFrame {
         Tabla_modificaciones_ordenes.setModel(observarordenesmodificaciones());
     }//GEN-LAST:event_Boton_Actualizar_modificacionesActionPerformed
 
-    private void Boton_burscar_pagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_burscar_pagoActionPerformed
+    private void Boton_buscar_pagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_buscar_pagoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_Boton_burscar_pagoActionPerformed
+        Tabla_pago.setModel(observarpagosporid(Integer.parseInt(ID_cliente_pago.getText())));
+    }//GEN-LAST:event_Boton_buscar_pagoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -935,7 +936,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
     private javax.swing.JButton Boton_Agregar_Reservacion;
     private javax.swing.JButton Boton_Buscar_ordenes;
     private javax.swing.JButton Boton_Generar_Cliente;
-    private javax.swing.JButton Boton_burscar_pago;
+    private javax.swing.JButton Boton_buscar_pago;
     private javax.swing.JButton Boton_registrar_pedido;
     private javax.swing.JTextField Campo_ID_cliente;
     private javax.swing.JTextField Campo_ID_cliente_modificaciones;
@@ -951,6 +952,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
     private javax.swing.JTable Tabla_Reservacion;
     private javax.swing.JTable Tabla_modificaciones_ordenes;
     private javax.swing.JTable Tabla_ordenes_registro;
+    private javax.swing.JTable Tabla_pago;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JDesktopPane jDesktopPane3;
@@ -983,7 +985,6 @@ public class Vista_Sistema extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
@@ -1123,5 +1124,36 @@ public class Vista_Sistema extends javax.swing.JFrame {
             System.out.println("ERROR: " + e.getMessage());
         }
         return c;
+    }
+    
+    private DefaultTableModel observarpagosporid(int id){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID_Cliente");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("ID_Pedido");
+        modelo.addColumn("Total");
+        
+        String sql = "select * from vista_tabla_pago where id_cliente = ?";
+        try(Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setInt(1, id);
+            
+            try(ResultSet rs = pstmt.executeQuery()){
+                while(rs.next()){
+                    Object [] fila = {
+                        rs.getInt("id_cliente"),
+                        rs.getString("nombre"),
+                        rs.getInt("id_pedido"),
+                        rs.getDouble("total")
+                    };
+                    modelo.addRow(fila);
+                }
+                
+            }
+            
+        }catch(SQLException e){
+            System.out.println("Mensaje: "+ e.getMessage());
+            
+        }
+        return modelo;
     }
 }
