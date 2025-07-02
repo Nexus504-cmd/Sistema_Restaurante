@@ -6,8 +6,12 @@ package vista;
 
 import ConexionPGadmin.Conexion;
 import Logica.Cliente;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.math.BigDecimal;
 import java.sql.*;
+import javax.swing.JFrame;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,14 +19,25 @@ import javax.swing.table.DefaultTableModel;
  * @author Arana
  */
 public class Vista_Sistema extends javax.swing.JFrame {
+    Form_Mesas m = new Form_Mesas();
+    Menu me = new Menu();
+    
 
     Cliente c = null;
+    Color myColor = new Color(0, 0, 0);
 
     /**
      * Creates new form Vista_Sistema
      */
     public Vista_Sistema() {
         initComponents();
+        jScrollPane1.getViewport().setBackground(myColor);
+        jScrollPane2.getViewport().setBackground(myColor);
+        jScrollPane7.getViewport().setBackground(myColor);
+        jScrollPane6.getViewport().setBackground(myColor);
+        jScrollPane8.getViewport().setBackground(myColor);
+
+        // Evita que la tabla rellene todo el alto
     }
 
     /**
@@ -52,26 +67,24 @@ public class Vista_Sistema extends javax.swing.JFrame {
         Tabla_Reservacion = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         Campo_ID_mesa_Reservacion = new javax.swing.JTextField();
         Boton_Agregar_Reservacion = new javax.swing.JButton();
         Boton_Actualizar_Reservacion = new javax.swing.JButton();
         Boton_Generar_Cliente = new javax.swing.JButton();
         Boton_Agregar_Cliente = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        Campo_ID_cliente_reservacion = new javax.swing.JTextField();
+        Mensaje_error_reservacion = new javax.swing.JLabel();
+        Boton_Generar_Cliente1 = new javax.swing.JButton();
         jDesktopPane2 = new javax.swing.JDesktopPane();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         Campo_ID_producto_orden = new javax.swing.JTextField();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        Area_ResgistroPedidos = new javax.swing.JTextArea();
         Boton_registrar_pedido = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         Campo_ID_producto_orden_modificaciones = new javax.swing.JTextField();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        Area_Modificaciones = new javax.swing.JTextArea();
         jLabel11 = new javax.swing.JLabel();
         Lista_Estado_modificacioens = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
@@ -87,6 +100,9 @@ public class Vista_Sistema extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         Campo_ID_cliente_modificaciones = new javax.swing.JTextField();
         Boton_Actualizar_modificaciones = new javax.swing.JButton();
+        Mensaje_error_pedidos = new javax.swing.JLabel();
+        Mensaje_error_modificaciones = new javax.swing.JLabel();
+        MostrarMenu = new javax.swing.JButton();
         jDesktopPane3 = new javax.swing.JDesktopPane();
         jPanel4 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
@@ -95,24 +111,45 @@ public class Vista_Sistema extends javax.swing.JFrame {
         jScrollPane8 = new javax.swing.JScrollPane();
         Tabla_pago = new javax.swing.JTable();
         Boton_buscar_pago = new javax.swing.JButton();
-        Boton_Administrador = new javax.swing.JButton();
 
         jToggleButton1.setText("jToggleButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("RESTAURANTE");
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setForeground(new java.awt.Color(51, 51, 51));
+        jPanel1.setOpaque(false);
 
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Microsoft YaHei UI Light", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("SISTEMA DE GESTION ");
+
+        jTabbedPane1.setBackground(new java.awt.Color(0, 0, 0));
+        jTabbedPane1.setForeground(new java.awt.Color(255, 255, 255));
+        jTabbedPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        jDesktopPane1.setBackground(new java.awt.Color(0, 0, 0));
+        jDesktopPane1.setAlignmentX(0.0F);
+        jDesktopPane1.setOpaque(false);
+
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
+
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("CLIENTE-PEDIDO");
 
-        jLabel3.setText("NOMBRE: ");
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Nombre : ");
 
+        jScrollPane1.setBackground(new java.awt.Color(153, 153, 153));
+        jScrollPane1.setBorder(null);
+        jScrollPane1.setForeground(new java.awt.Color(0, 0, 0));
+        jScrollPane1.setOpaque(false);
+
+        Tabla_Clientes_GenerarPedido.setForeground(new java.awt.Color(0, 0, 0));
         Tabla_Clientes_GenerarPedido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "ID_CLIENTE", "NOMBRE", "PEDIDO"
@@ -122,7 +159,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -133,9 +170,14 @@ public class Vista_Sistema extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        Tabla_Clientes_GenerarPedido.setGridColor(new java.awt.Color(153, 153, 153));
+        Tabla_Clientes_GenerarPedido.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        Tabla_Clientes_GenerarPedido.setShowGrid(false);
+        Tabla_Clientes_GenerarPedido.getTableHeader().setResizingAllowed(false);
         jScrollPane1.setViewportView(Tabla_Clientes_GenerarPedido);
 
-        jLabel4.setText("ID: ");
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Num Cliente:");
 
         Campo_ID_cliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,19 +185,20 @@ public class Vista_Sistema extends javax.swing.JFrame {
             }
         });
 
-        Boton_Actualizar_Cliente.setText("Actualizar");
+        Boton_Actualizar_Cliente.setText("VerLista");
         Boton_Actualizar_Cliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Boton_Actualizar_ClienteActionPerformed(evt);
             }
         });
 
+        jScrollPane2.setBackground(new java.awt.Color(0, 0, 0));
+        jScrollPane2.setBorder(null);
+
+        Tabla_Reservacion.setForeground(new java.awt.Color(0, 0, 0));
         Tabla_Reservacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID_Cliente", "Nombre", "Mesa", "Estado"
@@ -176,15 +219,15 @@ public class Vista_Sistema extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        Tabla_Reservacion.setFillsViewportHeight(true);
+        Tabla_Reservacion.setOpaque(false);
         jScrollPane2.setViewportView(Tabla_Reservacion);
 
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("RESERVACION");
 
-        jLabel6.setText("ID_Mesa: ");
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Num Mesa");
 
         Campo_ID_mesa_Reservacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,7 +242,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
             }
         });
 
-        Boton_Actualizar_Reservacion.setText("Actualizar");
+        Boton_Actualizar_Reservacion.setText("VerLista");
         Boton_Actualizar_Reservacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Boton_Actualizar_ReservacionActionPerformed(evt);
@@ -220,47 +263,73 @@ public class Vista_Sistema extends javax.swing.JFrame {
             }
         });
 
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setText("Num Cliente:");
+
+        Campo_ID_cliente_reservacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Campo_ID_cliente_reservacionActionPerformed(evt);
+            }
+        });
+
+        Boton_Generar_Cliente1.setText("GESTION MESAS");
+        Boton_Generar_Cliente1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_Generar_Cliente1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(Campo_ID_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(26, 26, 26)
-                                    .addComponent(Campo_Nombre_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(27, 27, 27)
-                                .addComponent(Campo_ID_mesa_Reservacion, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Campo_ID_mesa_Reservacion, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(Campo_ID_cliente_reservacion, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(Boton_Agregar_Reservacion)
-                                .addGap(64, 64, 64)
-                                .addComponent(Boton_Actualizar_Reservacion)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(28, 28, 28))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(Boton_Agregar_Cliente)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                        .addComponent(Boton_Generar_Cliente)
-                        .addGap(36, 36, 36)
-                        .addComponent(Boton_Actualizar_Cliente)
-                        .addGap(484, 484, 484))))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(Campo_ID_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(26, 26, 26)
+                                            .addComponent(Campo_Nombre_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(Boton_Agregar_Reservacion)
+                                        .addGap(64, 64, 64)
+                                        .addComponent(Boton_Actualizar_Reservacion))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(Boton_Agregar_Cliente)
+                                        .addGap(27, 27, 27)
+                                        .addComponent(Boton_Generar_Cliente)
+                                        .addGap(35, 35, 35)
+                                        .addComponent(Boton_Actualizar_Cliente))
+                                    .addComponent(Boton_Generar_Cliente1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(73, Short.MAX_VALUE)
+                        .addComponent(Mensaje_error_reservacion, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(169, 169, 169)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE))
+                .addGap(28, 28, 28))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,18 +345,18 @@ public class Vista_Sistema extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Campo_Nombre_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)))
+                            .addComponent(jLabel3))
+                        .addGap(57, 57, 57)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Boton_Actualizar_Cliente)
+                            .addComponent(Boton_Generar_Cliente)
+                            .addComponent(Boton_Agregar_Cliente)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Boton_Actualizar_Cliente)
-                    .addComponent(Boton_Generar_Cliente)
-                    .addComponent(Boton_Agregar_Cliente))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -296,13 +365,17 @@ public class Vista_Sistema extends javax.swing.JFrame {
                         .addGap(21, 21, 21)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(Campo_ID_mesa_Reservacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(Campo_ID_mesa_Reservacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel17)
+                            .addComponent(Campo_ID_cliente_reservacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(19, 19, 19)
+                        .addComponent(Mensaje_error_reservacion)
+                        .addGap(21, 21, 21)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Boton_Agregar_Reservacion)
                             .addComponent(Boton_Actualizar_Reservacion))
+                        .addGap(26, 26, 26)
+                        .addComponent(Boton_Generar_Cliente1)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -312,27 +385,27 @@ public class Vista_Sistema extends javax.swing.JFrame {
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab("CLIENTE", jDesktopPane1);
 
+        jDesktopPane2.setBackground(new java.awt.Color(0, 0, 0));
+        jDesktopPane2.setOpaque(false);
+
+        jPanel3.setBackground(new java.awt.Color(0, 0, 0));
+
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("REGISTRO DE PEDIDOS");
 
-        jLabel8.setText("ID_PRODUCTO");
-
-        Area_ResgistroPedidos.setColumns(20);
-        Area_ResgistroPedidos.setRows(5);
-        jScrollPane4.setViewportView(Area_ResgistroPedidos);
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Num Producto:");
 
         Boton_registrar_pedido.setText("Registrar");
         Boton_registrar_pedido.addActionListener(new java.awt.event.ActionListener() {
@@ -341,14 +414,13 @@ public class Vista_Sistema extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("MODIFICACIONES");
 
-        jLabel10.setText("ID_PRODUCTO");
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Num Producto:");
 
-        Area_Modificaciones.setColumns(20);
-        Area_Modificaciones.setRows(5);
-        jScrollPane5.setViewportView(Area_Modificaciones);
-
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("ESTADO");
 
         Lista_Estado_modificacioens.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cambiado", "Eliminado", "Registrado" }));
@@ -358,7 +430,8 @@ public class Vista_Sistema extends javax.swing.JFrame {
             }
         });
 
-        jLabel12.setText("ID_CAMBIO");
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Num Orden:");
 
         Campo_ID_producto_orden_modificaciones_id_cambio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -366,12 +439,12 @@ public class Vista_Sistema extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane6.setBorder(null);
+
+        Tabla_modificaciones_ordenes.setForeground(new java.awt.Color(0, 0, 0));
         Tabla_modificaciones_ordenes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID_orden", "ID_producto", "Nombre", "Estado"
@@ -392,14 +465,18 @@ public class Vista_Sistema extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        Tabla_modificaciones_ordenes.setFillsViewportHeight(true);
+        Tabla_modificaciones_ordenes.setOpaque(false);
         jScrollPane6.setViewportView(Tabla_modificaciones_ordenes);
 
+        jScrollPane7.setBorder(null);
+        jScrollPane7.setViewport(null);
+        jScrollPane7.setViewportView(Tabla_ordenes_registro);
+
+        Tabla_ordenes_registro.setForeground(new java.awt.Color(0, 0, 0));
         Tabla_ordenes_registro.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID_orden", "ID_Producto", "Nombre", "Precio"
@@ -420,6 +497,9 @@ public class Vista_Sistema extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        Tabla_ordenes_registro.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
+        Tabla_ordenes_registro.setFillsViewportHeight(true);
+        Tabla_ordenes_registro.setOpaque(false);
         jScrollPane7.setViewportView(Tabla_ordenes_registro);
 
         Boton_Actualizar_ordenes.setText("Actualizar");
@@ -429,7 +509,8 @@ public class Vista_Sistema extends javax.swing.JFrame {
             }
         });
 
-        jLabel15.setText("ID_Cliente");
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setText("Num Cliente:");
 
         Boton_Buscar_ordenes.setText("Buscar");
         Boton_Buscar_ordenes.addActionListener(new java.awt.event.ActionListener() {
@@ -438,12 +519,20 @@ public class Vista_Sistema extends javax.swing.JFrame {
             }
         });
 
-        jLabel16.setText("ID_Cliente");
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setText("Num Cliente:");
 
         Boton_Actualizar_modificaciones.setText("Actualizar");
         Boton_Actualizar_modificaciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Boton_Actualizar_modificacionesActionPerformed(evt);
+            }
+        });
+
+        MostrarMenu.setText("VerMenu");
+        MostrarMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MostrarMenuActionPerformed(evt);
             }
         });
 
@@ -456,12 +545,9 @@ public class Vista_Sistema extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -477,20 +563,26 @@ public class Vista_Sistema extends javax.swing.JFrame {
                                     .addComponent(Lista_Estado_modificacioens, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(Boton_Actualizar_modificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(Boton_Actualizar_ordenes, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(15, 15, 15)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(Mensaje_error_modificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15))
+                        .addGap(86, 86, 86))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Boton_registrar_pedido)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(MostrarMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Mensaje_error_pedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(Campo_ID_producto_orden, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(Campo_ID_producto_orden, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Boton_registrar_pedido)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Boton_Actualizar_ordenes, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -498,44 +590,43 @@ public class Vista_Sistema extends javax.swing.JFrame {
                                 .addComponent(Campo_ID_cliente_pedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(12, 12, 12)
                                 .addComponent(Boton_Buscar_ordenes, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                    .addContainerGap(347, Short.MAX_VALUE)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(16, 16, 16)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(133, 133, 133))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel15)
+                                    .addComponent(Boton_Buscar_ordenes))
+                                .addGap(1, 1, 1))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(Campo_ID_cliente_pedidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel15)
-                            .addComponent(Boton_Buscar_ordenes))
-                        .addGap(1, 1, 1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(Campo_ID_cliente_pedidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(Campo_ID_producto_orden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                            .addComponent(jLabel8)
+                            .addComponent(Campo_ID_producto_orden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Boton_registrar_pedido)
+                            .addComponent(Boton_Actualizar_ordenes))
+                        .addGap(17, 17, 17)
+                        .addComponent(MostrarMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Mensaje_error_pedidos))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(61, 61, 61)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(Boton_registrar_pedido)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(Boton_Actualizar_ordenes)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
@@ -551,19 +642,21 @@ public class Vista_Sistema extends javax.swing.JFrame {
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(Campo_ID_producto_orden_modificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel10))))
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Campo_ID_producto_orden_modificaciones_id_cambio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12)
-                            .addComponent(Boton_Actualizar_modificaciones))
-                        .addGap(31, 31, 31)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27))))
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(34, 34, 34)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(286, Short.MAX_VALUE)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel12)
+                                    .addComponent(Campo_ID_producto_orden_modificaciones_id_cambio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(Boton_Actualizar_modificaciones)))
+                        .addGap(44, 44, 44)
+                        .addComponent(Mensaje_error_modificaciones))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(38, 41, Short.MAX_VALUE))
         );
 
         jDesktopPane2.setLayer(jPanel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -573,29 +666,35 @@ public class Vista_Sistema extends javax.swing.JFrame {
         jDesktopPane2Layout.setHorizontalGroup(
             jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jDesktopPane2Layout.setVerticalGroup(
             jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane2Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 536, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("ORDEN", jDesktopPane2);
 
+        jDesktopPane3.setBackground(new java.awt.Color(0, 0, 0));
+        jDesktopPane3.setOpaque(false);
+
+        jPanel4.setBackground(new java.awt.Color(0, 0, 0));
+
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("REGISTRO DE PAGO");
 
-        jLabel14.setText("ID_CLIENTE");
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("Num Cliente:");
 
+        jScrollPane8.setBorder(null);
+
+        Tabla_pago.setForeground(new java.awt.Color(0, 0, 0));
         Tabla_pago.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID_cliente", "Nombre", "ID_pedido", "Total"
@@ -616,6 +715,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        Tabla_pago.setOpaque(false);
         jScrollPane8.setViewportView(Tabla_pago);
 
         Boton_buscar_pago.setText("BUSCAR");
@@ -638,7 +738,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ID_cliente_pago, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(Boton_buscar_pago))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 344, Short.MAX_VALUE)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45))
         );
@@ -647,7 +747,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addGap(18, 18, 18)
@@ -656,7 +756,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
                             .addComponent(ID_cliente_pago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Boton_buscar_pago)))
-                .addContainerGap(421, Short.MAX_VALUE))
+                .addContainerGap(408, Short.MAX_VALUE))
         );
 
         jDesktopPane3.setLayer(jPanel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -665,10 +765,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
         jDesktopPane3.setLayout(jDesktopPane3Layout);
         jDesktopPane3Layout.setHorizontalGroup(
             jDesktopPane3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jDesktopPane3Layout.setVerticalGroup(
             jDesktopPane3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -679,52 +776,42 @@ public class Vista_Sistema extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("PAGO", jDesktopPane3);
 
-        Boton_Administrador.setText("Admin");
-        Boton_Administrador.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Boton_AdministradorActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(464, 464, 464)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(454, 454, 454)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addComponent(Boton_Administrador, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 827, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(111, 111, 111)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 280, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jLabel1)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(Boton_Administrador)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -745,20 +832,45 @@ public class Vista_Sistema extends javax.swing.JFrame {
     private void Boton_Agregar_ReservacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Agregar_ReservacionActionPerformed
         // TODO add your handling code here:
         //query para actualizar el null de mesa
-        String sql3 = "insert into mesa(id_mesa,actividad) values (?,?)";
-        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql3);) {
-            stmt.setInt(1, Integer.parseInt(Campo_ID_mesa_Reservacion.getText()));
-            stmt.setBoolean(2, true);
-            stmt.execute();
+        if (Campo_ID_cliente_reservacion.getText().trim().isEmpty() || Campo_ID_mesa_Reservacion.getText().trim().isEmpty()) {
+            Mensaje_error_reservacion.setForeground(Color.RED);
+            Mensaje_error_reservacion.setText("<Error> Verifique num");
 
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+        } else {
+            String sql8 ="update mesa set actividad = ? where id_mesa = ?";
+            
+            try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql8);) {
+                stmt.setBoolean(1, true);
+                stmt.setInt(2, Integer.parseInt(Campo_ID_mesa_Reservacion.getText()));
+                
+                stmt.execute();
+
+            } catch (SQLException e) {
+                System.out.println("Error: " + e.getMessage());
+
+            }
+            //para agregar al cliente aqui esta el problema, se setea 
+            String sql4 = "update clientes set id_mesa =? where id_cliente = ?";
+            try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql4);) {
+                pstmt.setInt(1, Integer.parseInt(Campo_ID_mesa_Reservacion.getText()));
+                pstmt.setInt(2, Integer.parseInt(Campo_ID_cliente_reservacion.getText()));
+
+                pstmt.execute();
+                Mensaje_error_reservacion.setForeground(Color.GREEN);
+                Mensaje_error_reservacion.setText("<Exito> Insercion realizada exitosamente");
+            } catch (SQLException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
 
         }
     }//GEN-LAST:event_Boton_Agregar_ReservacionActionPerformed
 
     private void Boton_Actualizar_ReservacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Actualizar_ReservacionActionPerformed
+
         Tabla_Reservacion.setModel(observarMesaReservacion());
+        Mensaje_error_reservacion.setForeground(Color.GREEN);
+        Mensaje_error_reservacion.setText("<Exito> Lectura Realizada");
+
 
     }//GEN-LAST:event_Boton_Actualizar_ReservacionActionPerformed
 
@@ -816,10 +928,6 @@ public class Vista_Sistema extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Campo_ID_producto_orden_modificaciones_id_cambioActionPerformed
 
-    private void Boton_AdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_AdministradorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Boton_AdministradorActionPerformed
-
     private void Boton_Agregar_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Agregar_ClienteActionPerformed
         c = new Cliente(Campo_Nombre_Cliente.getText(), 0, "null", 0, Integer.parseInt(Campo_ID_cliente.getText()));
 
@@ -839,49 +947,80 @@ public class Vista_Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_Boton_Agregar_ClienteActionPerformed
 
     private void Boton_Actualizar_ordenesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Actualizar_ordenesActionPerformed
-        // TODO add your handling code here:
-        Tabla_ordenes_registro.setModel(observarordenesregistro());
+        // TODO add your handling code here: 
+
+        if (Campo_ID_cliente_pedidos.getText().trim().isEmpty() || Campo_ID_producto_orden.getText().trim().isEmpty()) {
+            Mensaje_error_pedidos.setForeground(Color.RED);
+            Mensaje_error_pedidos.setText("<Error> Verifique ingreso de num ");
+
+        } else {
+            Tabla_ordenes_registro.setModel(observarordenesregistro());
+            Mensaje_error_pedidos.setForeground(Color.GREEN);
+            Mensaje_error_pedidos.setText("<Exito> Actualizacion exitosa ");
+        }
+
 
     }//GEN-LAST:event_Boton_Actualizar_ordenesActionPerformed
 
     private void Boton_registrar_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_registrar_pedidoActionPerformed
         String sql = " insert into orden (id_producto,id_pedido,id_cliente,estado) values (?,?,?,?)";
         c = llamadocliente(Integer.parseInt(Campo_ID_cliente_pedidos.getText()));
-        
-        try(Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql);){
+
+        try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
             pstmt.setInt(1, Integer.parseInt(Campo_ID_producto_orden.getText()));
             pstmt.setInt(2, c.getP().getId());
             pstmt.setInt(3, c.getId());
             pstmt.setString(4, "Proceso");
-            
+
             pstmt.execute();
-        }catch(SQLException e){
-            System.out.println("Mensaje: "+ e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
         }
-              
+
     }//GEN-LAST:event_Boton_registrar_pedidoActionPerformed
 
     private void Boton_Buscar_ordenesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Buscar_ordenesActionPerformed
-       Tabla_ordenes_registro.setModel(observarordenesregistro());
+        if (Campo_ID_cliente_pedidos.getText().trim().isEmpty()) {
+            Mensaje_error_pedidos.setForeground(Color.RED);
+            Mensaje_error_pedidos.setText("<Error> Verifique Ingreso de Num_Cliente");
+
+        } else {
+            Tabla_ordenes_registro.setModel(observarordenesregistro());
+            Mensaje_error_pedidos.setForeground(Color.GREEN);
+            Mensaje_error_pedidos.setText("<Exito> Proceso realizado exitosamente");
+        }
+
+
     }//GEN-LAST:event_Boton_Buscar_ordenesActionPerformed
 
     private void Boton_Actualizar_modificacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Actualizar_modificacionesActionPerformed
         // TODO add your handling code here:
-        String sql = "update orden set id_producto = ?, estado = ? where id_orden = ? and id_cliente =?";
-        
-        try(Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql)){
-             pstmt.setInt(1, Integer.parseInt(Campo_ID_producto_orden_modificaciones.getText()));
-             pstmt.setString(2, (String) Lista_Estado_modificacioens.getSelectedItem());
-             pstmt.setInt(3, Integer.parseInt(Campo_ID_producto_orden_modificaciones_id_cambio.getText()));
-             pstmt.setInt(4, Integer.parseInt(Campo_ID_cliente_modificaciones.getText()));
-             pstmt.execute();
-            
-        }catch(SQLException e){
-            System.out.println("Error: "+e);
-            
+        if (Campo_ID_cliente_modificaciones.getText().trim().isEmpty()
+                || Campo_ID_producto_orden_modificaciones.getText().trim().isEmpty()
+                || Campo_ID_producto_orden_modificaciones_id_cambio.getText().trim().isEmpty()) {
+            Mensaje_error_modificaciones.setForeground(Color.RED);
+            Mensaje_error_modificaciones.setText("<Error> Verifique Ingreso Num");
+        } else {
+            String sql = "update orden set id_producto = ?, estado = ? where id_orden = ? and id_cliente =?";
+
+            try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, Integer.parseInt(Campo_ID_producto_orden_modificaciones.getText()));
+                pstmt.setString(2, (String) Lista_Estado_modificacioens.getSelectedItem());
+                pstmt.setInt(3, Integer.parseInt(Campo_ID_producto_orden_modificaciones_id_cambio.getText()));
+                pstmt.setInt(4, Integer.parseInt(Campo_ID_cliente_modificaciones.getText()));
+                pstmt.execute();
+
+            } catch (SQLException e) {
+                System.out.println("Error: " + e);
+
+            }
+
+            Tabla_modificaciones_ordenes.setModel(observarordenesmodificaciones());
+            Mensaje_error_modificaciones.setForeground(Color.GREEN);
+            Mensaje_error_modificaciones.setText("<Exito> Actualizacion exitosa");
+
         }
-        
-        Tabla_modificaciones_ordenes.setModel(observarordenesmodificaciones());
+
     }//GEN-LAST:event_Boton_Actualizar_modificacionesActionPerformed
 
     private void Boton_buscar_pagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_buscar_pagoActionPerformed
@@ -889,12 +1028,33 @@ public class Vista_Sistema extends javax.swing.JFrame {
         Tabla_pago.setModel(observarpagosporid(Integer.parseInt(ID_cliente_pago.getText())));
     }//GEN-LAST:event_Boton_buscar_pagoActionPerformed
 
+    private void Campo_ID_cliente_reservacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Campo_ID_cliente_reservacionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Campo_ID_cliente_reservacionActionPerformed
+
+    private void Boton_Generar_Cliente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Generar_Cliente1ActionPerformed
+        // TODO add your handling code here:
+        m.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        m.setEnabled(true);
+        m.setVisible(true);
+        
+        
+    }//GEN-LAST:event_Boton_Generar_Cliente1ActionPerformed
+
+    private void MostrarMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarMenuActionPerformed
+        // TODO add your handling code here:
+        me.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        me.setEnabled(true);
+        me.setVisible(true);
+    }//GEN-LAST:event_MostrarMenuActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+
+//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
@@ -925,22 +1085,21 @@ public class Vista_Sistema extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea Area_Modificaciones;
-    private javax.swing.JTextArea Area_ResgistroPedidos;
     private javax.swing.JButton Boton_Actualizar_Cliente;
     private javax.swing.JButton Boton_Actualizar_Reservacion;
     private javax.swing.JButton Boton_Actualizar_modificaciones;
     private javax.swing.JButton Boton_Actualizar_ordenes;
-    private javax.swing.JButton Boton_Administrador;
     private javax.swing.JButton Boton_Agregar_Cliente;
     private javax.swing.JButton Boton_Agregar_Reservacion;
     private javax.swing.JButton Boton_Buscar_ordenes;
     private javax.swing.JButton Boton_Generar_Cliente;
+    private javax.swing.JButton Boton_Generar_Cliente1;
     private javax.swing.JButton Boton_buscar_pago;
     private javax.swing.JButton Boton_registrar_pedido;
     private javax.swing.JTextField Campo_ID_cliente;
     private javax.swing.JTextField Campo_ID_cliente_modificaciones;
     private javax.swing.JTextField Campo_ID_cliente_pedidos;
+    private javax.swing.JTextField Campo_ID_cliente_reservacion;
     private javax.swing.JTextField Campo_ID_mesa_Reservacion;
     private javax.swing.JTextField Campo_ID_producto_orden;
     private javax.swing.JTextField Campo_ID_producto_orden_modificaciones;
@@ -948,6 +1107,10 @@ public class Vista_Sistema extends javax.swing.JFrame {
     private javax.swing.JTextField Campo_Nombre_Cliente;
     private javax.swing.JTextField ID_cliente_pago;
     private javax.swing.JComboBox<String> Lista_Estado_modificacioens;
+    private javax.swing.JLabel Mensaje_error_modificaciones;
+    private javax.swing.JLabel Mensaje_error_pedidos;
+    private javax.swing.JLabel Mensaje_error_reservacion;
+    private javax.swing.JButton MostrarMenu;
     private javax.swing.JTable Tabla_Clientes_GenerarPedido;
     private javax.swing.JTable Tabla_Reservacion;
     private javax.swing.JTable Tabla_modificaciones_ordenes;
@@ -964,6 +1127,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -978,14 +1142,10 @@ public class Vista_Sistema extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
     private DefaultTableModel observarMesaReservacion() {
@@ -1071,8 +1231,8 @@ public class Vista_Sistema extends javax.swing.JFrame {
 
         return modelo;
     }
-    
-    private DefaultTableModel observarordenesmodificaciones(){
+
+    private DefaultTableModel observarordenesmodificaciones() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID_orden");
         modelo.addColumn("ID_Producto");
@@ -1101,6 +1261,7 @@ public class Vista_Sistema extends javax.swing.JFrame {
         return modelo;
     }
 //devuleve un cliente con nombre y id
+
     private Cliente llamadocliente(int id) {
 
         String sql = "select * from clientes where id_cliente =?";
@@ -1125,21 +1286,21 @@ public class Vista_Sistema extends javax.swing.JFrame {
         }
         return c;
     }
-    
-    private DefaultTableModel observarpagosporid(int id){
+
+    private DefaultTableModel observarpagosporid(int id) {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID_Cliente");
         modelo.addColumn("Nombre");
         modelo.addColumn("ID_Pedido");
         modelo.addColumn("Total");
-        
+
         String sql = "select * from vista_tabla_pago where id_cliente = ?";
-        try(Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+        try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
-            
-            try(ResultSet rs = pstmt.executeQuery()){
-                while(rs.next()){
-                    Object [] fila = {
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Object[] fila = {
                         rs.getInt("id_cliente"),
                         rs.getString("nombre"),
                         rs.getInt("id_pedido"),
@@ -1147,12 +1308,12 @@ public class Vista_Sistema extends javax.swing.JFrame {
                     };
                     modelo.addRow(fila);
                 }
-                
+
             }
-            
-        }catch(SQLException e){
-            System.out.println("Mensaje: "+ e.getMessage());
-            
+
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+
         }
         return modelo;
     }
