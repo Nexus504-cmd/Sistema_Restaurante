@@ -4,11 +4,14 @@
  */
 package Logica;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Arana
  */
 public interface Verificable {
-    String listaMesadesocupada();
+    DefaultTableModel listaMesadesocupada();
+    DefaultTableModel listaMesaocupadas();
     int numMesadesocupada();
 }

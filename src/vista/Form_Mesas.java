@@ -4,13 +4,18 @@
  */
 package vista;
 
+import ConexionPGadmin.Conexion;
 import Logica.Administrador;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  *
  * @author Arana
  */
 public class Form_Mesas extends javax.swing.JFrame {
+
     Administrador admin = new Administrador();
 
     /**
@@ -20,6 +25,7 @@ public class Form_Mesas extends javax.swing.JFrame {
         initComponents();
     }
 
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,13 +39,18 @@ public class Form_Mesas extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaMesasVista = new javax.swing.JTable();
-        BotonVerMesasActivas = new javax.swing.JButton();
+        BotonVerMesasOcupadas = new javax.swing.JButton();
         BotonVerMesasDesocupadas = new javax.swing.JButton();
-        BotonDesocuparMesas = new javax.swing.JButton();
+        BotonInsertarMesas = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        ID_mesa = new javax.swing.JTextField();
         BotonAgregarMesas = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        ListarMesas = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        cantidad = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        inicio = new javax.swing.JTextField();
+        BotonDesocuparMesas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,37 +88,57 @@ public class Form_Mesas extends javax.swing.JFrame {
             TablaMesasVista.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        BotonVerMesasActivas.setText("Mesas Activas");
-        BotonVerMesasActivas.addActionListener(new java.awt.event.ActionListener() {
+        BotonVerMesasOcupadas.setText("Mesas Ocupadas");
+        BotonVerMesasOcupadas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonVerMesasActivasActionPerformed(evt);
+                BotonVerMesasOcupadasActionPerformed(evt);
             }
         });
 
-        BotonVerMesasDesocupadas.setText("Mesas Ocupadas");
+        BotonVerMesasDesocupadas.setText("Mesas Desocupadas");
         BotonVerMesasDesocupadas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonVerMesasDesocupadasActionPerformed(evt);
             }
         });
 
-        BotonDesocuparMesas.setText("Desocupar Mesas");
-        BotonDesocuparMesas.addActionListener(new java.awt.event.ActionListener() {
+        BotonInsertarMesas.setText("Insertar");
+        BotonInsertarMesas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonDesocuparMesasActionPerformed(evt);
+                BotonInsertarMesasActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("NUM MESA: ");
+        jLabel2.setText("Mesa:");
 
-        jTextField1.setText("jTextField1");
-
-        BotonAgregarMesas.setText("Agregar Mesa");
-
-        jButton1.setText("ListarMesas");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        ID_mesa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                ID_mesaActionPerformed(evt);
+            }
+        });
+
+        BotonAgregarMesas.setText("Agregar Mesas");
+        BotonAgregarMesas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonAgregarMesasActionPerformed(evt);
+            }
+        });
+
+        ListarMesas.setText("ListarMesas");
+        ListarMesas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListarMesasActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Cantidad");
+
+        jLabel4.setText("Inicio:");
+
+        BotonDesocuparMesas.setText("Desocupar");
+        BotonDesocuparMesas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonDesocuparMesasActionPerformed(evt);
             }
         });
 
@@ -116,58 +147,94 @@ public class Form_Mesas extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(314, 314, 314)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(314, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(BotonVerMesasDesocupadas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BotonVerMesasActivas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(BotonDesocuparMesas)
-                    .addComponent(BotonAgregarMesas)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                        .addGap(46, 46, 46)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(inicio, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(BotonInsertarMesas)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ID_mesa, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(BotonDesocuparMesas)))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(BotonAgregarMesas)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGap(32, 32, 32)
+                            .addComponent(BotonVerMesasOcupadas, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(BotonVerMesasDesocupadas)
+                            .addGap(82, 82, 82))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(67, 67, 67)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(ListarMesas, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(91, 91, 91))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(277, 277, 277)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ListarMesas, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(ID_mesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(BotonVerMesasActivas)
-                        .addGap(31, 31, 31)
-                        .addComponent(BotonVerMesasDesocupadas)
-                        .addGap(33, 33, 33)
-                        .addComponent(BotonDesocuparMesas)
-                        .addGap(31, 31, 31)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(BotonVerMesasOcupadas)
+                            .addComponent(BotonVerMesasDesocupadas))
+                        .addGap(64, 64, 64))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BotonInsertarMesas)
+                            .addComponent(BotonDesocuparMesas))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(inicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(BotonAgregarMesas)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
-                .addContainerGap(117, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,38 +244,97 @@ public class Form_Mesas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void BotonVerMesasActivasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonVerMesasActivasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BotonVerMesasActivasActionPerformed
+    private void BotonVerMesasOcupadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonVerMesasOcupadasActionPerformed
+        TablaMesasVista.setModel(admin.listaMesaocupadas());
+    }//GEN-LAST:event_BotonVerMesasOcupadasActionPerformed
 
     private void BotonVerMesasDesocupadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonVerMesasDesocupadasActionPerformed
-        // TODO add your handling code here:
+        TablaMesasVista.setModel(admin.listaMesadesocupada());
     }//GEN-LAST:event_BotonVerMesasDesocupadasActionPerformed
+
+    private void BotonInsertarMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonInsertarMesasActionPerformed
+        String sql3 = "insert into mesa(id_mesa,actividad) values (?,?)";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql3);) {
+            stmt.setInt(1, Integer.parseInt(ID_mesa.getText()));
+            stmt.setBoolean(2, false);
+            stmt.execute();
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+
+        }
+    }//GEN-LAST:event_BotonInsertarMesasActionPerformed
+
+    private void ListarMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListarMesasActionPerformed
+        TablaMesasVista.setModel(admin.observarMesa());
+    }//GEN-LAST:event_ListarMesasActionPerformed
+
+    private void BotonAgregarMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregarMesasActionPerformed
+        int id;
+        for (int i = 0; i < Integer.parseInt(cantidad.getText()); i++) {
+            id = Integer.parseInt(inicio.getText())+i;
+            String sql3 = "insert into mesa(id_mesa,actividad) values (?,?)";
+            try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql3);) {
+                stmt.setInt(1, id);
+                stmt.setBoolean(2, false);
+                stmt.execute();
+
+            } catch (SQLException e) {
+                System.out.println("Error: " + e.getMessage());
+
+            }
+        }
+    }//GEN-LAST:event_BotonAgregarMesasActionPerformed
 
     private void BotonDesocuparMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonDesocuparMesasActionPerformed
         // TODO add your handling code here:
+        
+        String sql = "update mesa set actividad = ? where id_mesa =?";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setBoolean(1, false);
+            stmt.setInt(2, Integer.parseInt(ID_mesa.getText()));
+            stmt.execute();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+
+        }
+        String sql1  = "update clientes set id_mesa = ? where id_mesa =?";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql1)) {
+            
+            stmt.setNull(1, java.sql.Types.INTEGER);
+            stmt.setInt(2, Integer.parseInt(ID_mesa.getText()));
+            stmt.execute();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+
+        }
+        
     }//GEN-LAST:event_BotonDesocuparMesasActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        TablaMesasVista.setModel(admin.observarMesa());
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void ID_mesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ID_mesaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ID_mesaActionPerformed
 
     /**
      * @param args the command line arguments
      */
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonAgregarMesas;
     private javax.swing.JButton BotonDesocuparMesas;
-    private javax.swing.JButton BotonVerMesasActivas;
+    private javax.swing.JButton BotonInsertarMesas;
     private javax.swing.JButton BotonVerMesasDesocupadas;
+    private javax.swing.JButton BotonVerMesasOcupadas;
+    private javax.swing.JTextField ID_mesa;
+    private javax.swing.JButton ListarMesas;
     private javax.swing.JTable TablaMesasVista;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTextField cantidad;
+    private javax.swing.JTextField inicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
