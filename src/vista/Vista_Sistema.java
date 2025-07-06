@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Vista_Sistema extends javax.swing.JFrame {
     Form_Mesas m = new Form_Mesas();
-    Menu me = new Menu();
+    FormMenu me = new FormMenu();
     
 
     Cliente c = null;
@@ -470,7 +470,6 @@ public class Vista_Sistema extends javax.swing.JFrame {
         jScrollPane6.setViewportView(Tabla_modificaciones_ordenes);
 
         jScrollPane7.setBorder(null);
-        jScrollPane7.setViewport(null);
         jScrollPane7.setViewportView(Tabla_ordenes_registro);
 
         Tabla_ordenes_registro.setForeground(new java.awt.Color(0, 0, 0));
@@ -781,13 +780,14 @@ public class Vista_Sistema extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(454, 454, 454)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(111, 111, 111)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(65, 280, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(111, 111, 111)
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(522, 522, 522)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(280, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -963,6 +963,8 @@ public class Vista_Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_Boton_Actualizar_ordenesActionPerformed
 
     private void Boton_registrar_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_registrar_pedidoActionPerformed
+       
+        //aparte otra consulta para obtener el id_pedido enlazado a mesa
         String sql = " insert into orden (id_producto,id_pedido,id_cliente,estado) values (?,?,?,?)";
         c = llamadocliente(Integer.parseInt(Campo_ID_cliente_pedidos.getText()));
 

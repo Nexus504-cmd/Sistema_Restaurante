@@ -9,5 +9,5 @@ package Logica;
  * @author Arana
  */
 public interface Reservable extends CRUDGestionable {
-    void asignarmesa(int id);
+   
 }

@@ -4,6 +4,8 @@
  */
 package Logica;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Arana
@@ -27,5 +29,5 @@ public abstract class Persona {
 
   
     
-    public abstract String mostrarDatos();
+    public abstract DefaultTableModel mostrarDatos();
 }

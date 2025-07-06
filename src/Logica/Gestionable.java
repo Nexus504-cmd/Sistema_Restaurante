@@ -13,4 +13,6 @@ import javax.swing.table.DefaultTableModel;
 public interface Gestionable {
     DefaultTableModel observarPedido();
     DefaultTableModel observarMesa();
+    void insertarCliente(int dni, String nombre, String apellido_p, String apellido_m);
+    void borrarCliente();
 }
