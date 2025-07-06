@@ -14,6 +14,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,12 +23,16 @@ import java.sql.ResultSet;
 public class Cliente extends Persona implements Reservable {
 
     private Pedido p;
+    private Mesa m;
 
-    public Cliente(String nombre, int telefono, String correo, int edad, int id) {
+    
+    
+
+    public Cliente(String nombre, int telefono, String correo, int edad, int id, Mesa m) {
         super(nombre, telefono, correo, edad, id);
-        this.p = new Pedido();
+        this.p = new Pedido();//Se va a jalar el objeto pedido cerado de cliente y se le va a asignar id de la mesa que ocupa
         //asignamiento de id pedido -(vinculacion)- id cliente
-        p.setId(id);
+        //p.setId(id);--mejor que se setee por mesa
 
     }
 
@@ -80,26 +85,36 @@ public class Cliente extends Persona implements Reservable {
     }
 
     @Override
-    public String mostrarDatos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public DefaultTableModel mostrarDatos() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("DNI");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Apellido Paterno");
+        modelo.addColumn("Apellido Materno");
+        String sql = "select * from informacioncliente";
+        try(Connection conn = Conexion.getConexion(); 
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                ResultSet rs = pstmt.executeQuery()){
+            while(rs.next()){
+                Object fila [] = {
+                    rs.getInt("dni_cliente"),
+                    rs.getString("nombre"),
+                    rs.getString("apellido_paterno"),
+                    rs.getString("apellido_materno")
+                };
+                modelo.addRow(fila);
+            }
+            
+            
+        }catch(SQLException e){
+            System.out.println("Mensaje: "+e.getMessage());
+        }
+        return modelo;
+        
     }
 //metodos implementados
 
-    @Override
-    public void asignarmesa(int id) {
-        String sql = "CALL asignarmesa(?,?)";
-        try(Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)){
-            cstmt.setInt(1, id);
-            cstmt.setString(2, "true");
-            
-            cstmt.execute();
-        }catch(SQLException e){
-            System.out.println("Mensaje: " + e.getMessage());
-            System.out.println("SQLSTATE: " + e.getSQLState());
-            System.out.println("ErrorCode: " + e.getErrorCode());
-        }
-        
-    }
+   //no croe que sea necesatio esto leugo vemos
 
     @Override
     public void agregarSegundos(Object o) {

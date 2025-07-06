@@ -349,6 +349,99 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-   
+    @Override
+    public void insertarCliente(int dni, String nombre, String apellido_p, String apellido_m ) {
+        String sql = "CALL insertar_cliente (?,?,?,?)";
+        try(Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)){
+            cstmt.setInt(1,dni);
+            cstmt.setString(2, nombre);
+            cstmt.setString(3, apellido_p);
+            cstmt.setString(4, apellido_m);
+            
+            cstmt.execute();
+            
+        }catch(SQLException e){
+            System.out.println("Error: "+ e.getMessage());
+            
+        }
+        
+    }
+
+    @Override
+    public void borrarCliente() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    
+    public void asignarmesa(int id_mesa, int dni) {
+        String sql = "CALL asignarmesa(?,?)";
+        try(Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)){
+            cstmt.setInt(1, id_mesa);
+            cstmt.setBoolean(2, true);
+            
+            cstmt.execute();
+        }catch(SQLException e){
+            System.out.println("Mensaje: " + e.getMessage());
+            System.out.println("SQLSTATE: " + e.getSQLState());
+            System.out.println("ErrorCode: " + e.getErrorCode());
+        }
+        
+        String sql4 = "update clientes set id_mesa= ? where dni_cliente= ?";
+            try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql4);) {
+                pstmt.setInt(1, id_mesa);
+                pstmt.setInt(2, dni);
+
+                pstmt.execute();
+                
+            } catch (SQLException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        
+    }
+    
+    public void registrarorden(int id_producto, int id_mesa){
+        String obteneridcliente = "select id_cliente from clientes";
+        int id_cliente = 0;
+        String obtenerid_pedido = "select id_pedido from pedido where id_mesa = ?";
+        int id_pedido = 0;
+        String sql = " insert into orden (id_producto,id_pedido,id_cliente,estado) values (?,?,?,?)";
+        
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(obteneridcliente)) {
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    id_cliente = rs.getInt("id_cliente");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+        }
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(obtenerid_pedido)) {
+            stmt.setInt(1, id_mesa);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    id_pedido = rs.getInt("id_pedido");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+        }
+       
+
+        try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+            pstmt.setInt(1, id_producto);
+            pstmt.setInt(2, id_pedido);
+            pstmt.setInt(3, id_cliente);
+            pstmt.setString(4, "Proceso");
+
+            pstmt.execute();
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+        }
+        
+    }
 
 }

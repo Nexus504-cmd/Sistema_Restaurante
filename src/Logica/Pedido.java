@@ -28,7 +28,7 @@ public class Pedido {
     public int getId() {
         return id;
     }
-
+//recuerda haremos un seto por mesa
     public void setId(int id) {
         this.id = id;
     }
