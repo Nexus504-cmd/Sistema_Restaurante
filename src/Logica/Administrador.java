@@ -267,19 +267,18 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
     public DefaultTableModel observarMesa() {
         DefaultTableModel modelo = new DefaultTableModel();
 
-        modelo.addColumn("Cliente");
-        modelo.addColumn("ID_MESA");
+        modelo.addColumn("Mesa");
         modelo.addColumn("Estado");
-        String sql = "select * from vista_cliente_mesa";
+        modelo.addColumn("Capacidad");
+        String sql = "select * from mesa";
         try (Connection conn = Conexion.getConexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                String nombre = rs.getString("nombre");
-                nombre = (nombre == null || nombre.trim().isEmpty()) ? "<No asignado>" : nombre;
+
                 String estado = rs.getBoolean("actividad") ? "Reservado" : "Libre";
                 Object[] fila = {
-                    nombre,
                     rs.getInt("id_mesa"),
-                    estado
+                    estado,
+                    rs.getInt("capacidad")
                 };
                 modelo.addRow(fila);
 
@@ -293,19 +292,17 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
     @Override
     public DefaultTableModel listaMesadesocupada() {
         DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("Cliente");
-        modelo.addColumn("ID_MESA");
+        modelo.addColumn("Mesa");
         modelo.addColumn("Estado");
-        String sql = "select * from vista_cliente_mesa where actividad = false";
+        modelo.addColumn("Capacidad");
+        String sql = "select * from mesa where actividad = false";
         try (Connection conn = Conexion.getConexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                String nombre = rs.getString("nombre");
-                nombre = (nombre == null || nombre.trim().isEmpty()) ? "<No asignado>" : nombre;
                 String estado = rs.getBoolean("actividad") ? "Reservado" : "Libre";
                 Object[] fila = {
-                    nombre,
                     rs.getInt("id_mesa"),
-                    estado
+                    estado,
+                    rs.getInt("capacidad")
                 };
                 modelo.addRow(fila);
 
@@ -320,19 +317,17 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
     @Override
     public DefaultTableModel listaMesaocupadas() {
         DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("Cliente");
-        modelo.addColumn("ID_MESA");
+        modelo.addColumn("Mesa");
         modelo.addColumn("Estado");
-        String sql = "select * from vista_cliente_mesa where actividad = true";
+        modelo.addColumn("Capacidad");
+        String sql = "select * from mesa where actividad = true";
         try (Connection conn = Conexion.getConexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                String nombre = rs.getString("nombre");
-                nombre = (nombre == null || nombre.trim().isEmpty()) ? "<No asignado>" : nombre;
                 String estado = rs.getBoolean("actividad") ? "Reservado" : "Libre";
                 Object[] fila = {
-                    nombre,
                     rs.getInt("id_mesa"),
-                    estado
+                    estado,
+                    rs.getInt("capacidad")
                 };
                 modelo.addRow(fila);
 
@@ -350,62 +345,61 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
     }
 
     @Override
-    public void insertarCliente(int dni, String nombre, String apellido_p, String apellido_m ) {
+    public void insertarCliente(int dni, String nombre, String apellido_p, String apellido_m) {
         String sql = "CALL insertar_cliente (?,?,?,?)";
-        try(Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)){
-            cstmt.setInt(1,dni);
+        try (Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)) {
+            cstmt.setInt(1, dni);
             cstmt.setString(2, nombre);
             cstmt.setString(3, apellido_p);
             cstmt.setString(4, apellido_m);
-            
+
             cstmt.execute();
-            
-        }catch(SQLException e){
-            System.out.println("Error: "+ e.getMessage());
-            
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+
         }
-        
+
     }
 
     @Override
     public void borrarCliente() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    
+
     public void asignarmesa(int id_mesa, int dni) {
         String sql = "CALL asignarmesa(?,?)";
-        try(Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)){
+        try (Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)) {
             cstmt.setInt(1, id_mesa);
             cstmt.setBoolean(2, true);
-            
+
             cstmt.execute();
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println("Mensaje: " + e.getMessage());
             System.out.println("SQLSTATE: " + e.getSQLState());
             System.out.println("ErrorCode: " + e.getErrorCode());
         }
-        
-        String sql4 = "update clientes set id_mesa= ? where dni_cliente= ?";
-            try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql4);) {
-                pstmt.setInt(1, id_mesa);
-                pstmt.setInt(2, dni);
 
-                pstmt.execute();
-                
-            } catch (SQLException e) {
-                System.out.println("Error: " + e.getMessage());
-            }
-        
+        String sql4 = "update clientes set id_mesa= ? where dni_cliente= ?";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql4);) {
+            pstmt.setInt(1, id_mesa);
+            pstmt.setInt(2, dni);
+
+            pstmt.execute();
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
     }
-    
-    public void registrarorden(int id_producto, int id_mesa){
+
+    public void registrarorden(int id_producto, int id_mesa) {
         String obteneridcliente = "select id_cliente from clientes";
         int id_cliente = 0;
         String obtenerid_pedido = "select id_pedido from pedido where id_mesa = ?";
         int id_pedido = 0;
         String sql = " insert into orden (id_producto,id_pedido,id_cliente,estado) values (?,?,?,?)";
-        
+
         try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(obteneridcliente)) {
 
             try (ResultSet rs = stmt.executeQuery()) {
@@ -429,7 +423,6 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
         } catch (SQLException e) {
             System.out.println("ERROR: " + e.getMessage());
         }
-       
 
         try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
             pstmt.setInt(1, id_producto);
@@ -441,7 +434,117 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
         } catch (SQLException e) {
             System.out.println("Mensaje: " + e.getMessage());
         }
-        
+
     }
+
+    public DefaultTableModel observarordenesregistro(int id_mesa) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID_orden");
+
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Tipo");
+        modelo.addColumn("Precio");
+
+        String sql = "select * from verordenes where id_mesa = ?";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareCall(sql);) {
+            stmt.setInt(1, id_mesa);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Object fila[] = {
+                        rs.getInt("id_orden"),
+                        rs.getString("nombre"),
+                        rs.getString("tipo"),
+                        rs.getDouble("precio")
+                    };
+                    modelo.addRow(fila);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+        }
+
+        return modelo;
+    }
+
+    public DefaultTableModel observarclientes() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("DNI");
+        modelo.addColumn("Nombre");
+
+        modelo.addColumn("Apellido Paterno");
+        modelo.addColumn("Apellido Materno");
+        modelo.addColumn("Mesa");
+
+        String sql = "select * from verclientes";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareCall(sql);) {
+            
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Object fila[] = {
+                        rs.getInt("dni_cliente"),
+                        rs.getString("nombre"),
+                        rs.getString("apellido_paterno"),
+                        rs.getString("apellido_materno"),
+                        rs.getInt("id_mesa")
+                    };
+                    modelo.addRow(fila);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+        }
+
+        return modelo;
+    }
+
+    public DefaultTableModel consultarcliente(int dni) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("DNI");
+        modelo.addColumn("Nombre");
+
+        modelo.addColumn("Apellido Paterno");
+        modelo.addColumn("Apellido Materno");
+        modelo.addColumn("Mesa");
+
+        String sql = "select * from verclientes where = ?";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareCall(sql);) {
+            stmt.setInt(1, dni);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Object fila[] = {
+                        rs.getInt("dni_cliente"),
+                        rs.getString("nombre"),
+                        rs.getString("apellido_paterno"),
+                        rs.getString("apellido_materno"),
+                        rs.getInt("id_mesa")
+                    };
+                    modelo.addRow(fila);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+        }
+
+        return modelo;
+    }
+    public void actualizarordenes(int id_orden) {
+        String sql = "update orden set estado = ? where id_orden = ? ";
+
+        try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt
+                = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, "Eliminado");
+            pstmt.setInt(2, id_orden);
+            pstmt.execute();
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e);
+
+        }
+    }
+    
 
 }

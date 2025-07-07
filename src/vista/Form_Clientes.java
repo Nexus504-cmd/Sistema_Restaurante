@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JFrame;
 
 /**
  *
@@ -21,6 +22,7 @@ public class Form_Clientes extends javax.swing.JFrame {
 
     Api_Dni api = new Api_Dni();
     Administrador admin = new Administrador();
+    Form_Mesas_Clientes mesas = new Form_Mesas_Clientes();
 
     /**
      * Creates new form Form_Clientes
@@ -47,19 +49,17 @@ public class Form_Clientes extends javax.swing.JFrame {
         Field_DNI = new javax.swing.JTextField();
         Boton_Insertar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Tabla_Clientes = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        Boton_Borrar = new javax.swing.JButton();
+        Listar_Registrar_Cliente = new javax.swing.JButton();
+        Boton_Buscar = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        Field_Mesa_ID = new javax.swing.JTextField();
+        Boton_Asignar_Mesa = new javax.swing.JButton();
+        Boton_Mesa_RegistrarCliente = new javax.swing.JButton();
         jDesktopPane2 = new javax.swing.JDesktopPane();
         jPanel3 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        Field_DNI_AsignarMesa = new javax.swing.JTextField();
-        Field_Mesa_ID = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        Boton_Asignar_Mesa = new javax.swing.JButton();
+        Boton_VerMesas_Activar_Pedido = new javax.swing.JButton();
         Boton_Activar_Pedido = new javax.swing.JButton();
         Field_Mesa_Activar_Pedido = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -74,8 +74,6 @@ public class Form_Clientes extends javax.swing.JFrame {
 
         jLabel3.setText("DNI");
 
-        Field_DNI.setText("jTextField1");
-
         Boton_Insertar.setText("INSERTAR");
         Boton_Insertar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -83,7 +81,7 @@ public class Form_Clientes extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Tabla_Clientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -94,21 +92,37 @@ public class Form_Clientes extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(Tabla_Clientes);
 
         jLabel2.setText("jLabel2");
 
-        jButton3.setText("VERIFICAR");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        Listar_Registrar_Cliente.setText("Listar");
+        Listar_Registrar_Cliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                Listar_Registrar_ClienteActionPerformed(evt);
             }
         });
 
-        Boton_Borrar.setText("BORRAR");
-        Boton_Borrar.addActionListener(new java.awt.event.ActionListener() {
+        Boton_Buscar.setText("Buscar");
+        Boton_Buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Boton_BorrarActionPerformed(evt);
+                Boton_BuscarActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("MESA");
+
+        Boton_Asignar_Mesa.setText("Asignar");
+        Boton_Asignar_Mesa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_Asignar_MesaActionPerformed(evt);
+            }
+        });
+
+        Boton_Mesa_RegistrarCliente.setText("Ver Mesas");
+        Boton_Mesa_RegistrarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_Mesa_RegistrarClienteActionPerformed(evt);
             }
         });
 
@@ -126,17 +140,26 @@ public class Form_Clientes extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Field_DNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(60, 60, 60)
-                                .addComponent(Boton_Insertar)
-                                .addGap(40, 40, 40)
-                                .addComponent(Boton_Borrar)))))
-                .addContainerGap(40, Short.MAX_VALUE))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(38, 38, 38)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(Field_DNI, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                                    .addComponent(Field_Mesa_ID))
+                                .addGap(46, 46, 46)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(Boton_Insertar)
+                                        .addGap(40, 40, 40)
+                                        .addComponent(Boton_Buscar))
+                                    .addComponent(Boton_Asignar_Mesa))))))
+                .addContainerGap(90, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addContainerGap()
+                .addComponent(Boton_Mesa_RegistrarCliente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Listar_Registrar_Cliente)
                 .addGap(55, 55, 55))
         );
         jPanel2Layout.setVerticalGroup(
@@ -147,14 +170,21 @@ public class Form_Clientes extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(Field_DNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Boton_Insertar)
-                    .addComponent(Boton_Borrar))
-                .addGap(30, 30, 30)
+                    .addComponent(Boton_Buscar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(Field_Mesa_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Boton_Asignar_Mesa))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2)
-                .addGap(46, 46, 46)
+                .addGap(29, 29, 29)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addComponent(Listar_Registrar_Cliente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(Boton_Mesa_RegistrarCliente)
+                .addContainerGap())
         );
 
         jDesktopPane1.setLayer(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -163,42 +193,19 @@ public class Form_Clientes extends javax.swing.JFrame {
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("REGISTRAR CLIENTE", jDesktopPane1);
 
-        jLabel4.setText("DNI");
-
-        jLabel5.setText("MESA");
-
-        Field_DNI_AsignarMesa.setText("jTextField2");
-        Field_DNI_AsignarMesa.addActionListener(new java.awt.event.ActionListener() {
+        Boton_VerMesas_Activar_Pedido.setText("VER MESAS");
+        Boton_VerMesas_Activar_Pedido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Field_DNI_AsignarMesaActionPerformed(evt);
-            }
-        });
-
-        Field_Mesa_ID.setText("jTextField2");
-
-        jLabel6.setText("jLabel6");
-
-        jButton5.setText("VER MESAS");
-
-        Boton_Asignar_Mesa.setText("Asignar");
-        Boton_Asignar_Mesa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Boton_Asignar_MesaActionPerformed(evt);
+                Boton_VerMesas_Activar_PedidoActionPerformed(evt);
             }
         });
 
@@ -209,8 +216,6 @@ public class Form_Clientes extends javax.swing.JFrame {
             }
         });
 
-        Field_Mesa_Activar_Pedido.setText("jTextField1");
-
         jLabel7.setText("MESA");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -219,56 +224,27 @@ public class Form_Clientes extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton5)
+                .addComponent(Boton_VerMesas_Activar_Pedido)
                 .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Field_DNI_AsignarMesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Field_Mesa_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(158, 158, 158)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Boton_Activar_Pedido)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(Field_Mesa_Activar_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Boton_Asignar_Mesa))
-                .addGap(69, 69, Short.MAX_VALUE))
+                .addGap(72, 72, 72)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(Field_Mesa_Activar_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addComponent(Boton_Activar_Pedido)
+                .addContainerGap(258, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
+                .addGap(59, 59, 59)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(Field_DNI_AsignarMesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(Field_Mesa_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(Field_Mesa_Activar_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(Boton_Activar_Pedido)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Boton_Asignar_Mesa)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 191, Short.MAX_VALUE)
-                .addComponent(jButton5)
+                    .addComponent(jLabel7)
+                    .addComponent(Field_Mesa_Activar_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Boton_Activar_Pedido))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 296, Short.MAX_VALUE)
+                .addComponent(Boton_VerMesas_Activar_Pedido)
                 .addGap(20, 20, 20))
         );
 
@@ -278,20 +254,14 @@ public class Form_Clientes extends javax.swing.JFrame {
         jDesktopPane2.setLayout(jDesktopPane2Layout);
         jDesktopPane2Layout.setHorizontalGroup(
             jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jDesktopPane2Layout.setVerticalGroup(
             jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("ASIGNAR MESA", jDesktopPane2);
+        jTabbedPane1.addTab("ACTIVAR PEDIDO", jDesktopPane2);
 
         jButton1.setText("RETORNO");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -312,8 +282,8 @@ public class Form_Clientes extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 699, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 737, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -351,13 +321,16 @@ public class Form_Clientes extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void Listar_Registrar_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Listar_Registrar_ClienteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+        Tabla_Clientes.setModel(admin.observarclientes());
+        
+    }//GEN-LAST:event_Listar_Registrar_ClienteActionPerformed
 
-    private void Boton_BorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_BorrarActionPerformed
+    private void Boton_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_BuscarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_Boton_BorrarActionPerformed
+        Tabla_Clientes.setModel(admin.consultarcliente(Integer.parseInt(Field_DNI.getText())));
+    }//GEN-LAST:event_Boton_BuscarActionPerformed
 
     private void Boton_InsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_InsertarActionPerformed
 
@@ -432,41 +405,49 @@ public class Form_Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_Boton_Activar_PedidoActionPerformed
 
     private void Boton_Asignar_MesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Asignar_MesaActionPerformed
-        admin.asignarmesa(Integer.parseInt(Field_Mesa_ID.getText()), Integer.parseInt(Field_DNI_AsignarMesa.getText()));
+        admin.asignarmesa(Integer.parseInt(Field_Mesa_ID.getText()), Integer.parseInt(Field_DNI.getText()));
     }//GEN-LAST:event_Boton_Asignar_MesaActionPerformed
 
-    private void Field_DNI_AsignarMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Field_DNI_AsignarMesaActionPerformed
+    private void Boton_Mesa_RegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Mesa_RegistrarClienteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_Field_DNI_AsignarMesaActionPerformed
+        mesas.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        mesas.setVisible(true);
+        mesas.setEnabled(true);
+    }//GEN-LAST:event_Boton_Mesa_RegistrarClienteActionPerformed
+
+    private void Boton_VerMesas_Activar_PedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_VerMesas_Activar_PedidoActionPerformed
+        // TODO add your handling code here:
+        mesas.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        mesas.setVisible(true);
+        mesas.setEnabled(true);
+    }//GEN-LAST:event_Boton_VerMesas_Activar_PedidoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Boton_Activar_Pedido;
     private javax.swing.JButton Boton_Asignar_Mesa;
-    private javax.swing.JButton Boton_Borrar;
+    private javax.swing.JButton Boton_Buscar;
     private javax.swing.JButton Boton_Insertar;
+    private javax.swing.JButton Boton_Mesa_RegistrarCliente;
+    private javax.swing.JButton Boton_VerMesas_Activar_Pedido;
     private javax.swing.JTextField Field_DNI;
-    private javax.swing.JTextField Field_DNI_AsignarMesa;
     private javax.swing.JTextField Field_Mesa_Activar_Pedido;
     private javax.swing.JTextField Field_Mesa_ID;
+    private javax.swing.JButton Listar_Registrar_Cliente;
+    private javax.swing.JTable Tabla_Clientes;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
     
 

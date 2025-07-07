@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 public class Form_Pedidos extends javax.swing.JFrame {
     Administrador admin = new Administrador();
     Pedido p = new Pedido();
-    FormMenu m = new FormMenu();
+    FormMenu_Cliente m = new FormMenu_Cliente();
 
     /**
      * Creates new form Form_Pedidos
@@ -42,12 +42,14 @@ public class Form_Pedidos extends javax.swing.JFrame {
         Boton_Ver_Menu = new javax.swing.JButton();
         Field_ID_Mesa = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Table_VerOrdenes = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         Field_ID_Plato = new javax.swing.JTextField();
         Boton_Registrar_Pedido = new javax.swing.JButton();
-        Boton_Anular_Pedido = new javax.swing.JButton();
         VerOrdenes = new javax.swing.JButton();
+        Boton_Anular_Pedido = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        Field_ID_Orden = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,9 +67,13 @@ public class Form_Pedidos extends javax.swing.JFrame {
             }
         });
 
-        Field_ID_Mesa.setText("jTextField1");
+        Field_ID_Mesa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Field_ID_MesaActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Table_VerOrdenes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -78,16 +84,27 @@ public class Form_Pedidos extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(Table_VerOrdenes);
 
         jLabel3.setText("PLATO");
 
-        Field_ID_Plato.setText("jTextField2");
+        Field_ID_Plato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Field_ID_PlatoActionPerformed(evt);
+            }
+        });
 
         Boton_Registrar_Pedido.setText("REGISTRAR");
         Boton_Registrar_Pedido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Boton_Registrar_PedidoActionPerformed(evt);
+            }
+        });
+
+        VerOrdenes.setText("VerOrdenes");
+        VerOrdenes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerOrdenesActionPerformed(evt);
             }
         });
 
@@ -98,7 +115,13 @@ public class Form_Pedidos extends javax.swing.JFrame {
             }
         });
 
-        VerOrdenes.setText("VerOrdenes");
+        jLabel4.setText("ORDEN");
+
+        Field_ID_Orden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Field_ID_OrdenActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -116,40 +139,42 @@ public class Form_Pedidos extends javax.swing.JFrame {
                         .addComponent(Boton_Ver_Menu))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(Field_ID_Mesa, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(109, 109, 109)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addComponent(Field_ID_Plato, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(75, 75, 75)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(Field_ID_Plato, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(Field_ID_Orden, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(83, 83, 83)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Boton_Anular_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Boton_Registrar_Pedido))
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(63, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(Boton_Registrar_Pedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Boton_Anular_Pedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(26, 26, 26))))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(Boton_Registrar_Pedido)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(Field_ID_Mesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)
-                            .addComponent(Field_ID_Plato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(Boton_Anular_Pedido)
-                        .addGap(18, 18, 18)))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Boton_Anular_Pedido)
+                    .addComponent(jLabel4)
+                    .addComponent(Field_ID_Orden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(Field_ID_Mesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(Boton_Registrar_Pedido)
+                    .addComponent(Field_ID_Plato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -225,6 +250,9 @@ public class Form_Pedidos extends javax.swing.JFrame {
 
     private void Boton_Anular_PedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Anular_PedidoActionPerformed
         // TODO add your handling code here:
+        admin.actualizarordenes(Integer.parseInt(Field_ID_Orden.getText()));
+        
+        
     }//GEN-LAST:event_Boton_Anular_PedidoActionPerformed
 
     private void Boton_Ver_MenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Ver_MenuActionPerformed
@@ -234,6 +262,23 @@ public class Form_Pedidos extends javax.swing.JFrame {
         m.setVisible(true);
         
     }//GEN-LAST:event_Boton_Ver_MenuActionPerformed
+
+    private void VerOrdenesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerOrdenesActionPerformed
+        // TODO add your handling code here:
+        Table_VerOrdenes.setModel(admin.observarordenesregistro(Integer.parseInt(Field_ID_Mesa.getText())));
+    }//GEN-LAST:event_VerOrdenesActionPerformed
+
+    private void Field_ID_OrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Field_ID_OrdenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Field_ID_OrdenActionPerformed
+
+    private void Field_ID_PlatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Field_ID_PlatoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Field_ID_PlatoActionPerformed
+
+    private void Field_ID_MesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Field_ID_MesaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Field_ID_MesaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -245,16 +290,18 @@ public class Form_Pedidos extends javax.swing.JFrame {
     private javax.swing.JButton Boton_Registrar_Pedido;
     private javax.swing.JButton Boton_Ver_Menu;
     private javax.swing.JTextField Field_ID_Mesa;
+    private javax.swing.JTextField Field_ID_Orden;
     private javax.swing.JTextField Field_ID_Plato;
+    private javax.swing.JTable Table_VerOrdenes;
     private javax.swing.JButton VerOrdenes;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
