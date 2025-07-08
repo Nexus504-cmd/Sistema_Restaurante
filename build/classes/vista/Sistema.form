@@ -58,7 +58,7 @@
                               <Component id="Boton_Administrador" alignment="1" min="-2" pref="102" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="jButton1" min="-2" pref="285" max="-2" attributes="0"/>
+                      <Component id="Boton_Finalizar" min="-2" pref="285" max="-2" attributes="0"/>
                       <Component id="Boton_Pedidos" min="-2" pref="285" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -86,7 +86,7 @@
                   </Group>
                   <Component id="Boton_Pedidos" min="-2" pref="53" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" pref="53" max="-2" attributes="0"/>
+                  <Component id="Boton_Finalizar" min="-2" pref="53" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="218" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -101,10 +101,13 @@
             <Property name="text" type="java.lang.String" value="BIENVENIDO &#xa1;"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="Boton_Finalizar">
           <Properties>
             <Property name="text" type="java.lang.String" value="FINALIZAR COMPRA"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Boton_FinalizarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="Boton_Cliente">
           <Properties>

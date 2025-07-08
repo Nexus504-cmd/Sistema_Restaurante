@@ -16,6 +16,7 @@ Form_Pedidos formp = new Form_Pedidos();
 PanelAdmin paneladmin = new PanelAdmin();
 Form_Mesas_Clientes mesas = new Form_Mesas_Clientes();
 FormMenu_Cliente menu = new FormMenu_Cliente();
+Form_Boleta comprobante = new Form_Boleta();
     /**
      * Creates new form Sistema
      */
@@ -34,7 +35,7 @@ FormMenu_Cliente menu = new FormMenu_Cliente();
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        Boton_Finalizar = new javax.swing.JButton();
         Boton_Cliente = new javax.swing.JButton();
         Boton_Pedidos = new javax.swing.JButton();
         Boton_Mesa = new javax.swing.JButton();
@@ -46,7 +47,12 @@ FormMenu_Cliente menu = new FormMenu_Cliente();
         jLabel1.setFont(new java.awt.Font("Tw Cen MT", 0, 36)); // NOI18N
         jLabel1.setText("BIENVENIDO ¡");
 
-        jButton1.setText("FINALIZAR COMPRA");
+        Boton_Finalizar.setText("FINALIZAR COMPRA");
+        Boton_Finalizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_FinalizarActionPerformed(evt);
+            }
+        });
 
         Boton_Cliente.setText("CLIENTE");
         Boton_Cliente.addActionListener(new java.awt.event.ActionListener() {
@@ -101,7 +107,7 @@ FormMenu_Cliente menu = new FormMenu_Cliente();
                             .addComponent(Boton_Mesa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Boton_Menu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Boton_Administrador, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Boton_Finalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Boton_Pedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         jPanel1Layout.setVerticalGroup(
@@ -123,7 +129,7 @@ FormMenu_Cliente menu = new FormMenu_Cliente();
                         .addGap(18, 18, 18)))
                 .addComponent(Boton_Pedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Boton_Finalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(218, 218, 218))
         );
 
@@ -181,6 +187,13 @@ FormMenu_Cliente menu = new FormMenu_Cliente();
         paneladmin.setEnabled(true);
     }//GEN-LAST:event_Boton_AdministradorActionPerformed
 
+    private void Boton_FinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_FinalizarActionPerformed
+        // TODO add your handling code here:
+        comprobante.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        comprobante.setVisible(true);
+        comprobante.setEnabled(true);
+    }//GEN-LAST:event_Boton_FinalizarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -219,10 +232,10 @@ FormMenu_Cliente menu = new FormMenu_Cliente();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Boton_Administrador;
     private javax.swing.JButton Boton_Cliente;
+    private javax.swing.JButton Boton_Finalizar;
     private javax.swing.JButton Boton_Menu;
     private javax.swing.JButton Boton_Mesa;
     private javax.swing.JButton Boton_Pedidos;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
