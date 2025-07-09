@@ -508,7 +508,7 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
         modelo.addColumn("Apellido Materno");
         modelo.addColumn("Mesa");
 
-        String sql = "select * from verclientes where = ?";
+        String sql = "select * from verclientes where dni_cliente = ?";
         try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareCall(sql);) {
             stmt.setInt(1, dni);
 

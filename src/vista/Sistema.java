@@ -153,7 +153,9 @@ Form_Boleta comprobante = new Form_Boleta();
         // TODO add your handling code here
         formc.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         formc.setEnabled(true);
+        
         formc.setVisible(true);
+        formc.setResizable(false);
         
     }//GEN-LAST:event_Boton_ClienteActionPerformed
 
@@ -162,6 +164,7 @@ Form_Boleta comprobante = new Form_Boleta();
         formp.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         formp.setVisible(true);
         formp.setEnabled(true);
+        formp.setResizable(false);
     }//GEN-LAST:event_Boton_PedidosActionPerformed
 
     private void Boton_MenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_MenuActionPerformed
@@ -169,6 +172,7 @@ Form_Boleta comprobante = new Form_Boleta();
         menu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         menu.setVisible(true);
         menu.setEnabled(true);
+        menu.setResizable(false);
         
     }//GEN-LAST:event_Boton_MenuActionPerformed
 
@@ -177,6 +181,7 @@ Form_Boleta comprobante = new Form_Boleta();
         mesas.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         mesas.setVisible(true);
         mesas.setEnabled(true);
+        mesas.setResizable(false);
         
     }//GEN-LAST:event_Boton_MesaActionPerformed
 
@@ -185,6 +190,7 @@ Form_Boleta comprobante = new Form_Boleta();
         paneladmin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         paneladmin.setVisible(true);
         paneladmin.setEnabled(true);
+        paneladmin.setResizable(false);
     }//GEN-LAST:event_Boton_AdministradorActionPerformed
 
     private void Boton_FinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_FinalizarActionPerformed
@@ -192,12 +198,14 @@ Form_Boleta comprobante = new Form_Boleta();
         comprobante.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         comprobante.setVisible(true);
         comprobante.setEnabled(true);
+        comprobante.setResizable(false);
     }//GEN-LAST:event_Boton_FinalizarActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -224,7 +232,9 @@ Form_Boleta comprobante = new Form_Boleta();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Sistema().setVisible(true);
+                Sistema variable = new Sistema();
+                variable.setVisible(true);
+                variable.setResizable(false);
             }
         });
     }
