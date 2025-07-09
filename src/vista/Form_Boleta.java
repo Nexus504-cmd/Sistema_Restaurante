@@ -46,7 +46,11 @@ Administrador admin = new Administrador();
 
         jLabel1.setText("FINALIZACION DE COMPRA");
 
-        ID_MESA.setText("jTextField1");
+        ID_MESA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ID_MESAActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("MESA");
 
@@ -71,6 +75,11 @@ Administrador admin = new Administrador();
         jScrollPane1.setViewportView(Tabla_Ordenes_Totales);
 
         Boton_Comprobante.setText("Comprobante");
+        Boton_Comprobante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_ComprobanteActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Total:");
 
@@ -150,6 +159,14 @@ Administrador admin = new Administrador();
         LabelTotal.setText(String.valueOf(valor));
         
     }//GEN-LAST:event_Boton_ObservarActionPerformed
+
+    private void ID_MESAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ID_MESAActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ID_MESAActionPerformed
+
+    private void Boton_ComprobanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_ComprobanteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Boton_ComprobanteActionPerformed
 
     /**
      * @param args the command line arguments

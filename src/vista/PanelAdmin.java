@@ -123,6 +123,7 @@ public class PanelAdmin extends javax.swing.JFrame {
         m.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         m.setVisible(true);
         m.setEnabled(true);
+        m.setResizable(false);
     }//GEN-LAST:event_Admin_MenuActionPerformed
 
     private void Boton_Administrador_MesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Administrador_MesaActionPerformed
@@ -130,6 +131,7 @@ public class PanelAdmin extends javax.swing.JFrame {
         mesas.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         mesas.setVisible(true);
         mesas.setEnabled(true);
+        mesas.setResizable(false);
     }//GEN-LAST:event_Boton_Administrador_MesaActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
