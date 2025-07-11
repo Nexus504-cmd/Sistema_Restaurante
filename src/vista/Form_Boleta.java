@@ -5,6 +5,7 @@
 package vista;
 
 import ConexionPGadmin.Conexion;
+import ConexionPGadmin.GeneradorFacturaPDF;
 import Logica.Administrador;
 import java.sql.SQLException;
 import java.sql.*;
@@ -14,7 +15,9 @@ import java.sql.*;
  * @author Arana
  */
 public class Form_Boleta extends javax.swing.JFrame {
-Administrador admin = new Administrador();
+
+    Administrador admin = new Administrador();
+
     /**
      * Creates new form Form_Boleta
      */
@@ -153,11 +156,10 @@ Administrador admin = new Administrador();
 
     private void Boton_ObservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_ObservarActionPerformed
         // TODO add your handling code here:
-        Tabla_Ordenes_Totales.setModel(admin.observarordenesregistro
-        (Integer.parseInt(ID_MESA.getText())));
+        Tabla_Ordenes_Totales.setModel(admin.observarordenesregistro(Integer.parseInt(ID_MESA.getText())));
         Double valor = totalpedido(Integer.parseInt(ID_MESA.getText()));
         LabelTotal.setText(String.valueOf(valor));
-        
+
     }//GEN-LAST:event_Boton_ObservarActionPerformed
 
     private void ID_MESAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ID_MESAActionPerformed
@@ -166,12 +168,70 @@ Administrador admin = new Administrador();
 
     private void Boton_ComprobanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_ComprobanteActionPerformed
         // TODO add your handling code here:
+        // Obtener nombre completo
+        String sql = "select nombre, apellido_paterno, apellido_materno from verclientes where id_mesa = ?";
+        String nombrecompleto = "";
+
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareCall(sql)) {
+
+            stmt.setInt(1, Integer.parseInt(ID_MESA.getText()));
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    nombrecompleto = rs.getString("nombre") + " "
+                            + rs.getString("apellido_paterno") + " "
+                            + rs.getString("apellido_materno");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+        }
+
+// Contar cuántas órdenes hay
+        String sql11 = "select nombre, precio from verordenes where id_mesa = ?";
+        int filas = 0;
+
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareCall(sql11)) {
+
+            stmt.setInt(1, Integer.parseInt(ID_MESA.getText()));
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    filas++;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al contar órdenes: " + e.getMessage());
+        }
+
+// Declarar arreglos y llenarlos
+        String[] productos = new String[filas];
+        double[] precios = new double[filas];
+
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareCall(sql11)) {
+
+            stmt.setInt(1, Integer.parseInt(ID_MESA.getText()));
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                int i = 0;
+                while (rs.next()) {
+                    productos[i] = rs.getString("nombre");
+                    precios[i] = rs.getDouble("precio");
+                    i++;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al llenar arreglos: " + e.getMessage());
+        }
+
+// Llamar a la función del PDF
+        GeneradorFacturaPDF.generarFactura(nombrecompleto, productos, precios, Double.parseDouble(LabelTotal.getText()));
+
     }//GEN-LAST:event_Boton_ComprobanteActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Boton_Comprobante;
@@ -185,21 +245,20 @@ Administrador admin = new Administrador();
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
-        private double totalpedido(int id_mesa){
-            double valor = 0;
-            String sql = "select total_pedido_f(?) as total";
-            try(Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql)){
-                pstmt.setInt(1, id_mesa);
-                ResultSet rs = pstmt.executeQuery();
-                while(rs.next()){
-                    valor = rs.getDouble("total");
-                }
-                
-                
-            }catch(SQLException e){
-                System.out.println("Mensaje: "+e.getMessage());
-                
+        private double totalpedido(int id_mesa) {
+        double valor = 0;
+        String sql = "select total_pedido_f(?) as total";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id_mesa);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                valor = rs.getDouble("total");
             }
-            return valor;
+
+        } catch (SQLException e) {
+            System.out.println("Mensaje: " + e.getMessage());
+
         }
+        return valor;
+    }
 }
