@@ -3,7 +3,10 @@ package ConexionPGadmin;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.LineSeparator;
+import java.awt.Desktop;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.time.LocalDate;
 
 public class GeneradorFacturaPDF {
 
@@ -11,7 +14,8 @@ public class GeneradorFacturaPDF {
         Document documento = new Document(PageSize.A4, 50, 50, 50, 50);
 
         try {
-            String ruta = "Factura_" + nombreCliente.replace(" ", "_") + ".pdf";
+            String fechaHoy = LocalDate.now().toString(); // ejemplo: 2025-07-11
+            String ruta = "Factura_" + nombreCliente.replace(" ", "_") + "_" + fechaHoy + ".pdf";
             PdfWriter.getInstance(documento, new FileOutputStream(ruta));
             documento.open();
 
@@ -37,7 +41,7 @@ public class GeneradorFacturaPDF {
             datosCliente.addCell(getCell(nombreCliente, PdfPCell.ALIGN_LEFT, false));
 
             datosCliente.addCell(getCell("Fecha:", PdfPCell.ALIGN_LEFT, true));
-            datosCliente.addCell(getCell(java.time.LocalDate.now().toString(), PdfPCell.ALIGN_LEFT, false));
+            datosCliente.addCell(getCell(fechaHoy, PdfPCell.ALIGN_LEFT, false));
 
             documento.add(datosCliente);
 
@@ -81,6 +85,15 @@ public class GeneradorFacturaPDF {
 
             documento.close();
             System.out.println("✅ Factura generada correctamente: " + ruta);
+
+            // ===== ABRIR PDF AUTOMÁTICAMENTE =====
+            if (Desktop.isDesktopSupported()) {
+                File archivoPDF = new File(ruta);
+                if (archivoPDF.exists()) {
+                    Desktop.getDesktop().open(archivoPDF);
+                }
+            }
+
         } catch (Exception e) {
             System.out.println("❌ Error al generar factura: " + e.getMessage());
         }
