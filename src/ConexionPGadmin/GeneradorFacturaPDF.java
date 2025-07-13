@@ -24,7 +24,7 @@ public class GeneradorFacturaPDF {
             titulo.setAlignment(Element.ALIGN_CENTER);
             documento.add(titulo);
 
-            Paragraph rucDireccion = new Paragraph("RUC: 123456789 | Av. Sabor y Sazón 123, Lima - Perú",
+            Paragraph rucDireccion = new Paragraph("RUC: 2073140478 | Av. Sabor y Sazón 378, Lima - Perú",
                     FontFactory.getFont(FontFactory.HELVETICA, 10));
             rucDireccion.setAlignment(Element.ALIGN_CENTER);
             documento.add(rucDireccion);
