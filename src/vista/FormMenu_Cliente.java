@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,12 +26,30 @@ import javax.swing.table.DefaultTableModel;
 public class FormMenu_Cliente extends javax.swing.JFrame {
 
     Administrador admin = new Administrador();
+    Form_Pedidos pedido;
 
     /**
      * Creates new form Menu
      */
-    public FormMenu_Cliente() {
+    public FormMenu_Cliente(Form_Pedidos pedido1) {
+        this.pedido = pedido1;
         initComponents();
+        
+
+        TablaMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int fila = TablaMenu.rowAtPoint(evt.getPoint());
+                if (fila >= 0) {
+                    
+                    String id_menu = TablaMenu.getValueAt(fila, 0).toString();
+                   
+                    pedido.getField_ID_Plato().setText(id_menu);
+                }
+            }
+
+        });
     }
 
     /**
@@ -188,8 +207,6 @@ public class FormMenu_Cliente extends javax.swing.JFrame {
         TablaMenu.setModel(Observable.vermenu());
     }
 
-    
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonMenu;
@@ -281,6 +298,5 @@ public class FormMenu_Cliente extends javax.swing.JFrame {
         }
         return modelo;
     }
-
 
 }

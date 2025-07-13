@@ -20,7 +20,7 @@ public interface Observable {
         modelo.addColumn("Plato");
         modelo.addColumn("Tipo");
         modelo.addColumn("Precio");
-        String sql = "select id_producto, nombre, tipo, precio from productos where estado = ?";
+        String sql = "select id_producto, nombre, tipo, precio from productos where estado = ? order by id_producto asc";
         try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setBoolean(1, true);
 

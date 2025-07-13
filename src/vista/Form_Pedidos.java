@@ -7,6 +7,7 @@ package vista;
 import Logica.Administrador;
 import Logica.Pedido;
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 
 /**
  *
@@ -15,13 +16,25 @@ import javax.swing.JFrame;
 public class Form_Pedidos extends javax.swing.JFrame {
     Administrador admin = new Administrador();
     Pedido p = new Pedido();
-    FormMenu_Cliente m = new FormMenu_Cliente();
+    FormMenu_Cliente m = new FormMenu_Cliente(this);
 
     /**
      * Creates new form Form_Pedidos
      */
     public Form_Pedidos() {
         initComponents();
+        Table_VerOrdenes.addMouseListener(new java.awt.event.MouseAdapter(){
+            @Override
+            public void mouseClicked (java.awt.event.MouseEvent evt){
+                int fila = Table_VerOrdenes.rowAtPoint(evt.getPoint());
+                if(fila >= 0){
+                    String id_orden = Table_VerOrdenes.getValueAt(fila, 0).toString();
+                    
+                    Field_ID_Orden.setText(id_orden);
+                
+                }
+            }
+        });
     }
 
     /**
@@ -53,7 +66,7 @@ public class Form_Pedidos extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
         jLabel1.setText("MENU PEDIDOS");
 
         jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
@@ -236,7 +249,7 @@ public class Form_Pedidos extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 20, Short.MAX_VALUE))
+                .addGap(0, 35, Short.MAX_VALUE))
         );
 
         pack();
@@ -304,4 +317,13 @@ public class Form_Pedidos extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
+
+    public JTextField getField_ID_Plato() {
+        return Field_ID_Plato;
+    }
+
+    public void setField_ID_Plato(JTextField Field_ID_Plato) {
+        this.Field_ID_Plato = Field_ID_Plato;
+    }
+
 }

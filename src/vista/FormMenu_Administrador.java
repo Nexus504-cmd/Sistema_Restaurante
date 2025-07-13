@@ -42,6 +42,8 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaMenu = new javax.swing.JTable();
@@ -61,6 +63,13 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
         Precio_Producto = new javax.swing.JTextField();
         ID_Producto = new javax.swing.JTextField();
 
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(jList1);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         TablaMenu.setModel(new javax.swing.table.DefaultTableModel(
@@ -78,7 +87,7 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -90,9 +99,6 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(TablaMenu);
-        if (TablaMenu.getColumnModel().getColumnCount() > 0) {
-            TablaMenu.getColumnModel().getColumn(0).setResizable(false);
-        }
 
         Boton_sopas.setText("Mostrar Sopas");
         Boton_sopas.addActionListener(new java.awt.event.ActionListener() {
@@ -320,8 +326,10 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
     private DefaultTableModel verSopas() {
         DefaultTableModel modelo = new DefaultTableModel();
