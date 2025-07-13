@@ -270,7 +270,7 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
         modelo.addColumn("Mesa");
         modelo.addColumn("Estado");
         modelo.addColumn("Capacidad");
-        String sql = "select * from mesa";
+        String sql = "select * from mesa ORDER BY id_mesa ASC";
         try (Connection conn = Conexion.getConexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
 
@@ -398,7 +398,7 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
         int id_cliente = 0;
         String obtenerid_pedido = "select id_pedido from pedido where id_mesa = ?";
         int id_pedido = 0;
-        String sql = " insert into orden (id_producto,id_pedido,id_cliente,estado) values (?,?,?,?)";
+        String sql = " insert into orden (id_producto,id_pedido,id_cliente,estado,proceso) values (?,?,?,?,?)";
 
         try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(obteneridcliente)) {
 
@@ -429,6 +429,7 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
             pstmt.setInt(2, id_pedido);
             pstmt.setInt(3, id_cliente);
             pstmt.setString(4, "Proceso");
+            pstmt.setBoolean(5, false);
 
             pstmt.execute();
         } catch (SQLException e) {
@@ -478,7 +479,6 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
 
         String sql = "select * from verclientes";
         try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareCall(sql);) {
-            
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -530,21 +530,40 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
 
         return modelo;
     }
+
     public void actualizarordenes(int id_orden) {
-        String sql = "update orden set estado = ? where id_orden = ? ";
-
+        String verificador = "select proceso from orden where id_orden = ?";
+        boolean proceso = false;
         try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt
-                = conn.prepareStatement(sql)) {
+                = conn.prepareStatement(verificador)) {
+            pstmt.setInt(1, id_orden);
+            ResultSet rs = pstmt.executeQuery();
 
-            pstmt.setString(1, "Eliminado");
-            pstmt.setInt(2, id_orden);
-            pstmt.execute();
+            while (rs.next()) {
+                proceso = rs.getBoolean("proceso");
+            }
 
         } catch (SQLException e) {
             System.out.println("Error: " + e);
 
         }
+        if (proceso == false) {
+            String sql = "update orden set estado = ? where id_orden = ? ";
+
+            try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt
+                    = conn.prepareStatement(sql)) {
+
+                pstmt.setString(1, "Eliminado");
+                pstmt.setInt(2, id_orden);
+                pstmt.execute();
+
+            } catch (SQLException e) {
+                System.out.println("Error: " + e);
+
+            }
+        }else{
+            System.out.println("No se puede cambiar. Orden ya tomada [Cocina]");
+        }
     }
-    
 
 }
