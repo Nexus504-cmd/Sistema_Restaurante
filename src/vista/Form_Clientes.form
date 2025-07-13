@@ -130,7 +130,6 @@
                               <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jScrollPane1" alignment="0" min="-2" pref="518" max="-2" attributes="0"/>
-                                  <Component id="jLabel2" min="-2" pref="335" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="1" attributes="0">
                                           <Component id="jLabel5" min="-2" pref="52" max="-2" attributes="0"/>
@@ -151,6 +150,7 @@
                                           <Component id="Boton_Asignar_Mesa" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
+                                  <Component id="Mensaje_Error_Cliente" alignment="0" min="-2" pref="478" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="34" max="32767" attributes="0"/>
                           </Group>
@@ -173,8 +173,8 @@
                                   <Component id="Boton_Asignar_Mesa" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                              <Component id="Mensaje_Error_Cliente" min="-2" pref="33" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jScrollPane1" min="-2" pref="125" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="Listar_Registrar_Cliente" min="-2" max="-2" attributes="0"/>
@@ -255,7 +255,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Component class="javax.swing.JLabel" name="jLabel2">
+                    <Component class="javax.swing.JLabel" name="Mensaje_Error_Cliente">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="jLabel2"/>
                       </Properties>
@@ -330,19 +330,31 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="Boton_VerMesas_Activar_Pedido" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="Boton_VerMesas_Activar_Pedido" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
+                                              <Component id="jLabel7" min="-2" pref="48" max="-2" attributes="0"/>
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                              <Component id="Field_Mesa_Activar_Pedido" min="-2" pref="71" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
+                                              <Component id="Boton_Activar_Pedido" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                                              <Component id="Mensaje_Error_ActivarPedido" min="-2" pref="385" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace min="0" pref="154" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
-                              <Component id="jLabel7" min="-2" pref="48" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="Field_Mesa_Activar_Pedido" min="-2" pref="71" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-                              <Component id="Boton_Activar_Pedido" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="258" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -355,7 +367,9 @@
                                   <Component id="Field_Mesa_Activar_Pedido" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="Boton_Activar_Pedido" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="296" max="32767" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="Mensaje_Error_ActivarPedido" min="-2" pref="29" max="-2" attributes="0"/>
+                              <EmptySpace pref="249" max="32767" attributes="0"/>
                               <Component id="Boton_VerMesas_Activar_Pedido" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                           </Group>
@@ -385,6 +399,8 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="MESA"/>
                       </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="Mensaje_Error_ActivarPedido">
                     </Component>
                   </SubComponents>
                 </Container>

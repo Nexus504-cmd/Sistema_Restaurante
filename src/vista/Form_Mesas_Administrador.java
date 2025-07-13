@@ -8,7 +8,7 @@ import ConexionPGadmin.Conexion;
 import Logica.Administrador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  *
@@ -29,7 +29,7 @@ public class Form_Mesas_Administrador extends javax.swing.JFrame {
             public void mouseClicked (java.awt.event.MouseEvent evt){
                 int fila = TablaMesasVista.rowAtPoint(evt.getPoint());
                 if(fila >= 0){
-                    String id_mesa = TablaMesasVista.getValueAt(fila, 1).toString();
+                    String id_mesa = TablaMesasVista.getValueAt(fila, 0).toString();
                     ID_mesa.setText(id_mesa);
                 }
             }
@@ -355,6 +355,40 @@ public class Form_Mesas_Administrador extends javax.swing.JFrame {
             System.out.println("Error: " + e.getMessage());
 
         }
+        String sql4 = "select id_pedido from pedido where id_mesa= ?";
+        int id_pedido =0;
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql4)) {
+            
+            stmt.setInt(1, Integer.parseInt(ID_mesa.getText()));
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+               id_pedido = rs.getInt("id_pedido");
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+
+        }
+        String sql3 = "delete from pedido where id_mesa = ?";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql3)) {
+            
+        
+            stmt.setInt(1, Integer.parseInt(ID_mesa.getText()));
+            stmt.execute();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+
+        }
+        String sql2 = "delete from orden where id_pedido = ?";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql2)) {
+            
+            stmt.setInt(1, id_pedido);
+            stmt.execute();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+
+        }
+        
         
     }//GEN-LAST:event_BotonDesocuparMesasActionPerformed
 
