@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
+import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -367,28 +368,29 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public void asignarmesa(int id_mesa, int dni) {
+    public void asignarmesa(int id_mesa, int dni, JLabel error) {
         String sql = "CALL asignarmesa(?,?)";
         try (Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)) {
             cstmt.setInt(1, id_mesa);
             cstmt.setBoolean(2, true);
 
             cstmt.execute();
+            String sql4 = "update clientes set id_mesa= ? where dni_cliente= ?";
+            try (Connection conn1 = Conexion.getConexion(); PreparedStatement pstmt = conn1.prepareStatement(sql4);) {
+                pstmt.setInt(1, id_mesa);
+                pstmt.setInt(2, dni);
+
+                pstmt.execute();
+
+            } catch (SQLException e) {
+                System.out.println("Error: " + e.getMessage());
+                error.setText(e.getMessage());
+            }
         } catch (SQLException e) {
             System.out.println("Mensaje: " + e.getMessage());
             System.out.println("SQLSTATE: " + e.getSQLState());
             System.out.println("ErrorCode: " + e.getErrorCode());
-        }
-
-        String sql4 = "update clientes set id_mesa= ? where dni_cliente= ?";
-        try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql4);) {
-            pstmt.setInt(1, id_mesa);
-            pstmt.setInt(2, dni);
-
-            pstmt.execute();
-
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            error.setText("Mesa ya asignada");
         }
 
     }
@@ -561,7 +563,7 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
                 System.out.println("Error: " + e);
 
             }
-        }else{
+        } else {
             System.out.println("No se puede cambiar. Orden ya tomada [Cocina]");
         }
     }

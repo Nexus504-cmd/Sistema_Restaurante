@@ -29,11 +29,11 @@ public class Form_Clientes extends javax.swing.JFrame {
      */
     public Form_Clientes() {
         initComponents();
-        Tabla_Clientes.addMouseListener(new java.awt.event.MouseAdapter(){
+        Tabla_Clientes.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
-            public void mouseClicked (java.awt.event.MouseEvent evt){
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 int fila = Tabla_Clientes.rowAtPoint(evt.getPoint());
-                if(fila >= 0){
+                if (fila >= 0) {
                     String dni = Tabla_Clientes.getValueAt(fila, 0).toString();
                     String mesa = Tabla_Clientes.getValueAt(fila, 4).toString();
                     Field_DNI.setText(dni);
@@ -63,7 +63,7 @@ public class Form_Clientes extends javax.swing.JFrame {
         Boton_Insertar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla_Clientes = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
+        Mensaje_Error_Cliente = new javax.swing.JLabel();
         Listar_Registrar_Cliente = new javax.swing.JButton();
         Boton_Buscar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
@@ -76,6 +76,7 @@ public class Form_Clientes extends javax.swing.JFrame {
         Boton_Activar_Pedido = new javax.swing.JButton();
         Field_Mesa_Activar_Pedido = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        Mensaje_Error_ActivarPedido = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -129,7 +130,7 @@ public class Form_Clientes extends javax.swing.JFrame {
             Tabla_Clientes.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        jLabel2.setText("jLabel2");
+        Mensaje_Error_Cliente.setText("jLabel2");
 
         Listar_Registrar_Cliente.setText("Listar");
         Listar_Registrar_Cliente.addActionListener(new java.awt.event.ActionListener() {
@@ -175,7 +176,6 @@ public class Form_Clientes extends javax.swing.JFrame {
                 .addGap(53, 53, 53)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -190,7 +190,8 @@ public class Form_Clientes extends javax.swing.JFrame {
                                 .addComponent(Boton_Insertar)
                                 .addGap(40, 40, 40)
                                 .addComponent(Boton_Buscar))
-                            .addComponent(Boton_Asignar_Mesa))))
+                            .addComponent(Boton_Asignar_Mesa)))
+                    .addComponent(Mensaje_Error_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -208,8 +209,8 @@ public class Form_Clientes extends javax.swing.JFrame {
                     .addComponent(Field_Mesa_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Boton_Asignar_Mesa))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addGap(29, 29, 29)
+                .addComponent(Mensaje_Error_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(Listar_Registrar_Cliente)
@@ -253,18 +254,25 @@ public class Form_Clientes extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Boton_VerMesas_Activar_Pedido)
-                .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(72, 72, 72)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(Field_Mesa_Activar_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(66, 66, 66)
-                .addComponent(Boton_Activar_Pedido)
-                .addContainerGap(258, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Boton_VerMesas_Activar_Pedido))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(72, 72, 72)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(Field_Mesa_Activar_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(66, 66, 66)
+                                .addComponent(Boton_Activar_Pedido))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(60, 60, 60)
+                                .addComponent(Mensaje_Error_ActivarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 154, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,7 +282,9 @@ public class Form_Clientes extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(Field_Mesa_Activar_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Boton_Activar_Pedido))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 296, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(Mensaje_Error_ActivarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
                 .addComponent(Boton_VerMesas_Activar_Pedido)
                 .addGap(20, 20, 20))
         );
@@ -321,13 +331,12 @@ public class Form_Clientes extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(49, 49, 49))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1)
                         .addGap(38, 38, 38))))
         );
@@ -356,7 +365,7 @@ public class Form_Clientes extends javax.swing.JFrame {
     private void Listar_Registrar_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Listar_Registrar_ClienteActionPerformed
         // TODO add your handling code here:
         Tabla_Clientes.setModel(admin.observarclientes());
-        
+
     }//GEN-LAST:event_Listar_Registrar_ClienteActionPerformed
 
     private void Boton_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_BuscarActionPerformed
@@ -375,14 +384,14 @@ public class Form_Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_Boton_InsertarActionPerformed
 
     private void Boton_Activar_PedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Activar_PedidoActionPerformed
-       
+
         String sql = "select id_mesa from clientes where id_mesa=?";
         int id_mesa_ = 0;
+        String verificarpedidomesaexistente = "select 1 from pedido where id_mesa =?";
         String creacionpedido = "insert into pedido(actividad, pago, id_mesa, estado) values (?,?,?,?)";
         String extraeridPedido = "select id_pedido from pedido where id_mesa = ?";
         int id_pedido = 0;
         String enlazarclientepedido = "update clientes set id_pedido = ? where id_mesa = ?";
-        
 
         try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, Integer.parseInt(Field_Mesa_Activar_Pedido.getText()));
@@ -396,49 +405,56 @@ public class Form_Clientes extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.out.println("ERROR: " + e.getMessage());
         }
-        
-        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(creacionpedido)) {
-    
-            stmt.setBoolean(1, true);
-            stmt.setNull(2, java.sql.Types.NUMERIC);
-            stmt.setInt(3, id_mesa_);
-            stmt.setBoolean(4, false);
-            stmt.execute();
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(verificarpedidomesaexistente)) {
+            stmt.setInt(1, id_mesa_);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Mensaje_Error_ActivarPedido.setText("Mesa ya asignada Error");
+            } else {
+                try (Connection conn0 = Conexion.getConexion(); PreparedStatement stmt0 = conn0.prepareStatement(creacionpedido)) {
 
-        } catch (SQLException e) {
-            System.out.println("ERROR: " + e.getMessage());
-        }
-        
-         try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(extraeridPedido)) {
-            stmt.setInt(1, Integer.parseInt(Field_Mesa_Activar_Pedido.getText()));
+                    stmt0.setBoolean(1, true);
+                    stmt0.setNull(2, java.sql.Types.NUMERIC);
+                    stmt0.setInt(3, id_mesa_);
+                    stmt0.setBoolean(4, false);
+                    stmt0.execute();
 
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    id_pedido = rs.getInt("id_pedido");
+                } catch (SQLException e) {
+                    System.out.println("ERROR: " + e.getMessage());
                 }
+
+                try (Connection conn1 = Conexion.getConexion(); PreparedStatement stmt1 = conn1.prepareStatement(extraeridPedido)) {
+                    stmt1.setInt(1, Integer.parseInt(Field_Mesa_Activar_Pedido.getText()));
+
+                    try (ResultSet rs1 = stmt1.executeQuery()) {
+                        if (rs1.next()) {
+                            id_pedido = rs1.getInt("id_pedido");
+                        }
+                    }
+
+                } catch (SQLException e) {
+                    System.out.println("ERROR: " + e.getMessage());
+                }
+                try (Connection conn2 = Conexion.getConexion(); PreparedStatement stmt2 = conn2.prepareStatement(enlazarclientepedido)) {
+                    stmt2.setInt(1, id_pedido);
+                    stmt2.setInt(2, id_mesa_);
+                    stmt2.execute();
+
+                } catch (SQLException e) {
+                    System.out.println("ERROR: " + e.getMessage());
+                }
+
             }
 
         } catch (SQLException e) {
-            System.out.println("ERROR: " + e.getMessage());
-        }
-         try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(enlazarclientepedido)) {
-            stmt.setInt(1, id_pedido);
-            stmt.setInt(2, id_mesa_);
-            stmt.execute();
 
-        } catch (SQLException e) {
-            System.out.println("ERROR: " + e.getMessage());
         }
-         
-        
-        
-        
 
 
     }//GEN-LAST:event_Boton_Activar_PedidoActionPerformed
 
     private void Boton_Asignar_MesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Asignar_MesaActionPerformed
-        admin.asignarmesa(Integer.parseInt(Field_Mesa_ID.getText()), Integer.parseInt(Field_DNI.getText()));
+        admin.asignarmesa(Integer.parseInt(Field_Mesa_ID.getText()), Integer.parseInt(Field_DNI.getText()), Mensaje_Error_Cliente);
     }//GEN-LAST:event_Boton_Asignar_MesaActionPerformed
 
     private void Boton_Mesa_RegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Mesa_RegistrarClienteActionPerformed
@@ -467,12 +483,13 @@ public class Form_Clientes extends javax.swing.JFrame {
     private javax.swing.JTextField Field_Mesa_Activar_Pedido;
     private javax.swing.JTextField Field_Mesa_ID;
     private javax.swing.JButton Listar_Registrar_Cliente;
+    private javax.swing.JLabel Mensaje_Error_ActivarPedido;
+    private javax.swing.JLabel Mensaje_Error_Cliente;
     private javax.swing.JTable Tabla_Clientes;
     private javax.swing.JButton jButton1;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
@@ -482,6 +499,5 @@ public class Form_Clientes extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
-    
 
 }
