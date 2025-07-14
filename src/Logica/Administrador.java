@@ -533,23 +533,23 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
         return modelo;
     }
 
-    public void actualizarordenes(int id_orden) {
-        String verificador = "select proceso from orden where id_orden = ?";
-        boolean proceso = false;
+    public void actualizarordenes(int id_orden, int id_mesa) {
+        String verificador = "select estado from pedido where id_mesa = ?";
+        boolean estado = false;
         try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt
                 = conn.prepareStatement(verificador)) {
-            pstmt.setInt(1, id_orden);
+            pstmt.setInt(1, id_mesa);
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                proceso = rs.getBoolean("proceso");
+                estado = rs.getBoolean("estado");
             }
 
         } catch (SQLException e) {
             System.out.println("Error: " + e);
 
         }
-        if (proceso == false) {
+        if (estado == false) {
             String sql = "update orden set estado = ? where id_orden = ? ";
 
             try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt
