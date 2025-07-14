@@ -68,6 +68,7 @@ public class FormMenu_Cliente extends javax.swing.JFrame {
         BotonMenu = new javax.swing.JButton();
         Boton_segundos = new javax.swing.JButton();
         Boton_bebidas = new javax.swing.JButton();
+        Boton_Retorno = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -130,6 +131,13 @@ public class FormMenu_Cliente extends javax.swing.JFrame {
             }
         });
 
+        Boton_Retorno.setText("RETORNO");
+        Boton_Retorno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_RetornoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -145,6 +153,10 @@ public class FormMenu_Cliente extends javax.swing.JFrame {
                         .addComponent(Boton_bebidas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(Boton_sopas, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(81, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Boton_Retorno)
+                .addGap(33, 33, 33))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,7 +172,9 @@ public class FormMenu_Cliente extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(BotonMenu))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addComponent(Boton_Retorno)
+                .addGap(22, 22, 22))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -200,6 +214,12 @@ public class FormMenu_Cliente extends javax.swing.JFrame {
         TablaMenu.setModel(verSopas());
     }//GEN-LAST:event_Boton_sopasActionPerformed
 
+    private void Boton_RetornoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_RetornoActionPerformed
+        // TODO add your handling code here:
+        this.setEnabled(false);
+        this.setVisible(false);
+    }//GEN-LAST:event_Boton_RetornoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -210,6 +230,7 @@ public class FormMenu_Cliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonMenu;
+    private javax.swing.JButton Boton_Retorno;
     private javax.swing.JButton Boton_bebidas;
     private javax.swing.JButton Boton_segundos;
     private javax.swing.JButton Boton_sopas;

@@ -77,7 +77,7 @@ public class Form_Clientes extends javax.swing.JFrame {
         Field_Mesa_Activar_Pedido = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         Mensaje_Error_ActivarPedido = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        Boton_Retorno = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -304,10 +304,10 @@ public class Form_Clientes extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("ACTIVAR PEDIDO", jDesktopPane2);
 
-        jButton1.setText("RETORNO");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Boton_Retorno.setText("RETORNO");
+        Boton_Retorno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                Boton_RetornoActionPerformed(evt);
             }
         });
 
@@ -321,7 +321,7 @@ public class Form_Clientes extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(Boton_Retorno)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 737, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
@@ -337,7 +337,7 @@ public class Form_Clientes extends javax.swing.JFrame {
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(49, 49, 49))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(Boton_Retorno)
                         .addGap(38, 38, 38))))
         );
 
@@ -358,9 +358,11 @@ public class Form_Clientes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void Boton_RetornoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_RetornoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        this.setEnabled(false);
+        this.setVisible(false);
+    }//GEN-LAST:event_Boton_RetornoActionPerformed
 
     private void Listar_Registrar_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Listar_Registrar_ClienteActionPerformed
         // TODO add your handling code here:
@@ -478,6 +480,7 @@ public class Form_Clientes extends javax.swing.JFrame {
     private javax.swing.JButton Boton_Buscar;
     private javax.swing.JButton Boton_Insertar;
     private javax.swing.JButton Boton_Mesa_RegistrarCliente;
+    private javax.swing.JButton Boton_Retorno;
     private javax.swing.JButton Boton_VerMesas_Activar_Pedido;
     private javax.swing.JTextField Field_DNI;
     private javax.swing.JTextField Field_Mesa_Activar_Pedido;
@@ -486,7 +489,6 @@ public class Form_Clientes extends javax.swing.JFrame {
     private javax.swing.JLabel Mensaje_Error_ActivarPedido;
     private javax.swing.JLabel Mensaje_Error_Cliente;
     private javax.swing.JTable Tabla_Clientes;
-    private javax.swing.JButton jButton1;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JLabel jLabel1;

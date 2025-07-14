@@ -4,8 +4,13 @@
  */
 package vista;
 
+import ConexionPGadmin.Conexion;
 import Logica.Administrador;
 import Logica.Pedido;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
@@ -14,6 +19,7 @@ import javax.swing.JTextField;
  * @author Arana
  */
 public class Form_Pedidos extends javax.swing.JFrame {
+
     Administrador admin = new Administrador();
     Pedido p = new Pedido();
     FormMenu_Cliente m = new FormMenu_Cliente(this);
@@ -23,15 +29,27 @@ public class Form_Pedidos extends javax.swing.JFrame {
      */
     public Form_Pedidos() {
         initComponents();
-        Table_VerOrdenes.addMouseListener(new java.awt.event.MouseAdapter(){
+        Table_VerOrdenes.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
-            public void mouseClicked (java.awt.event.MouseEvent evt){
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 int fila = Table_VerOrdenes.rowAtPoint(evt.getPoint());
-                if(fila >= 0){
+                if (fila >= 0) {
                     String id_orden = Table_VerOrdenes.getValueAt(fila, 0).toString();
-                    
+
                     Field_ID_Orden.setText(id_orden);
-                
+
+                }
+            }
+        });
+        Tabla_Modificaciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int fila = Tabla_Modificaciones.rowAtPoint(evt.getPoint());
+                if (fila >= 0) {
+                    String id_orden = Tabla_Modificaciones.getValueAt(fila, 0).toString();
+
+                    Field_ID_Orden.setText(id_orden);
+
                 }
             }
         });
@@ -60,9 +78,19 @@ public class Form_Pedidos extends javax.swing.JFrame {
         Field_ID_Plato = new javax.swing.JTextField();
         Boton_Registrar_Pedido = new javax.swing.JButton();
         VerOrdenes = new javax.swing.JButton();
-        Boton_Anular_Pedido = new javax.swing.JButton();
+        jDesktopPane2 = new javax.swing.JDesktopPane();
+        jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         Field_ID_Orden = new javax.swing.JTextField();
+        Boton_Anular_Pedido = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        ID_Mesa_Modificacion = new javax.swing.JTextField();
+        Boton_Consultar = new javax.swing.JButton();
+        Label_Mostrar_Estado_Pedido = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Tabla_Modificaciones = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
+        Boton_Retorno = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,7 +122,7 @@ public class Form_Pedidos extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Num", "Nombre", "Tipo", "Precio"
             }
         ));
         jScrollPane1.setViewportView(Table_VerOrdenes);
@@ -121,21 +149,6 @@ public class Form_Pedidos extends javax.swing.JFrame {
             }
         });
 
-        Boton_Anular_Pedido.setText("ANULAR");
-        Boton_Anular_Pedido.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Boton_Anular_PedidoActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setText("ORDEN");
-
-        Field_ID_Orden.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Field_ID_OrdenActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -148,48 +161,36 @@ public class Form_Pedidos extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(VerOrdenes)
-                        .addGap(32, 32, 32)
-                        .addComponent(Boton_Ver_Menu))
+                        .addGap(18, 18, 18)
+                        .addComponent(Boton_Ver_Menu)
+                        .addGap(43, 43, 43))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(Field_ID_Mesa, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(75, 75, 75)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(Field_ID_Plato, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(Field_ID_Orden, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(Field_ID_Plato, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(83, 83, 83)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Boton_Anular_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Boton_Registrar_Pedido))
-                        .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(63, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38))
+                        .addComponent(Boton_Registrar_Pedido)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(84, 84, 84)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Boton_Anular_Pedido)
-                    .addComponent(jLabel4)
-                    .addComponent(Field_ID_Orden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(61, 61, 61)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(Field_ID_Mesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(Boton_Registrar_Pedido)
                     .addComponent(Field_ID_Plato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
+                .addGap(27, 27, 27)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Boton_Ver_Menu)
                     .addComponent(VerOrdenes))
@@ -206,12 +207,129 @@ public class Form_Pedidos extends javax.swing.JFrame {
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("REGISTRAR", jDesktopPane1);
+
+        jLabel4.setText("ORDEN");
+
+        Field_ID_Orden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Field_ID_OrdenActionPerformed(evt);
+            }
+        });
+
+        Boton_Anular_Pedido.setText("ANULAR");
+        Boton_Anular_Pedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_Anular_PedidoActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("MESA");
+
+        Boton_Consultar.setText("Consultar");
+        Boton_Consultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_ConsultarActionPerformed(evt);
+            }
+        });
+
+        Tabla_Modificaciones.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Num", "Nombre", "Tipo", "Precio"
+            }
+        ));
+        jScrollPane2.setViewportView(Tabla_Modificaciones);
+
+        jLabel6.setText("ESTADO");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Label_Mostrar_Estado_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(87, 87, 87))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(Boton_Consultar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Boton_Anular_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ID_Mesa_Modificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Field_ID_Orden, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(254, 254, 254))))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(Field_ID_Orden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(ID_Mesa_Modificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Boton_Anular_Pedido)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(Boton_Consultar)
+                        .addGap(54, 54, 54)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Label_Mostrar_Estado_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+
+        jDesktopPane2.setLayer(jPanel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout jDesktopPane2Layout = new javax.swing.GroupLayout(jDesktopPane2);
+        jDesktopPane2.setLayout(jDesktopPane2Layout);
+        jDesktopPane2Layout.setHorizontalGroup(
+            jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDesktopPane2Layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jDesktopPane2Layout.setVerticalGroup(
+            jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("REGISTRO", jDesktopPane2);
+
+        Boton_Retorno.setText("RETORNO");
+        Boton_Retorno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_RetornoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -220,21 +338,29 @@ public class Form_Pedidos extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(134, 134, 134)
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 696, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(41, 41, 41)
+                        .addComponent(Boton_Retorno)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 844, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(172, Short.MAX_VALUE))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(jLabel1)
-                .addGap(59, 59, 59)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(46, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Boton_Retorno)
+                        .addGap(30, 30, 30))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -242,14 +368,14 @@ public class Form_Pedidos extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 35, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -257,15 +383,15 @@ public class Form_Pedidos extends javax.swing.JFrame {
 
     private void Boton_Registrar_PedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Registrar_PedidoActionPerformed
         // TODO add your handling code here:
-        admin.registrarorden(Integer.parseInt(Field_ID_Plato.getText()),Integer.parseInt(Field_ID_Mesa.getText()));
-        
+        admin.registrarorden(Integer.parseInt(Field_ID_Plato.getText()), Integer.parseInt(Field_ID_Mesa.getText()));
+
     }//GEN-LAST:event_Boton_Registrar_PedidoActionPerformed
 
     private void Boton_Anular_PedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Anular_PedidoActionPerformed
         // TODO add your handling code here:
-        admin.actualizarordenes(Integer.parseInt(Field_ID_Orden.getText()));
-        
-        
+        admin.actualizarordenes(Integer.parseInt(Field_ID_Orden.getText()), Integer.parseInt(ID_Mesa_Modificacion.getText()));
+
+
     }//GEN-LAST:event_Boton_Anular_PedidoActionPerformed
 
     private void Boton_Ver_MenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Ver_MenuActionPerformed
@@ -273,7 +399,7 @@ public class Form_Pedidos extends javax.swing.JFrame {
         m.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         m.setEnabled(true);
         m.setVisible(true);
-        
+
     }//GEN-LAST:event_Boton_Ver_MenuActionPerformed
 
     private void VerOrdenesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerOrdenesActionPerformed
@@ -293,28 +419,49 @@ public class Form_Pedidos extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Field_ID_MesaActionPerformed
 
+    private void Boton_ConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_ConsultarActionPerformed
+        // TODO add your handling code here:
+        Tabla_Modificaciones.setModel(admin.observarordenesregistro(Integer.parseInt(ID_Mesa_Modificacion.getText())));
+        Label_Mostrar_Estado_Pedido.setText(observarEstadopedido());
+    }//GEN-LAST:event_Boton_ConsultarActionPerformed
+
+    private void Boton_RetornoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_RetornoActionPerformed
+        // TODO add your handling code here:
+        this.setEnabled(false);
+        this.setVisible(false);
+    }//GEN-LAST:event_Boton_RetornoActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Boton_Anular_Pedido;
+    private javax.swing.JButton Boton_Consultar;
     private javax.swing.JButton Boton_Registrar_Pedido;
+    private javax.swing.JButton Boton_Retorno;
     private javax.swing.JButton Boton_Ver_Menu;
     private javax.swing.JTextField Field_ID_Mesa;
     private javax.swing.JTextField Field_ID_Orden;
     private javax.swing.JTextField Field_ID_Plato;
+    private javax.swing.JTextField ID_Mesa_Modificacion;
+    private javax.swing.JLabel Label_Mostrar_Estado_Pedido;
+    private javax.swing.JTable Tabla_Modificaciones;
     private javax.swing.JTable Table_VerOrdenes;
     private javax.swing.JButton VerOrdenes;
     private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 
@@ -324,6 +471,30 @@ public class Form_Pedidos extends javax.swing.JFrame {
 
     public void setField_ID_Plato(JTextField Field_ID_Plato) {
         this.Field_ID_Plato = Field_ID_Plato;
+    }
+
+    private String observarEstadopedido() {
+        String mensaje = "";
+
+        String sql = "SELECT estado FROM pedido WHERE id_mesa = ?";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, Integer.parseInt(ID_Mesa_Modificacion.getText()));
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                boolean estado = rs.getBoolean("estado");
+                mensaje = estado ? "Pedido ya tomado :D" : "Pedido en proceso";
+            } else {
+                mensaje = "No se encontró pedido para esa mesa.";
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e);
+            mensaje = "Error al verificar estado del pedido.";
+        }
+
+        return mensaje;
     }
 
 }
