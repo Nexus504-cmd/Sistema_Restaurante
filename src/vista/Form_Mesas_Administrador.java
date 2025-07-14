@@ -345,16 +345,8 @@ public class Form_Mesas_Administrador extends javax.swing.JFrame {
             System.out.println("Error: " + e.getMessage());
 
         }
-        String sql1  = "update clientes set id_mesa = ? where id_mesa =?";
-        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql1)) {
-            
-            stmt.setNull(1, java.sql.Types.INTEGER);
-            stmt.setInt(2, Integer.parseInt(ID_mesa.getText()));
-            stmt.execute();
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-
-        }
+        
+        
         String sql4 = "select id_pedido from pedido where id_mesa= ?";
         int id_pedido =0;
         try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql4)) {
@@ -369,6 +361,36 @@ public class Form_Mesas_Administrador extends javax.swing.JFrame {
             System.out.println("Error: " + e.getMessage());
 
         }
+        String sql2 = "delete from orden where id_pedido = ?";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql2)) {
+            
+            stmt.setInt(1, id_pedido);
+            stmt.execute();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        String sql11  = "update clientes set id_pedido = ? where id_mesa =?";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql11)) {
+            
+            stmt.setNull(1, java.sql.Types.INTEGER);
+            stmt.setInt(2, Integer.parseInt(ID_mesa.getText()));
+            stmt.execute();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+            
+
+        }
+        String sql1  = "update clientes set id_mesa = ? where id_mesa =?";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql1)) {
+            
+            stmt.setNull(1, java.sql.Types.INTEGER);
+            stmt.setInt(2, Integer.parseInt(ID_mesa.getText()));
+            stmt.execute();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+
+        }
+        
         String sql3 = "delete from pedido where id_mesa = ?";
         try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql3)) {
             
@@ -379,15 +401,9 @@ public class Form_Mesas_Administrador extends javax.swing.JFrame {
             System.out.println("Error: " + e.getMessage());
 
         }
-        String sql2 = "delete from orden where id_pedido = ?";
-        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql2)) {
-            
-            stmt.setInt(1, id_pedido);
-            stmt.execute();
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+        
 
-        }
+        
         
         
     }//GEN-LAST:event_BotonDesocuparMesasActionPerformed
