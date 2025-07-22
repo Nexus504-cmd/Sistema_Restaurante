@@ -10,42 +10,32 @@ import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.function.Consumer;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Arana
- */
 public class Administrador implements CRUDGestionable, Gestionable, Verificable, Observable {
 
     private String username;
     private String password;
+
+    private final Consumer<SQLException> mostrarError = e -> {
+        System.out.println("Mensaje: " + e.getMessage());
+        System.out.println("SQLSTATE: " + e.getSQLState());
+        System.out.println("ErrorCode: " + e.getErrorCode());
+    };
 
     public Administrador(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public Administrador() {
-    }
+    public Administrador() {}
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-//Implementacion de metodos
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 
     @Override
     public void agregarSegundos(Object o) {
@@ -53,21 +43,15 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
         String sql = "CALL agregarProductos(?, ?, ?, ?, ?)";
 
         try (Connection conn = Conexion.getConexion(); CallableStatement stmt = conn.prepareCall(sql)) {
-
             stmt.setInt(1, s.getId());
             stmt.setString(2, s.getDecripcion());
             stmt.setBigDecimal(3, new BigDecimal(s.getPrecio()));
             stmt.setString(4, "Segundo");
             stmt.setBoolean(5, true);
-
             stmt.execute();
-            System.out.println("Producto agregado");//Simula un raise notice en postgress
-
+            System.out.println("Producto agregado");
         } catch (SQLException e) {
-            System.out.println("Mensaje: " + e.getMessage());
-            System.out.println("SQLSTATE: " + e.getSQLState());
-            System.out.println("ErrorCode: " + e.getErrorCode());
-
+            mostrarError.accept(e);
         }
     }
 
@@ -81,16 +65,10 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
             ctmt.setBigDecimal(3, new BigDecimal(so.getPrecio()));
             ctmt.setString(4, "Sopa");
             ctmt.setBoolean(5, true);
-
-            //Ejecucion
             ctmt.execute();
-            System.out.println("Producto Agregago: Tipo: Sopa");
-
+            System.out.println("Producto Agregado: Tipo: Sopa");
         } catch (SQLException e) {
-            System.out.println("Mensaje: " + e.getMessage());
-            System.out.println("SQLSTATE: " + e.getSQLState());
-            System.out.println("ErrorCode: " + e.getErrorCode());
-
+            mostrarError.accept(e);
         }
     }
 
@@ -99,20 +77,15 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
         Bebidas b = (Bebidas) o;
         String sql = "CALL agregarProductos (?,?,?,?,?)";
         try (Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)) {
-            //asignacion de parametros
             cstmt.setInt(1, b.getId());
             cstmt.setString(2, b.getDecripcion());
             cstmt.setBigDecimal(3, new BigDecimal(b.getPrecio()));
             cstmt.setString(4, "Bebidas");
             cstmt.setBoolean(5, true);
-            //ejecucion
             cstmt.execute();
             System.out.println("Producto Agregado: Tipo: Bebida");
         } catch (SQLException e) {
-            System.out.println("Mensaje: " + e.getMessage());
-            System.out.println("SQLSTATE: " + e.getSQLState());
-            System.out.println("ErrorCode: " + e.getErrorCode());
-
+            mostrarError.accept(e);
         }
     }
 
@@ -121,22 +94,16 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
         Segundos s = (Segundos) o;
         String sql = "CALL actualizarProductos (?,?,?,?,?)";
         try (Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)) {
-//Preparamos el llamado del procedimietno de la sentencia CallableStatement            
-//asignacion de parametros para la consulta
             cstmt.setInt(1, s.getId());
             cstmt.setString(2, s.getDecripcion());
             cstmt.setBigDecimal(3, new BigDecimal(s.getPrecio()));
             cstmt.setString(4, tipo);
             cstmt.setBoolean(5, true);
-            //ejecucion
             cstmt.execute();
             System.out.println("Producto Actualizado Exitosamente");
         } catch (SQLException e) {
-            System.out.println("Mensaje: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("ErrorCode: " + e.getErrorCode());
+            mostrarError.accept(e);
         }
-
     }
 
     @Override
@@ -149,14 +116,10 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
             cstmt.setBigDecimal(3, new BigDecimal(so.getPrecio()));
             cstmt.setString(4, tipo);
             cstmt.setBoolean(5, true);
-            //ejecucion
             cstmt.execute();
             System.out.println("Producto Actualizado Exitosamente");
-
         } catch (SQLException e) {
-            System.out.println("Mensaje: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("ErrorCode: " + e.getErrorCode());
+            mostrarError.accept(e);
         }
     }
 
@@ -170,14 +133,10 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
             cstmt.setBigDecimal(3, new BigDecimal(b.getPrecio()));
             cstmt.setString(4, tipo);
             cstmt.setBoolean(5, true);
-            //ejecucion
             cstmt.execute();
             System.out.println("Producto Actualizado Exitosamente");
-
         } catch (SQLException e) {
-            System.out.println("Mensaje: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("ErrorCode: " + e.getErrorCode());
+            mostrarError.accept(e);
         }
     }
 
@@ -187,15 +146,10 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
         try (Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)) {
             cstmt.setInt(1, (Integer) o);
             cstmt.setBoolean(2, false);
-
             cstmt.execute();
             System.out.println("Eliminacion Procesada: Deshabilitación");
-
         } catch (SQLException e) {
-            System.out.println("Mensaje: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("ErrorCode: " + e.getErrorCode());
-
+            mostrarError.accept(e);
         }
     }
 
@@ -205,15 +159,10 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
         try (Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)) {
             cstmt.setInt(1, (Integer) o);
             cstmt.setBoolean(2, false);
-
             cstmt.execute();
             System.out.println("Eliminacion Procesada: Deshabilitación");
-
         } catch (SQLException e) {
-            System.out.println("Mensaje: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("ErrorCode: " + e.getErrorCode());
-
+            mostrarError.accept(e);
         }
     }
 
@@ -223,15 +172,10 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
         try (Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)) {
             cstmt.setInt(1, (Integer) o);
             cstmt.setBoolean(2, false);
-
             cstmt.execute();
             System.out.println("Eliminacion Procesada: Deshabilitación");
-
         } catch (SQLException e) {
-            System.out.println("Mensaje: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("ErrorCode: " + e.getErrorCode());
-
+            mostrarError.accept(e);
         }
     }
 
@@ -258,7 +202,7 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
             }
 
         } catch (SQLException e) {
-            System.out.println("ERROR: " + e.getMessage());
+            mostrarError.accept(e);
 
         }
         return modelo;
@@ -285,7 +229,7 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
 
             }
         } catch (SQLException e) {
-            System.out.println("ERROR: " + e.getMessage());
+            mostrarError.accept(e);;
         }
         return modelo;
     }
@@ -309,7 +253,7 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
 
             }
         } catch (SQLException e) {
-            System.out.println("ERROR: " + e.getMessage());
+            mostrarError.accept(e);
         }
         return modelo;
 
@@ -334,7 +278,7 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
 
             }
         } catch (SQLException e) {
-            System.out.println("ERROR: " + e.getMessage());
+            mostrarError.accept(e);
         }
         return modelo;
 
@@ -357,7 +301,8 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
             cstmt.execute();
 
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            mostrarError.accept(e);
+            throw new RuntimeException("Error al insertar cliente: " + e.getMessage());
 
         }
 
@@ -368,6 +313,7 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    @Override
     public void asignarmesa(int id_mesa, int dni, JLabel error) {
         String sql = "CALL asignarmesa(?,?)";
         try (Connection conn = Conexion.getConexion(); CallableStatement cstmt = conn.prepareCall(sql)) {
@@ -387,14 +333,13 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
                 error.setText(e.getMessage());
             }
         } catch (SQLException e) {
-            System.out.println("Mensaje: " + e.getMessage());
-            System.out.println("SQLSTATE: " + e.getSQLState());
-            System.out.println("ErrorCode: " + e.getErrorCode());
+            mostrarError.accept(e);
             error.setText("Mesa ya asignada");
         }
 
     }
 
+    @Override
     public void registrarorden(int id_producto, int id_mesa) {
         String obteneridcliente = "select id_cliente from clientes";
         int id_cliente = 0;
@@ -411,7 +356,7 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
             }
 
         } catch (SQLException e) {
-            System.out.println("ERROR: " + e.getMessage());
+            mostrarError.accept(e);
         }
         try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(obtenerid_pedido)) {
             stmt.setInt(1, id_mesa);
@@ -423,7 +368,7 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
             }
 
         } catch (SQLException e) {
-            System.out.println("ERROR: " + e.getMessage());
+            mostrarError.accept(e);
         }
 
         try (Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
@@ -435,11 +380,12 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
 
             pstmt.execute();
         } catch (SQLException e) {
-            System.out.println("Mensaje: " + e.getMessage());
+            mostrarError.accept(e);
         }
 
     }
 
+    @Override
     public DefaultTableModel observarordenesregistro(int id_mesa) {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID_orden");
@@ -464,12 +410,13 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Mensaje: " + e.getMessage());
+            mostrarError.accept(e);
         }
 
         return modelo;
     }
 
+    @Override
     public DefaultTableModel observarclientes() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("DNI");
@@ -495,12 +442,13 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Mensaje: " + e.getMessage());
+           mostrarError.accept(e);
         }
 
         return modelo;
     }
 
+    @Override
     public DefaultTableModel consultarcliente(int dni) {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("DNI");
@@ -527,12 +475,13 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Mensaje: " + e.getMessage());
+            mostrarError.accept(e);
         }
 
         return modelo;
     }
 
+    @Override
     public void actualizarordenes(int id_orden, int id_mesa) {
         String verificador = "select estado from pedido where id_mesa = ?";
         boolean estado = false;
@@ -560,12 +509,97 @@ public class Administrador implements CRUDGestionable, Gestionable, Verificable,
                 pstmt.execute();
 
             } catch (SQLException e) {
-                System.out.println("Error: " + e);
+                mostrarError.accept(e);;
 
             }
         } else {
-            System.out.println("No se puede cambiar. Orden ya tomada [Cocina]");
+            throw new IllegalStateException("No se puede cambiar. Orden ya tomada [Cocina]");
         }
+    }
+
+    @Override
+    public DefaultTableModel verSopas() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Plato");
+        modelo.addColumn("Tipo");
+        modelo.addColumn("Precio");
+        String sql = "select id_producto, nombre, tipo, precio from productos where tipo = 'Sopa' and estado = 'true'";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Object fila[] = {
+                    rs.getInt("id_producto"),
+                    rs.getString("nombre"),
+                    rs.getString("tipo"),
+                    rs.getDouble("precio")
+                };
+                modelo.addRow(fila);
+            }
+
+        } catch (SQLException e) {
+            mostrarError.accept(e);
+
+        }
+        return modelo;
+
+    }
+
+    @Override
+    public DefaultTableModel verSegundos() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Plato");
+        modelo.addColumn("Tipo");
+        modelo.addColumn("Precio");
+        String sql = "select id_producto, nombre, tipo, precio from productos where tipo = 'Segundo' and estado = 'true'";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Object fila[] = {
+                    rs.getInt("id_producto"),
+                    rs.getString("nombre"),
+                    rs.getString("tipo"),
+                    rs.getDouble("precio")
+                };
+                modelo.addRow(fila);
+            }
+
+        } catch (SQLException e) {
+            mostrarError.accept(e);
+
+        }
+        return modelo;
+    }
+
+    @Override
+    public DefaultTableModel verBebidas() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Plato");
+        modelo.addColumn("Tipo");
+        modelo.addColumn("Precio");
+        String sql = "select id_producto, nombre, tipo, precio from productos where tipo = 'Bebida' and estado = 'true'";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Object fila[] = {
+                    rs.getInt("id_producto"),
+                    rs.getString("nombre"),
+                    rs.getString("tipo"),
+                    rs.getDouble("precio")
+                };
+                modelo.addRow(fila);
+            }
+
+        } catch (SQLException e) {
+            mostrarError.accept(e);
+
+        }
+        return modelo;
     }
 
 }

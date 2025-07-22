@@ -4,6 +4,8 @@
  */
 package Logica;
 
+import javax.swing.JLabel;
+
 /**
  *
  * @author Arana

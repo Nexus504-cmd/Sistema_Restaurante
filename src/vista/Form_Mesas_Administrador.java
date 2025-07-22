@@ -9,6 +9,7 @@ import Logica.Administrador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,23 +24,21 @@ public class Form_Mesas_Administrador extends javax.swing.JFrame {
      */
     public Form_Mesas_Administrador() {
         initComponents();
-        
-        TablaMesasVista.addMouseListener(new java.awt.event.MouseAdapter(){
+
+        TablaMesasVista.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
-            public void mouseClicked (java.awt.event.MouseEvent evt){
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 int fila = TablaMesasVista.rowAtPoint(evt.getPoint());
-                if(fila >= 0){
+                if (fila >= 0) {
                     String id_mesa = TablaMesasVista.getValueAt(fila, 0).toString();
                     ID_mesa.setText(id_mesa);
                 }
             }
-        
-        
+
         });
-        
+
     }
 
-   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -317,11 +316,14 @@ public class Form_Mesas_Administrador extends javax.swing.JFrame {
             stmt.setBoolean(2, false);
             stmt.setInt(3, Integer.parseInt(ID_Capacidad.getText()));
             stmt.execute();
+            JOptionPane.showMessageDialog(null, "Inserccion correcta");
 
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al insertar" + e);
 
         }
+        TablaMesasVista.setModel(admin.observarMesa());
     }//GEN-LAST:event_BotonInsertarMesasActionPerformed
 
     private void ListarMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListarMesasActionPerformed
@@ -330,24 +332,29 @@ public class Form_Mesas_Administrador extends javax.swing.JFrame {
 
     private void BotonAgregarMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregarMesasActionPerformed
         int id;
-        for (int i = 0; i < Integer.parseInt(cantidad.getText()); i++) {
-            id = Integer.parseInt(inicio.getText())+i;
-            String sql3 = "insert into mesa(id_mesa,actividad) values (?,?)";
-            try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql3);) {
+
+        String sql3 = "insert into mesa(id_mesa,actividad) values (?,?)";
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql3);) {
+            for (int i = 0; i < Integer.parseInt(cantidad.getText()); i++) {
+                id = Integer.parseInt(inicio.getText()) + i;
                 stmt.setInt(1, id);
                 stmt.setBoolean(2, false);
                 stmt.execute();
 
-            } catch (SQLException e) {
-                System.out.println("Error: " + e.getMessage());
-
             }
+            JOptionPane.showMessageDialog(null, "Insercion correcta");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Insercion incorrecta" + e);
+            System.out.println("Error: " + e.getMessage());
+
         }
+
+        TablaMesasVista.setModel(admin.observarMesa());
     }//GEN-LAST:event_BotonAgregarMesasActionPerformed
 
     private void BotonDesocuparMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonDesocuparMesasActionPerformed
         // TODO add your handling code here:
-        
+
         String sql = "update mesa set actividad = ? where id_mesa =?";
         try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setBoolean(1, false);
@@ -357,44 +364,42 @@ public class Form_Mesas_Administrador extends javax.swing.JFrame {
             System.out.println("Error: " + e.getMessage());
 
         }
-        
-        
+
         String sql4 = "select id_pedido from pedido where id_mesa= ?";
-        int id_pedido =0;
+        int id_pedido = 0;
         try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql4)) {
-            
+
             stmt.setInt(1, Integer.parseInt(ID_mesa.getText()));
             ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-               id_pedido = rs.getInt("id_pedido");
+            while (rs.next()) {
+                id_pedido = rs.getInt("id_pedido");
             }
-            
+
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
 
         }
         String sql2 = "delete from orden where id_pedido = ?";
         try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql2)) {
-            
+
             stmt.setInt(1, id_pedido);
             stmt.execute();
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
-        String sql11  = "update clientes set id_pedido = ? where id_mesa =?";
+        String sql11 = "update clientes set id_pedido = ? where id_mesa =?";
         try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql11)) {
-            
+
             stmt.setNull(1, java.sql.Types.INTEGER);
             stmt.setInt(2, Integer.parseInt(ID_mesa.getText()));
             stmt.execute();
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
-            
 
         }
-        String sql1  = "update clientes set id_mesa = ? where id_mesa =?";
+        String sql1 = "update clientes set id_mesa = ? where id_mesa =?";
         try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql1)) {
-            
+
             stmt.setNull(1, java.sql.Types.INTEGER);
             stmt.setInt(2, Integer.parseInt(ID_mesa.getText()));
             stmt.execute();
@@ -402,22 +407,21 @@ public class Form_Mesas_Administrador extends javax.swing.JFrame {
             System.out.println("Error: " + e.getMessage());
 
         }
-        
+
         String sql3 = "delete from pedido where id_mesa = ?";
         try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql3)) {
-            
-        
+
             stmt.setInt(1, Integer.parseInt(ID_mesa.getText()));
             stmt.execute();
+            JOptionPane.showMessageDialog(null, "Mesa desocupada");
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al desocupar " + e);
 
         }
-        
+        TablaMesasVista.setModel(admin.observarMesa());
 
-        
-        
-        
+
     }//GEN-LAST:event_BotonDesocuparMesasActionPerformed
 
     private void ID_mesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ID_mesaActionPerformed
@@ -426,27 +430,49 @@ public class Form_Mesas_Administrador extends javax.swing.JFrame {
 
     private void Boton_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_EliminarActionPerformed
         // TODO add your handling code here:
-        String sql = "delete from mesa where id_mesa =?";
-        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, Integer.parseInt(ID_mesa.getText()));
-            stmt.execute();
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+        try {
+            int mesa = Integer.parseInt(ID_mesa.getText());
+            String sql = "delete from mesa where id_mesa =?";
+            try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, Integer.parseInt(ID_mesa.getText()));
+                stmt.execute();
+                JOptionPane.showMessageDialog(null, "Eliminado");
+            } catch (SQLException e) {
+                System.out.println("Error: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Error Ingrese un valor válido " + e);
 
+            }
+            
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Ingrese un valor válido");
         }
+        TablaMesasVista.setModel(admin.observarMesa());
+
     }//GEN-LAST:event_Boton_EliminarActionPerformed
 
     private void Boton_ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_ActualizarActionPerformed
         // TODO add your handling code here:
-        String sql = "update mesa set capacidad = ? where id_mesa =?";
-        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, Integer.parseInt(ID_Capacidad.getText()));
-            stmt.setInt(2, Integer.parseInt(ID_mesa.getText()));
-            stmt.execute();
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+        try {
+            int capa = Integer.parseInt(ID_Capacidad.getText());
+            int mesa = Integer.parseInt(ID_mesa.getText());
+            String sql = "update mesa set capacidad = ? where id_mesa =?";
+            try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, Integer.parseInt(ID_Capacidad.getText()));
+                stmt.setInt(2, Integer.parseInt(ID_mesa.getText()));
+                stmt.execute();
+            } catch (SQLException e) {
+                System.out.println("Error: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Error al actualizar: " + e);
+
+            }
+            
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Ingrese un valor valido");
 
         }
+        TablaMesasVista.setModel(admin.observarMesa());
     }//GEN-LAST:event_Boton_ActualizarActionPerformed
 
     private void Boton_RetornoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_RetornoActionPerformed

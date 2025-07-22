@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -31,6 +32,25 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
      */
     public FormMenu_Administrador() {
         initComponents();
+        TablaMenu.setModel(Observable.vermenu());
+        autocompletarID();
+        TablaMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int fila = TablaMenu.rowAtPoint(evt.getPoint());
+                if (fila >= 0) {
+                    String id = TablaMenu.getValueAt(fila, 0).toString();
+                    String plato = TablaMenu.getValueAt(fila, 1).toString();
+                    String precio = TablaMenu.getValueAt(fila, 3).toString();
+                    ID_Producto.setText(id);
+                    Nombre_Producto.setText(plato);
+                    Precio_Producto.setText(precio);
+
+                    //Field_Mesa_Activar_Pedido.setText(mesa);
+                }
+            }
+        });
+
     }
 
     /**
@@ -63,6 +83,7 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
         Precio_Producto = new javax.swing.JTextField();
         ID_Producto = new javax.swing.JTextField();
         Boton_Retorno = new javax.swing.JButton();
+        Limpiar = new javax.swing.JButton();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -166,10 +187,23 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
             }
         });
 
+        ID_Producto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ID_ProductoActionPerformed(evt);
+            }
+        });
+
         Boton_Retorno.setText("RETORNO");
         Boton_Retorno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Boton_RetornoActionPerformed(evt);
+            }
+        });
+
+        Limpiar.setText("Limpiar");
+        Limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LimpiarActionPerformed(evt);
             }
         });
 
@@ -180,7 +214,7 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,14 +243,16 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(Lista_Tipo_Producto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(Precio_Producto, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(79, 79, 79)
                         .addComponent(BotonAgregarProducto)
                         .addGap(44, 44, 44)
                         .addComponent(BotonEliminarProducto)
                         .addGap(45, 45, 45)
-                        .addComponent(BotonCambiarProducto)))
-                .addContainerGap(134, Short.MAX_VALUE))
+                        .addComponent(BotonCambiarProducto)
+                        .addGap(56, 56, 56)
+                        .addComponent(Limpiar)))
+                .addContainerGap(95, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Boton_Retorno)
@@ -253,7 +289,8 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(BotonAgregarProducto)
                             .addComponent(BotonEliminarProducto)
-                            .addComponent(BotonCambiarProducto)))
+                            .addComponent(BotonCambiarProducto)
+                            .addComponent(Limpiar)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addComponent(Boton_Retorno)
@@ -277,17 +314,24 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregarProductoActionPerformed
-        agregarproductos();
+        try {
+            autocompletarID();
+            agregarproductos();
+            JOptionPane.showMessageDialog(null,"Insercion Exitosa");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al Agregar Producto " + e);
+        }
+        TablaMenu.setModel(Observable.vermenu());
     }//GEN-LAST:event_BotonAgregarProductoActionPerformed
 
     private void Boton_bebidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_bebidasActionPerformed
         // TODO add your handling code here:
-        TablaMenu.setModel(verBebidas());
+        TablaMenu.setModel(admin.verBebidas());
     }//GEN-LAST:event_Boton_bebidasActionPerformed
 
     private void Boton_segundosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_segundosActionPerformed
         // TODO add your handling code here:
-        TablaMenu.setModel(verSegundos());
+        TablaMenu.setModel(admin.verSegundos());
     }//GEN-LAST:event_Boton_segundosActionPerformed
 
     private void BotonMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonMenuActionPerformed
@@ -296,7 +340,7 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
     }//GEN-LAST:event_BotonMenuActionPerformed
 
     private void Boton_sopasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_sopasActionPerformed
-        TablaMenu.setModel(verSopas());
+        TablaMenu.setModel(admin.verSopas());
     }//GEN-LAST:event_Boton_sopasActionPerformed
 
     private void Precio_ProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Precio_ProductoActionPerformed
@@ -305,12 +349,27 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
 
     private void BotonEliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEliminarProductoActionPerformed
         // TODO add your handling code here:
-        eliminarproductos();
+        try {
+            eliminarproductos();
+            
+            JOptionPane.showMessageDialog(null,"Eliminacion Exitosa");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar Producto " + e);
+        }
+        TablaMenu.setModel(Observable.vermenu());
+
     }//GEN-LAST:event_BotonEliminarProductoActionPerformed
 
     private void BotonCambiarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCambiarProductoActionPerformed
         // TODO add your handling code here:
-        actualizarproductos();
+        try {
+            actualizarproductos();
+            JOptionPane.showMessageDialog(null,"Actualizacion Exitosa");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al Actualizar Producto " + e);
+        }
+        TablaMenu.setModel(Observable.vermenu());
+
     }//GEN-LAST:event_BotonCambiarProductoActionPerformed
 
     private void Boton_RetornoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_RetornoActionPerformed
@@ -319,6 +378,18 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_Boton_RetornoActionPerformed
 
+    private void ID_ProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ID_ProductoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ID_ProductoActionPerformed
+
+    private void LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LimpiarActionPerformed
+        // TODO add your handling code here:
+        Nombre_Producto.setText("");
+        Precio_Producto.setText("");
+        autocompletarID();
+
+    }//GEN-LAST:event_LimpiarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -326,8 +397,6 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
         TablaMenu.setModel(Observable.vermenu());
     }
 
-    
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonAgregarProducto;
@@ -339,6 +408,7 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
     private javax.swing.JButton Boton_segundos;
     private javax.swing.JButton Boton_sopas;
     private javax.swing.JTextField ID_Producto;
+    private javax.swing.JButton Limpiar;
     private javax.swing.JComboBox<String> Lista_Tipo_Producto;
     private javax.swing.JTextField Nombre_Producto;
     private javax.swing.JTextField Precio_Producto;
@@ -352,147 +422,78 @@ public class FormMenu_Administrador extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
-    private DefaultTableModel verSopas() {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID");
-        modelo.addColumn("Plato");
-        modelo.addColumn("Tipo");
-        modelo.addColumn("Precio");
-        String sql = "select id_producto, nombre, tipo, precio from productos where tipo = 'Sopa' and estado = 'true'";
-        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Object fila[] = {
-                    rs.getInt("id_producto"),
-                    rs.getString("nombre"),
-                    rs.getString("tipo"),
-                    rs.getDouble("precio")
-                };
-                modelo.addRow(fila);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-
-        }
-        return modelo;
-
-    }
-
-    private DefaultTableModel verSegundos() {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID");
-        modelo.addColumn("Plato");
-        modelo.addColumn("Tipo");
-        modelo.addColumn("Precio");
-        String sql = "select id_producto, nombre, tipo, precio from productos where tipo = 'Segundo' and estado = 'true'";
-        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Object fila[] = {
-                    rs.getInt("id_producto"),
-                    rs.getString("nombre"),
-                    rs.getString("tipo"),
-                    rs.getDouble("precio")
-                };
-                modelo.addRow(fila);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-
-        }
-        return modelo;
-    }
-
-    private DefaultTableModel verBebidas() {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID");
-        modelo.addColumn("Plato");
-        modelo.addColumn("Tipo");
-        modelo.addColumn("Precio");
-        String sql = "select id_producto, nombre, tipo, precio from productos where tipo = 'Bebida' and estado = 'true'";
-        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Object fila[] = {
-                    rs.getInt("id_producto"),
-                    rs.getString("nombre"),
-                    rs.getString("tipo"),
-                    rs.getDouble("precio")
-                };
-                modelo.addRow(fila);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-
-        }
-        return modelo;
-    }
 
     private void agregarproductos() {
         String valor = (String) Lista_Tipo_Producto.getSelectedItem();
-        if(valor.contains("Segundo")){
+        if (valor.contains("Segundo")) {
             Segundos s = new Segundos(Nombre_Producto.getText(),
                     Double.parseDouble(Precio_Producto.getText()),
                     Integer.parseInt(ID_Producto.getText()));
             admin.agregarSegundos(s);
-            
-            
-        }else if (valor.contains("Sopa")){
+
+        } else if (valor.contains("Sopa")) {
             Sopas so = new Sopas(Nombre_Producto.getText(),
                     Double.parseDouble(Precio_Producto.getText()),
                     Integer.parseInt(ID_Producto.getText()));
             admin.agregarSopas(so);
-        }else if(valor.contains("Bebida")){
-             Bebidas be = new Bebidas(Nombre_Producto.getText(),
+        } else if (valor.contains("Bebida")) {
+            Bebidas be = new Bebidas(Nombre_Producto.getText(),
                     Double.parseDouble(Precio_Producto.getText()),
                     Integer.parseInt(ID_Producto.getText()));
-             admin.agregarBebidas(be);
+            admin.agregarBebidas(be);
         }
 
     }
 
     private void eliminarproductos() {
         String valor = (String) Lista_Tipo_Producto.getSelectedItem();
-        if(valor.contains("Segundo")){
+        if (valor.contains("Segundo")) {
             admin.eliminarSegundos(Integer.parseInt(ID_Producto.getText()));
-            
-            
-        }else if (valor.contains("Sopa")){
+
+        } else if (valor.contains("Sopa")) {
             admin.eliminarSopas(Integer.parseInt(ID_Producto.getText()));
-        }else if(valor.contains("Bebida")){
-             
-             admin.eliminarBebidas(Integer.parseInt(ID_Producto.getText()));
+        } else if (valor.contains("Bebida")) {
+
+            admin.eliminarBebidas(Integer.parseInt(ID_Producto.getText()));
         }
 
     }
 
     private void actualizarproductos() {
         String valor = (String) Lista_Tipo_Producto.getSelectedItem();
-        if(valor.contains("Segundo")){
+        if (valor.contains("Segundo")) {
             Segundos s = new Segundos(Nombre_Producto.getText(),
                     Double.parseDouble(Precio_Producto.getText()),
                     Integer.parseInt(ID_Producto.getText()));
             admin.actualizarSegundos(s, valor);
-            
-            
-        }else if (valor.contains("Sopa")){
+
+        } else if (valor.contains("Sopa")) {
             Sopas so = new Sopas(Nombre_Producto.getText(),
                     Double.parseDouble(Precio_Producto.getText()),
                     Integer.parseInt(ID_Producto.getText()));
             admin.actualizarSopas(so, valor);
-        }else if(valor.contains("Bebida")){
-             Bebidas be = new Bebidas(Nombre_Producto.getText(),
+        } else if (valor.contains("Bebida")) {
+            Bebidas be = new Bebidas(Nombre_Producto.getText(),
                     Double.parseDouble(Precio_Producto.getText()),
                     Integer.parseInt(ID_Producto.getText()));
-             admin.actualizarBebidas(be, valor);
+            admin.actualizarBebidas(be, valor);
         }
 
+    }
+
+    private void autocompletarID() {
+        String sql = "SELECT COALESCE(MAX(id_producto), 0) + 1 AS siguiente_id FROM productos"; // Reemplaza "productos" con tu tabla
+
+        try (Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                int siguienteID = rs.getInt("siguiente_id");
+                ID_Producto.setText(String.valueOf(siguienteID));
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener ID desde la base de datos: " + e.getMessage());
+        }
     }
 
 }

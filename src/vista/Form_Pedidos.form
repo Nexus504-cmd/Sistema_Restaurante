@@ -380,6 +380,11 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="Field_ID_Orden">
+                      <Properties>
+                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                          <Color id="Text Cursor"/>
+                        </Property>
+                      </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Field_ID_OrdenActionPerformed"/>
                       </Events>

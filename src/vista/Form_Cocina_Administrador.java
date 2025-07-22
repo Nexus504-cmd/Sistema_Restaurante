@@ -19,6 +19,7 @@ public class Form_Cocina_Administrador extends javax.swing.JFrame {
      */
     public Form_Cocina_Administrador() {
         initComponents();
+        Tabla_Pedido.setModel(verPedidos());
         Tabla_Pedido.addMouseListener(new java.awt.event.MouseAdapter(){
             @Override
             public void mouseClicked (java.awt.event.MouseEvent evt){
@@ -26,6 +27,7 @@ public class Form_Cocina_Administrador extends javax.swing.JFrame {
                 if(fila >= 0){
                     String id_pedido = Tabla_Pedido.getValueAt(fila, 0).toString();
                     Espacio_Relleno_ID_Pedido.setText(id_pedido);
+                    Tabla_Orden.setModel(verOrden());
                 }
             }
         
@@ -62,18 +64,16 @@ public class Form_Cocina_Administrador extends javax.swing.JFrame {
         Tabla_Orden = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla_Pedido = new javax.swing.JTable();
-        Lista_Estado_Pedido = new javax.swing.JComboBox<>();
-        Lista_Estado_Orden = new javax.swing.JComboBox<>();
-        Boton_Mostrar_Ordenes = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         Espacio_Relleno_ID_Orden = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         Espacio_Relleno_ID_Pedido = new javax.swing.JTextField();
-        Boton_Mostrar_Pedidos = new javax.swing.JButton();
-        Boton_Actualizar_Plato = new javax.swing.JButton();
-        Boton_Actualizar_Pedido = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
         Boton_Retorno = new javax.swing.JButton();
+        Boton_check_plato = new javax.swing.JButton();
+        Boton_x_plato = new javax.swing.JButton();
+        Boton_check = new javax.swing.JButton();
+        Boton_x = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -137,44 +137,9 @@ public class Form_Cocina_Administrador extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(Tabla_Pedido);
 
-        Lista_Estado_Pedido.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tomado", "No tomado" }));
-
-        Lista_Estado_Orden.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Preparado", "No Preparado" }));
-
-        Boton_Mostrar_Ordenes.setText("Mostrar Ordenes");
-        Boton_Mostrar_Ordenes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Boton_Mostrar_OrdenesActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText("Plato");
 
         jLabel2.setText("Pedido");
-
-        Boton_Mostrar_Pedidos.setText("Mostrar Pedidos");
-        Boton_Mostrar_Pedidos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Boton_Mostrar_PedidosActionPerformed(evt);
-            }
-        });
-
-        Boton_Actualizar_Plato.setText("Actualizar");
-        Boton_Actualizar_Plato.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Boton_Actualizar_PlatoActionPerformed(evt);
-            }
-        });
-
-        Boton_Actualizar_Pedido.setText("Actualizar");
-        Boton_Actualizar_Pedido.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Boton_Actualizar_PedidoActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel3.setText("ADMINISTRADOR COCINA");
 
         Boton_Retorno.setText("RETORNO");
         Boton_Retorno.addActionListener(new java.awt.event.ActionListener() {
@@ -183,6 +148,37 @@ public class Form_Cocina_Administrador extends javax.swing.JFrame {
             }
         });
 
+        Boton_check_plato.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/check_icon.png"))); // NOI18N
+        Boton_check_plato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_check_platoActionPerformed(evt);
+            }
+        });
+
+        Boton_x_plato.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cross_icon.png"))); // NOI18N
+        Boton_x_plato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_x_platoActionPerformed(evt);
+            }
+        });
+
+        Boton_check.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/check_icon.png"))); // NOI18N
+        Boton_check.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_checkActionPerformed(evt);
+            }
+        });
+
+        Boton_x.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cross_icon.png"))); // NOI18N
+        Boton_x.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_xActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setText("ADMINISTRADOR COCINA");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -190,70 +186,73 @@ public class Form_Cocina_Administrador extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(Boton_Mostrar_Ordenes)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(Boton_Mostrar_Pedidos))
+                        .addGap(23, 23, 23)
+                        .addComponent(Boton_Retorno)
+                        .addGap(202, 202, 202))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(81, 81, 81)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Espacio_Relleno_ID_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Espacio_Relleno_ID_Orden, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(66, 66, 66)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Lista_Estado_Orden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Lista_Estado_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Boton_Actualizar_Plato)
-                                    .addComponent(Boton_Actualizar_Pedido))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(53, Short.MAX_VALUE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(72, 72, 72)))
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(56, 56, 56)
+                                .addComponent(Espacio_Relleno_ID_Orden, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(Espacio_Relleno_ID_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(217, 217, 217))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(Boton_x_plato, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                                    .addComponent(Boton_check_plato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(160, 160, 160)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(43, 43, 43)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(Boton_check, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                                    .addComponent(Boton_x, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                .addContainerGap(69, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(Boton_Retorno)
+                .addGap(48, 48, 48)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Lista_Estado_Orden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Espacio_Relleno_ID_Orden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
+                        .addGap(124, 124, 124)
+                        .addComponent(Boton_check_plato)
+                        .addGap(27, 27, 27)
+                        .addComponent(Boton_x_plato)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(82, 82, 82)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(Espacio_Relleno_ID_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addComponent(jLabel3)
+                                .addGap(36, 36, 36)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(Espacio_Relleno_ID_Orden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1))))
                         .addGap(18, 18, 18)
-                        .addComponent(Boton_Actualizar_Plato)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(Espacio_Relleno_ID_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Lista_Estado_Pedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(Boton_Actualizar_Pedido)
-                        .addGap(40, 40, 40)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Boton_Mostrar_Pedidos)
-                            .addComponent(Boton_Mostrar_Ordenes))
-                        .addGap(102, 102, 102)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(Boton_check)
+                                .addGap(18, 18, 18)
+                                .addComponent(Boton_x))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)))
                 .addComponent(Boton_Retorno)
                 .addGap(36, 36, 36))
         );
@@ -262,7 +261,9 @@ public class Form_Cocina_Administrador extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,37 +274,76 @@ public class Form_Cocina_Administrador extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void Boton_Mostrar_OrdenesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Mostrar_OrdenesActionPerformed
-        // TODO add your handling code here:
-        Tabla_Orden.setModel(verOrden());
-        
-        
-        
-        
-    }//GEN-LAST:event_Boton_Mostrar_OrdenesActionPerformed
-
-    private void Boton_Mostrar_PedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Mostrar_PedidosActionPerformed
-        // TODO add your handling code here:
-        Tabla_Pedido.setModel(verPedidos());
-    }//GEN-LAST:event_Boton_Mostrar_PedidosActionPerformed
-
-    private void Boton_Actualizar_PlatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Actualizar_PlatoActionPerformed
-        // TODO add your handling code here:
-        actualizarPlato();
-      
-    }//GEN-LAST:event_Boton_Actualizar_PlatoActionPerformed
-
-    private void Boton_Actualizar_PedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Actualizar_PedidoActionPerformed
-        // TODO add your handling code here:
-        actualizarPedido();
-    }//GEN-LAST:event_Boton_Actualizar_PedidoActionPerformed
-
+/**/
+/**/
+    /**/
     private void Boton_RetornoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_RetornoActionPerformed
         // TODO add your handling code here:
         this.setEnabled(false);
         this.setVisible(false);
     }//GEN-LAST:event_Boton_RetornoActionPerformed
+
+    private void Boton_checkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_checkActionPerformed
+        // TODO add your handling code here:
+        String sql = "update pedido set estado = ? where id_pedido = ?";
+        
+        try(Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+            
+            pstmt.setBoolean(1, true);
+            pstmt.setInt(2, Integer.parseInt(Espacio_Relleno_ID_Pedido.getText()));
+            pstmt.execute();
+            
+        }catch(SQLException e){
+            System.out.println("Mensaje: "+e.getMessage());
+            
+        }
+        Tabla_Pedido.setModel(verPedidos());
+    }//GEN-LAST:event_Boton_checkActionPerformed
+
+    private void Boton_xActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_xActionPerformed
+        // TODO add your handling code here:
+        String sql = "update pedido set estado = ? where id_pedido = ?";
+        
+        try(Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+            
+            pstmt.setBoolean(1, false);
+            pstmt.setInt(2, Integer.parseInt(Espacio_Relleno_ID_Pedido.getText()));
+            pstmt.execute();
+        }catch(SQLException e){
+            System.out.println("Mensaje: "+e.getMessage());
+        }
+        Tabla_Pedido.setModel(verPedidos());
+    }//GEN-LAST:event_Boton_xActionPerformed
+
+    private void Boton_check_platoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_check_platoActionPerformed
+        // TODO add your handling code here:
+        String sql = "update orden set proceso= ? where id_orden= ?";
+        
+        try(Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setBoolean(1, true);
+            pstmt.setInt(2, Integer.parseInt(Espacio_Relleno_ID_Orden.getText()));
+            pstmt.execute();
+            
+        }catch(SQLException e){
+            System.out.println("Mensaje: "+e.getMessage());
+        }
+        Tabla_Orden.setModel(verOrden());
+    }//GEN-LAST:event_Boton_check_platoActionPerformed
+
+    private void Boton_x_platoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_x_platoActionPerformed
+        // TODO add your handling code here:
+        String sql = "update orden set proceso= ? where id_orden= ?";
+        
+        try(Connection conn = Conexion.getConexion(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setBoolean(1, false);
+            pstmt.setInt(2, Integer.parseInt(Espacio_Relleno_ID_Orden.getText()));
+            pstmt.execute();
+            
+        }catch(SQLException e){
+            System.out.println("Mensaje: "+e.getMessage());
+        }
+        Tabla_Orden.setModel(verOrden());
+    }//GEN-LAST:event_Boton_x_platoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -311,15 +351,13 @@ public class Form_Cocina_Administrador extends javax.swing.JFrame {
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Boton_Actualizar_Pedido;
-    private javax.swing.JButton Boton_Actualizar_Plato;
-    private javax.swing.JButton Boton_Mostrar_Ordenes;
-    private javax.swing.JButton Boton_Mostrar_Pedidos;
     private javax.swing.JButton Boton_Retorno;
+    private javax.swing.JButton Boton_check;
+    private javax.swing.JButton Boton_check_plato;
+    private javax.swing.JButton Boton_x;
+    private javax.swing.JButton Boton_x_plato;
     private javax.swing.JTextField Espacio_Relleno_ID_Orden;
     private javax.swing.JTextField Espacio_Relleno_ID_Pedido;
-    private javax.swing.JComboBox<String> Lista_Estado_Orden;
-    private javax.swing.JComboBox<String> Lista_Estado_Pedido;
     private javax.swing.JTable Tabla_Orden;
     private javax.swing.JTable Tabla_Pedido;
     private javax.swing.JLabel jLabel1;
@@ -363,7 +401,7 @@ public class Form_Cocina_Administrador extends javax.swing.JFrame {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Pedido");
         modelo.addColumn("Estado");
-        String sql =" select *  from verpedidoestado";
+        String sql =" select *  from verpedidoestado order by id_pedido asc";
         try(Connection conn = Conexion.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery()){
           
@@ -383,6 +421,7 @@ public class Form_Cocina_Administrador extends javax.swing.JFrame {
         }
         return modelo;
     }
+    /*
     private void actualizarPlato(){
         String sql = "update orden set proceso= ? where id_orden= ?";
         
@@ -396,6 +435,8 @@ public class Form_Cocina_Administrador extends javax.swing.JFrame {
             System.out.println("Mensaje: "+e.getMessage());
         }
     }
+  */  
+    /*
     private void actualizarPedido(){
         String sql = "update pedido set estado = ? where id_pedido = ?";
         
@@ -408,4 +449,5 @@ public class Form_Cocina_Administrador extends javax.swing.JFrame {
             System.out.println("Mensaje: "+e.getMessage());
         }
     }
+    */
 }
