@@ -23,6 +23,7 @@ public class Form_Mesas_Clientes extends javax.swing.JFrame {
      */
     public Form_Mesas_Clientes() {
         initComponents();
+        TablaMesasVista.setModel(admin.observarMesa());
     }
 
    

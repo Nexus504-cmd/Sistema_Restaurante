@@ -41,5 +41,13 @@ public interface Observable {
         }
         return modelo;
     }
-;
+    public DefaultTableModel observarordenesregistro(int id_mesa);
+    public DefaultTableModel observarclientes();
+    public DefaultTableModel consultarcliente(int dni);
+    public DefaultTableModel verSopas();
+
+    public DefaultTableModel verSegundos();
+
+    public DefaultTableModel verBebidas();
+
 }

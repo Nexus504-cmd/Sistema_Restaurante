@@ -7,14 +7,13 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
-
 public class GeneradorFacturaPDF {
 
     public static void generarFactura(String nombreCliente, String[] productos, double[] precios, double total) {
         Document documento = new Document(PageSize.A4, 50, 50, 50, 50);
 
         try {
-            String fechaHoy = LocalDate.now().toString(); // ejemplo: 2025-07-11
+            String fechaHoy = LocalDate.now().toString();
             String ruta = "Factura_" + nombreCliente.replace(" ", "_") + "_" + fechaHoy + ".pdf";
             PdfWriter.getInstance(documento, new FileOutputStream(ruta));
             documento.open();
@@ -24,7 +23,7 @@ public class GeneradorFacturaPDF {
             titulo.setAlignment(Element.ALIGN_CENTER);
             documento.add(titulo);
 
-            Paragraph rucDireccion = new Paragraph("RUC: 123456789 | Av. Sabor y Sazón 123, Lima - Perú",
+            Paragraph rucDireccion = new Paragraph("RUC: 2073061132 | Av. Sabor y Sazón 123, Lima - Perú",
                     FontFactory.getFont(FontFactory.HELVETICA, 10));
             rucDireccion.setAlignment(Element.ALIGN_CENTER);
             documento.add(rucDireccion);
@@ -67,7 +66,20 @@ public class GeneradorFacturaPDF {
             documento.add(tabla);
             documento.add(Chunk.NEWLINE);
 
-            // ===== TOTAL =====
+            // ===== CÁLCULO DE IGV =====
+            double subtotal = total ;
+            double igv = total *1.18;
+
+            Paragraph subtotalParrafo = new Paragraph("Subtotal: S/. " + String.format("%.2f", subtotal),
+                    FontFactory.getFont(FontFactory.HELVETICA, 11));
+            subtotalParrafo.setAlignment(Element.ALIGN_RIGHT);
+            documento.add(subtotalParrafo);
+
+            Paragraph igvParrafo = new Paragraph("IGV (18%): S/. " + String.format("%.2f", igv),
+                    FontFactory.getFont(FontFactory.HELVETICA, 11));
+            igvParrafo.setAlignment(Element.ALIGN_RIGHT);
+            documento.add(igvParrafo);
+
             Paragraph totalParrafo = new Paragraph("Total a pagar: S/. " + String.format("%.2f", total),
                     FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14));
             totalParrafo.setAlignment(Element.ALIGN_RIGHT);
@@ -125,5 +137,4 @@ public class GeneradorFacturaPDF {
         cell.setPadding(6);
         return cell;
     }
-
 }

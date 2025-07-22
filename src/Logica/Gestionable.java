@@ -4,6 +4,7 @@
  */
 package Logica;
 
+import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -13,6 +14,9 @@ import javax.swing.table.DefaultTableModel;
 public interface Gestionable {
     DefaultTableModel observarPedido();
     DefaultTableModel observarMesa();
+    public void asignarmesa(int id_mesa, int dni, JLabel error);
     void insertarCliente(int dni, String nombre, String apellido_p, String apellido_m);
     void borrarCliente();
+    public void registrarorden(int id_producto, int id_mesa);
+    public void actualizarordenes(int id_orden, int id_mesa);
 }

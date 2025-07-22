@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -214,6 +215,7 @@ public class Form_Pedidos extends javax.swing.JFrame {
 
         jLabel4.setText("ORDEN");
 
+        Field_ID_Orden.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         Field_ID_Orden.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Field_ID_OrdenActionPerformed(evt);
@@ -383,13 +385,24 @@ public class Form_Pedidos extends javax.swing.JFrame {
 
     private void Boton_Registrar_PedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Registrar_PedidoActionPerformed
         // TODO add your handling code here:
-        admin.registrarorden(Integer.parseInt(Field_ID_Plato.getText()), Integer.parseInt(Field_ID_Mesa.getText()));
+        try{
+            admin.registrarorden(Integer.parseInt(Field_ID_Plato.getText()), Integer.parseInt(Field_ID_Mesa.getText()));
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Ingrese valores válido");
+        }
+        
 
     }//GEN-LAST:event_Boton_Registrar_PedidoActionPerformed
 
     private void Boton_Anular_PedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_Anular_PedidoActionPerformed
         // TODO add your handling code here:
-        admin.actualizarordenes(Integer.parseInt(Field_ID_Orden.getText()), Integer.parseInt(ID_Mesa_Modificacion.getText()));
+        try {
+            admin.actualizarordenes(Integer.parseInt(Field_ID_Orden.getText()), Integer.parseInt(ID_Mesa_Modificacion.getText()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No se puede eliminar la orden");
+        }
+        Tabla_Modificaciones.setModel(admin.observarordenesregistro(Integer.parseInt(ID_Mesa_Modificacion.getText())));
 
 
     }//GEN-LAST:event_Boton_Anular_PedidoActionPerformed
@@ -409,6 +422,7 @@ public class Form_Pedidos extends javax.swing.JFrame {
 
     private void Field_ID_OrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Field_ID_OrdenActionPerformed
         // TODO add your handling code here:
+
     }//GEN-LAST:event_Field_ID_OrdenActionPerformed
 
     private void Field_ID_PlatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Field_ID_PlatoActionPerformed
@@ -421,8 +435,15 @@ public class Form_Pedidos extends javax.swing.JFrame {
 
     private void Boton_ConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_ConsultarActionPerformed
         // TODO add your handling code here:
-        Tabla_Modificaciones.setModel(admin.observarordenesregistro(Integer.parseInt(ID_Mesa_Modificacion.getText())));
-        Label_Mostrar_Estado_Pedido.setText(observarEstadopedido());
+        try {
+            Tabla_Modificaciones.setModel(admin.observarordenesregistro(Integer.parseInt(ID_Mesa_Modificacion.getText())));
+            Label_Mostrar_Estado_Pedido.setText(observarEstadopedido());
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ingrese un valor válido");
+
+        }
+
     }//GEN-LAST:event_Boton_ConsultarActionPerformed
 
     private void Boton_RetornoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_RetornoActionPerformed
